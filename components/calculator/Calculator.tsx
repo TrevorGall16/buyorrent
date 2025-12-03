@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 import { calculateRentVsBuy, calculateMonthlyMortgagePayment } from '@/lib/finance';
 import { getDefaultInputsForCountry, getCountryConfig } from '@/lib/country-config';
 import { CountryCode, CalculationResult } from '@/lib/types';
+import { useDebounce } from '@/lib/hooks/useDebounce';
 import QuickInputs from './QuickInputs';
 import AdvancedSettings from './AdvancedSettings';
 import NetWorthChart from './NetWorthChart';
@@ -68,27 +69,38 @@ export default function Calculator({
 
   const [results, setResults] = useState<CalculationResult | null>(null);
 
-  // Recalculate whenever inputs change
+  // Debounce expensive slider inputs (300ms delay)
+  const debouncedHomePrice = useDebounce(homePrice, 300);
+  const debouncedMonthlyRent = useDebounce(monthlyRent, 300);
+  const debouncedDownPaymentPercent = useDebounce(downPaymentPercent, 300);
+  const debouncedInterestRate = useDebounce(interestRate, 300);
+  const debouncedPropertyTaxRate = useDebounce(propertyTaxRate, 300);
+  const debouncedMaintenanceRate = useDebounce(maintenanceRate, 300);
+  const debouncedRentInflationRate = useDebounce(rentInflationRate, 300);
+  const debouncedInvestmentReturnRate = useDebounce(investmentReturnRate, 300);
+  const debouncedMarginalTaxRate = useDebounce(marginalTaxRate, 300);
+
+  // Recalculate whenever debounced inputs change
   useEffect(() => {
     const inputs = {
       purchase: {
-        homePrice,
-        downPaymentPercent,
-        interestRate,
+        homePrice: debouncedHomePrice,
+        downPaymentPercent: debouncedDownPaymentPercent,
+        interestRate: debouncedInterestRate,
         loanTermYears,
         closingCostRate: countryConfig.closingCostRate,
-        propertyTaxRate,
-        maintenanceRate,
+        propertyTaxRate: debouncedPropertyTaxRate,
+        maintenanceRate: debouncedMaintenanceRate,
       },
       rental: {
-        monthlyRent,
+        monthlyRent: debouncedMonthlyRent,
         securityDepositMonths: 1,
         brokerFeeMonths: countryConfig.brokerFeeMonths,
-        rentInflationRate,
+        rentInflationRate: debouncedRentInflationRate,
       },
       financial: {
-        investmentReturnRate,
-        marginalTaxRate,
+        investmentReturnRate: debouncedInvestmentReturnRate,
+        marginalTaxRate: debouncedMarginalTaxRate,
       },
       yearsToAnalyze: 30,
     };
@@ -96,16 +108,16 @@ export default function Calculator({
     const calculationResults = calculateRentVsBuy(inputs);
     setResults(calculationResults);
   }, [
-    homePrice,
-    monthlyRent,
-    downPaymentPercent,
-    interestRate,
+    debouncedHomePrice,
+    debouncedMonthlyRent,
+    debouncedDownPaymentPercent,
+    debouncedInterestRate,
     loanTermYears,
-    propertyTaxRate,
-    maintenanceRate,
-    rentInflationRate,
-    investmentReturnRate,
-    marginalTaxRate,
+    debouncedPropertyTaxRate,
+    debouncedMaintenanceRate,
+    debouncedRentInflationRate,
+    debouncedInvestmentReturnRate,
+    debouncedMarginalTaxRate,
     countryConfig,
   ]);
 
@@ -130,10 +142,18 @@ export default function Calculator({
   const finalYearData = results.dataPoints[results.dataPoints.length - 1];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
+      {/* HERO: Verdict Display - First and Most Prominent */}
+      <ResultsDisplay
+        breakEven={results.breakEven}
+        recommendation={results.summary.recommendation}
+        cityName={cityName}
+        dataUpdated={dataUpdated}
+      />
+
       {/* Input Section */}
       <div className="bg-white rounded-xl shadow-lg p-6 space-y-6">
-        <h2 className="text-2xl font-bold text-gray-900">Your Scenario</h2>
+        <h2 className="text-2xl font-bold text-gray-900">Adjust Your Scenario</h2>
 
         <QuickInputs
           cityName={cityName}
@@ -165,14 +185,8 @@ export default function Calculator({
         />
       </div>
 
-      {/* Results Section */}
+      {/* Data Visualization Section */}
       <div className="space-y-6">
-        <ResultsDisplay
-          breakEven={results.breakEven}
-          recommendation={results.summary.recommendation}
-          cityName={cityName}
-          dataUpdated={dataUpdated}
-        />
 
         {/* Chart */}
         <div className="bg-white rounded-xl shadow-lg p-6">

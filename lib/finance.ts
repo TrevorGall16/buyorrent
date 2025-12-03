@@ -11,6 +11,31 @@ import {
 } from './types';
 
 /**
+ * Validate financial inputs to prevent invalid calculations
+ */
+function validateFinancialInputs(
+  principal: number,
+  interestRate: number,
+  loanTermYears: number
+): void {
+  if (principal <= 0) {
+    throw new Error('Principal amount must be greater than zero');
+  }
+  if (interestRate < 0) {
+    throw new Error('Interest rate cannot be negative');
+  }
+  if (loanTermYears <= 0) {
+    throw new Error('Loan term must be greater than zero');
+  }
+  if (interestRate > 1) {
+    throw new Error('Interest rate appears to be invalid (should be decimal, e.g., 0.065 for 6.5%)');
+  }
+  if (!Number.isFinite(principal) || !Number.isFinite(interestRate) || !Number.isFinite(loanTermYears)) {
+    throw new Error('Invalid numeric input detected');
+  }
+}
+
+/**
  * Calculate monthly mortgage payment using standard amortization formula
  * P = L[c(1 + c)^n]/[(1 + c)^n - 1]
  */
@@ -19,6 +44,8 @@ export function calculateMonthlyMortgagePayment(
   annualInterestRate: number,
   loanTermYears: number
 ): number {
+  validateFinancialInputs(principal, annualInterestRate, loanTermYears);
+
   if (annualInterestRate === 0) {
     return principal / (loanTermYears * 12);
   }
@@ -40,6 +67,12 @@ export function calculateMortgageBalance(
   loanTermYears: number,
   monthsPaid: number
 ): number {
+  validateFinancialInputs(principal, annualInterestRate, loanTermYears);
+
+  if (monthsPaid < 0) {
+    throw new Error('Months paid cannot be negative');
+  }
+
   if (monthsPaid >= loanTermYears * 12) {
     return 0;
   }
