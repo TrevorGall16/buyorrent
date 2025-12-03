@@ -23,106 +23,55 @@ export default function HomePage() {
     <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <div className="max-w-6xl mx-auto px-4 py-16">
         {/* Hero Section */}
-        <div className="text-center space-y-6 mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900">
-            RentOrBuy-Pro
+        <div className="text-center space-y-8 mb-20">
+          <h1 className="text-5xl md:text-7xl font-bold text-gray-900 leading-tight">
+            Should You Rent or Buy?
           </h1>
-          <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">
-            High-performance programmatic SEO financial calculator for 500+ cities
+          <p className="text-2xl md:text-3xl text-gray-600 max-w-3xl mx-auto font-light">
+            The Calculator That Tells the Truth
           </p>
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-100 border border-green-300 rounded-full">
-            <svg
-              className="w-5 h-5 text-green-600"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <span className="text-sm font-semibold text-green-700">
-              All 3 Steps Complete
-            </span>
-          </div>
+          <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+            Get data-driven insights for your city. We analyze 30 years of financial outcomes,
+            including hidden costs, opportunity costs, and international tax differences.
+          </p>
         </div>
 
-        {/* Feature Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-16">
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="text-3xl mb-3">⚡</div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">
-              Step 1: Stack Initialized
-            </h3>
-            <ul className="text-sm text-gray-600 space-y-1">
-              <li>✓ Next.js 15 (App Router)</li>
-              <li>✓ TypeScript (Strict mode)</li>
-              <li>✓ Tailwind CSS</li>
-              <li>✓ Recharts</li>
-              <li>✓ SSG Configuration</li>
-            </ul>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="text-3xl mb-3">🌍</div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">
-              Step 2: Finance Engine
-            </h3>
-            <ul className="text-sm text-gray-600 space-y-1">
-              <li>✓ International Logic (4 countries)</li>
-              <li>✓ Mortgage Calculations</li>
-              <li>✓ Net Worth Tracking</li>
-              <li>✓ Break-even Detection</li>
-              <li>✓ Opportunity Cost</li>
-            </ul>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="text-3xl mb-3">🎨</div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">
-              Step 3: UI Components
-            </h3>
-            <ul className="text-sm text-gray-600 space-y-1">
-              <li>✓ Progressive Disclosure</li>
-              <li>✓ CLS-Safe Ad Slots</li>
-              <li>✓ Dual-Line Charts</li>
-              <li>✓ Trust Badge</li>
-              <li>✓ Responsive Layout</li>
-            </ul>
-          </div>
-        </div>
-
-        {/* City Links */}
-        <div className="bg-white rounded-xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">
-            🌆 Explore Cities
+        {/* City Selection */}
+        <div className="bg-white rounded-xl shadow-lg p-8 mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-2 text-center">
+            Choose Your City
           </h2>
+          <p className="text-gray-600 text-center mb-8">
+            Select a city to see personalized rent vs. buy analysis
+          </p>
 
           <div className="space-y-8">
             {Object.entries(citiesByCountry).map(([countryCode, cities]) => (
               <div key={countryCode}>
-                <h3 className="text-lg font-semibold text-gray-700 mb-3">
+                <h3 className="text-lg font-semibold text-gray-700 mb-4">
                   {countryNames[countryCode as keyof typeof countryNames]}
                 </h3>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {cities.map((city) => (
                     <Link
                       key={city.slug}
                       href={`/${city.slug}/buy-vs-rent`}
-                      className="group flex items-center justify-between p-4 bg-gray-50 hover:bg-blue-50 border border-gray-200 hover:border-blue-300 rounded-lg transition-all"
+                      className="group flex items-center justify-between p-5 bg-gray-50 hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-400 rounded-xl transition-all shadow-sm hover:shadow-md"
+                      style={
+                        { '--theme-color': city.theme_color } as React.CSSProperties
+                      }
                     >
                       <div>
-                        <div className="font-semibold text-gray-900 group-hover:text-blue-700">
+                        <div className="font-bold text-lg text-gray-900 group-hover:text-blue-700 mb-1">
                           {city.name}
                         </div>
-                        <div className="text-xs text-gray-500">
-                          {city.currency_symbol}
-                          {city.defaults.avg_home_price.toLocaleString()} avg
+                        <div className="text-sm text-gray-600">
+                          Avg. {city.currency_symbol}
+                          {city.defaults.avg_home_price.toLocaleString()}
                         </div>
                       </div>
                       <svg
-                        className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-transform group-hover:translate-x-1"
+                        className="w-6 h-6 text-gray-400 group-hover:text-blue-600 transition-all group-hover:translate-x-1"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -130,7 +79,7 @@ export default function HomePage() {
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          strokeWidth={2}
+                          strokeWidth={2.5}
                           d="M9 5l7 7-7 7"
                         />
                       </svg>
@@ -142,15 +91,29 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Tech Stack */}
-        <div className="mt-8 text-center text-sm text-gray-500">
-          <p>
+        {/* Footer */}
+        <footer className="text-center space-y-6 py-8 border-t border-gray-200">
+          <div className="flex justify-center gap-8 text-sm text-gray-600">
+            <a href="#" className="hover:text-gray-900 transition-colors">
+              About
+            </a>
+            <a href="#" className="hover:text-gray-900 transition-colors">
+              Methodology
+            </a>
+            <a href="#" className="hover:text-gray-900 transition-colors">
+              Contact
+            </a>
+            <a href="#" className="hover:text-gray-900 transition-colors">
+              Privacy
+            </a>
+          </div>
+          <p className="text-sm text-gray-500">
             Built with Next.js 15 • TypeScript • Tailwind CSS • Recharts
           </p>
-          <p className="mt-2">
-            ✓ 6 city pages pre-rendered • 210 KB per page • CLS-protected ads
+          <p className="text-xs text-gray-400">
+            © 2024 RentOrBuy-Pro. Financial data for educational purposes only.
           </p>
-        </div>
+        </footer>
       </div>
     </main>
   );

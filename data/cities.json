@@ -6,6 +6,7 @@
     "country_code": "US",
     "currency_symbol": "$",
     "data_updated": "Dec 2024",
+    "theme_color": "#f97316",
     "defaults": {
       "avg_home_price": 450000,
       "avg_rent": 2200,
@@ -20,6 +21,7 @@
     "country_code": "US",
     "currency_symbol": "$",
     "data_updated": "Dec 2024",
+    "theme_color": "#3b82f6",
     "defaults": {
       "avg_home_price": 750000,
       "avg_rent": 3500,
@@ -34,6 +36,7 @@
     "country_code": "US",
     "currency_symbol": "$",
     "data_updated": "Dec 2024",
+    "theme_color": "#dc2626",
     "defaults": {
       "avg_home_price": 1200000,
       "avg_rent": 3800,
@@ -48,6 +51,7 @@
     "country_code": "DE",
     "currency_symbol": "€",
     "data_updated": "Dec 2024",
+    "theme_color": "#eab308",
     "defaults": {
       "avg_home_price": 450000,
       "avg_rent": 1400,
@@ -62,6 +66,7 @@
     "country_code": "FR",
     "currency_symbol": "€",
     "data_updated": "Dec 2024",
+    "theme_color": "#3b82f6",
     "defaults": {
       "avg_home_price": 500000,
       "avg_rent": 1800,
@@ -76,6 +81,7 @@
     "country_code": "GB",
     "currency_symbol": "£",
     "data_updated": "Dec 2024",
+    "theme_color": "#dc2626",
     "defaults": {
       "avg_home_price": 600000,
       "avg_rent": 2500,
