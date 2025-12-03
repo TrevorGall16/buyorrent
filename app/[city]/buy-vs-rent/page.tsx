@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import Calculator from '@/components/calculator/Calculator';
 import AdContainer from '@/components/ads/AdContainer';
 import citiesData from '@/data/cities.json';
@@ -75,86 +76,59 @@ export default async function CityBuyVsRentPage({ params }: PageProps) {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Header */}
+      {/* Header with Home Button */}
       <header className="bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-            Buy vs. Rent Calculator
-          </h1>
-          <p className="text-gray-600 mt-2">
-            Make an informed decision with real market data
-          </p>
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            {/* Left: Home Button */}
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors group"
+            >
+              <svg
+                className="w-5 h-5 transition-transform group-hover:-translate-x-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                />
+              </svg>
+              <span className="font-medium">Home</span>
+            </Link>
+
+            {/* Center: Title */}
+            <div className="text-center flex-1">
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+                {location}
+              </h1>
+              <p className="text-sm text-gray-500 mt-1">Buy vs. Rent Calculator</p>
+            </div>
+
+            {/* Right: Spacer for balance */}
+            <div className="w-20"></div>
+          </div>
         </div>
       </header>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Desktop Layout: Split Screen */}
-        <div className="lg:grid lg:grid-cols-12 lg:gap-8">
-          {/* Left Column: Calculator (8 columns on desktop) */}
-          <div className="lg:col-span-8 space-y-6">
-            {/* Page Title */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                {location}
-              </h2>
-              <p className="text-gray-600">
-                Compare the financial impact of buying vs. renting in {name}.
-                Adjust the assumptions below to match your situation.
-              </p>
-            </div>
-
-            {/* Mobile Ad (Only visible on mobile) */}
-            <div className="lg:hidden">
-              <AdContainer slot="mobile" />
-            </div>
-
-            {/* Calculator */}
-            <Calculator
-              cityName={name}
-              countryCode={country_code}
-              defaultHomePrice={defaults.avg_home_price}
-              defaultMonthlyRent={defaults.avg_rent}
-              dataUpdated={data_updated}
-            />
-          </div>
-
-          {/* Right Column: Sticky Sidebar with Ad (4 columns on desktop) */}
-          <aside className="hidden lg:block lg:col-span-4">
-            <div className="sticky top-8 space-y-6">
-              {/* CLS-Safe Ad Container */}
-              <AdContainer slot="sidebar" />
-
-              {/* Quick Stats Card */}
-              <div className="bg-white rounded-xl shadow-lg p-6">
-                <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wide mb-4">
-                  {name} Market Data
-                </h3>
-                <div className="space-y-3">
-                  <div>
-                    <div className="text-xs text-gray-500">Avg. Home Price</div>
-                    <div className="text-xl font-bold text-gray-900">
-                      {cityData.currency_symbol}
-                      {defaults.avg_home_price.toLocaleString()}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-gray-500">Avg. Monthly Rent</div>
-                    <div className="text-xl font-bold text-gray-900">
-                      {cityData.currency_symbol}
-                      {defaults.avg_rent.toLocaleString()}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-gray-500">Property Tax Rate</div>
-                    <div className="text-xl font-bold text-gray-900">
-                      {(defaults.property_tax_rate * 100).toFixed(2)}%
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </aside>
+        {/* Mobile Ad (Only visible on mobile) */}
+        <div className="lg:hidden mb-6">
+          <AdContainer slot="mobile" />
         </div>
+
+        {/* Calculator with built-in dashboard layout */}
+        <Calculator
+          cityName={name}
+          countryCode={country_code}
+          defaultHomePrice={defaults.avg_home_price}
+          defaultMonthlyRent={defaults.avg_rent}
+          dataUpdated={data_updated}
+        />
       </div>
 
       {/* Footer Ad (Fixed bottom on mobile) */}
