@@ -142,51 +142,50 @@ export default function Calculator({
   const finalYearData = results.dataPoints[results.dataPoints.length - 1];
 
   return (
-    <div className="space-y-10">
-      {/* HERO: Verdict Display - First and Most Prominent */}
-      <ResultsDisplay
-        breakEven={results.breakEven}
-        recommendation={results.summary.recommendation}
-        cityName={cityName}
-        dataUpdated={dataUpdated}
-      />
-
-      {/* Input Section */}
-      <div className="bg-white rounded-xl shadow-lg p-6 space-y-6">
-        <h2 className="text-2xl font-bold text-gray-900">Adjust Your Scenario</h2>
-
-        <QuickInputs
+    <>
+      {/* Mobile: Stacked Layout (default) */}
+      <div className="lg:hidden space-y-10">
+        {/* Verdict First on Mobile */}
+        <ResultsDisplay
+          breakEven={results.breakEven}
+          recommendation={results.summary.recommendation}
           cityName={cityName}
-          homePrice={homePrice}
-          monthlyRent={monthlyRent}
-          currencySymbol={countryConfig.currencySymbol}
-          onHomePriceChange={setHomePrice}
-          onMonthlyRentChange={setMonthlyRent}
+          dataUpdated={dataUpdated}
         />
 
-        <AdvancedSettings
-          downPaymentPercent={downPaymentPercent * 100}
-          interestRate={interestRate * 100}
-          loanTermYears={loanTermYears}
-          propertyTaxRate={propertyTaxRate * 100}
-          maintenanceRate={maintenanceRate * 100}
-          rentInflationRate={rentInflationRate * 100}
-          investmentReturnRate={investmentReturnRate * 100}
-          marginalTaxRate={marginalTaxRate * 100}
-          onDownPaymentChange={setDownPaymentPercent}
-          onInterestRateChange={setInterestRate}
-          onLoanTermChange={setLoanTermYears}
-          onPropertyTaxChange={setPropertyTaxRate}
-          onMaintenanceChange={setMaintenanceRate}
-          onRentInflationChange={setRentInflationRate}
-          onInvestmentReturnChange={setInvestmentReturnRate}
-          onMarginalTaxChange={setMarginalTaxRate}
-          propertyTaxLabel={countryConfig.labels.propertyTax}
-        />
-      </div>
+        {/* Input Section */}
+        <div className="bg-white rounded-xl shadow-lg p-6 space-y-6">
+          <h2 className="text-2xl font-bold text-gray-900">Adjust Your Scenario</h2>
 
-      {/* Data Visualization Section */}
-      <div className="space-y-6">
+          <QuickInputs
+            cityName={cityName}
+            homePrice={homePrice}
+            monthlyRent={monthlyRent}
+            currencySymbol={countryConfig.currencySymbol}
+            onHomePriceChange={setHomePrice}
+            onMonthlyRentChange={setMonthlyRent}
+          />
+
+          <AdvancedSettings
+            downPaymentPercent={downPaymentPercent * 100}
+            interestRate={interestRate * 100}
+            loanTermYears={loanTermYears}
+            propertyTaxRate={propertyTaxRate * 100}
+            maintenanceRate={maintenanceRate * 100}
+            rentInflationRate={rentInflationRate * 100}
+            investmentReturnRate={investmentReturnRate * 100}
+            marginalTaxRate={marginalTaxRate * 100}
+            onDownPaymentChange={setDownPaymentPercent}
+            onInterestRateChange={setInterestRate}
+            onLoanTermChange={setLoanTermYears}
+            onPropertyTaxChange={setPropertyTaxRate}
+            onMaintenanceChange={setMaintenanceRate}
+            onRentInflationChange={setRentInflationRate}
+            onInvestmentReturnChange={setInvestmentReturnRate}
+            onMarginalTaxChange={setMarginalTaxRate}
+            propertyTaxLabel={countryConfig.labels.propertyTax}
+          />
+        </div>
 
         {/* Chart */}
         <div className="bg-white rounded-xl shadow-lg p-6">
@@ -210,6 +209,78 @@ export default function Calculator({
           monthlyRent={monthlyRent}
         />
       </div>
-    </div>
+
+      {/* Desktop: Dashboard Layout (40% Left / 60% Right) */}
+      <div className="hidden lg:grid lg:grid-cols-5 lg:gap-8">
+        {/* LEFT COLUMN (40% = 2 of 5 columns) - Scrollable Inputs */}
+        <div className="lg:col-span-2 space-y-6">
+          <div className="bg-white rounded-xl shadow-lg p-6 space-y-6 sticky top-6">
+            <h2 className="text-2xl font-bold text-gray-900">Adjust Your Scenario</h2>
+
+            <QuickInputs
+              cityName={cityName}
+              homePrice={homePrice}
+              monthlyRent={monthlyRent}
+              currencySymbol={countryConfig.currencySymbol}
+              onHomePriceChange={setHomePrice}
+              onMonthlyRentChange={setMonthlyRent}
+            />
+
+            <AdvancedSettings
+              downPaymentPercent={downPaymentPercent * 100}
+              interestRate={interestRate * 100}
+              loanTermYears={loanTermYears}
+              propertyTaxRate={propertyTaxRate * 100}
+              maintenanceRate={maintenanceRate * 100}
+              rentInflationRate={rentInflationRate * 100}
+              investmentReturnRate={investmentReturnRate * 100}
+              marginalTaxRate={marginalTaxRate * 100}
+              onDownPaymentChange={setDownPaymentPercent}
+              onInterestRateChange={setInterestRate}
+              onLoanTermChange={setLoanTermYears}
+              onPropertyTaxChange={setPropertyTaxRate}
+              onMaintenanceChange={setMaintenanceRate}
+              onRentInflationChange={setRentInflationRate}
+              onInvestmentReturnChange={setInvestmentReturnRate}
+              onMarginalTaxChange={setMarginalTaxRate}
+              propertyTaxLabel={countryConfig.labels.propertyTax}
+            />
+          </div>
+        </div>
+
+        {/* RIGHT COLUMN (60% = 3 of 5 columns) - Results */}
+        <div className="lg:col-span-3 space-y-6">
+          {/* Verdict */}
+          <ResultsDisplay
+            breakEven={results.breakEven}
+            recommendation={results.summary.recommendation}
+            cityName={cityName}
+            dataUpdated={dataUpdated}
+          />
+
+          {/* Chart */}
+          <div className="bg-white rounded-xl shadow-lg p-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-4">
+              Net Worth Over Time
+            </h3>
+            <NetWorthChart
+              dataPoints={results.dataPoints}
+              currencySymbol={countryConfig.currencySymbol}
+              breakEvenYear={results.breakEven.year}
+            />
+          </div>
+
+          {/* Breakdown Table */}
+          <BreakdownTable
+            finalYearData={finalYearData}
+            currencySymbol={countryConfig.currencySymbol}
+            downPayment={downPayment}
+            closingCosts={closingCosts}
+            monthlyMortgage={monthlyMortgage}
+            monthlyRent={monthlyRent}
+          />
+        </div>
+      </div>
+    </>
   );
 }
