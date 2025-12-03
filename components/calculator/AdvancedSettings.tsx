@@ -49,19 +49,31 @@ export default function AdvancedSettings({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border border-gray-200 rounded-lg overflow-hidden">
-      {/* Toggle Button */}
+    <div className="overflow-hidden">
+      {/* Toggle Button - More Prominent */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors flex items-center justify-between text-left"
+        className="w-full px-6 py-4 bg-white hover:bg-blue-50 transition-all
+                   flex items-center justify-between text-left
+                   border-2 border-gray-200 hover:border-blue-300 rounded-xl
+                   shadow-sm hover:shadow-md"
         aria-expanded={isOpen}
         aria-controls="advanced-settings-content"
       >
-        <span className="text-sm font-semibold text-gray-700">
-          ⚙️ Advanced Settings
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="text-2xl">⚙️</span>
+          <div>
+            <span className="text-base font-bold text-gray-900 block">
+              Advanced Settings
+            </span>
+            <p className="text-xs text-gray-500 mt-0.5">
+              Fine-tune assumptions for more accurate results
+            </p>
+          </div>
+        </div>
+
         <svg
-          className={`w-5 h-5 text-gray-500 transition-transform ${
+          className={`w-7 h-7 text-gray-600 transition-transform flex-shrink-0 ${
             isOpen ? 'rotate-180' : ''
           }`}
           fill="none"
@@ -71,7 +83,7 @@ export default function AdvancedSettings({
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth={2}
+            strokeWidth={2.5}
             d="M19 9l-7 7-7-7"
           />
         </svg>

@@ -4,6 +4,10 @@ import Calculator from '@/components/calculator/Calculator';
 import AdContainer from '@/components/ads/AdContainer';
 import citiesData from '@/data/cities.json';
 import { CountryCode } from '@/lib/types';
+import { validateCitiesData } from '@/lib/validate-cities';
+
+// Validate cities data at module load time (build time for SSG)
+validateCitiesData(citiesData);
 
 interface CityData {
   slug: string;
