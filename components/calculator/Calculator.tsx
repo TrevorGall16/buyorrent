@@ -6,6 +6,7 @@
  */
 
 import { useState, useEffect } from 'react';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { calculateRentVsBuy, calculateMonthlyMortgagePayment } from '@/lib/finance';
 import { getDefaultInputsForCountry, getCountryConfig, getLabelsByLanguage } from '@/lib/country-config';
 import { CountryCode, CalculationResult } from '@/lib/types';
@@ -48,32 +49,50 @@ export default function Calculator({
     defaultMonthlyRent
   );
 
-  // State management
-  const [homePrice, setHomePrice] = useState(defaultHomePrice);
-  const [monthlyRent, setMonthlyRent] = useState(defaultMonthlyRent);
+  // URL state management
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // Helper to parse number from URL params
+  const parseParam = (key: string, defaultValue: number): number => {
+    const value = searchParams.get(key);
+    return value ? parseFloat(value) : defaultValue;
+  };
+
+  // State management - Initialize from URL params if available
+  const [homePrice, setHomePrice] = useState(
+    parseParam('price', defaultHomePrice)
+  );
+  const [monthlyRent, setMonthlyRent] = useState(
+    parseParam('rent', defaultMonthlyRent)
+  );
   const [downPaymentPercent, setDownPaymentPercent] = useState(
-    defaultInputs.purchase.downPaymentPercent
+    parseParam('down', defaultInputs.purchase.downPaymentPercent)
   );
   const [interestRate, setInterestRate] = useState(
-    defaultInputs.purchase.interestRate
+    parseParam('rate', defaultInputs.purchase.interestRate)
   );
   const [loanTermYears, setLoanTermYears] = useState(
-    defaultInputs.purchase.loanTermYears
+    parseParam('term', defaultInputs.purchase.loanTermYears)
   );
   const [propertyTaxRate, setPropertyTaxRate] = useState(
-    defaultInputs.purchase.propertyTaxRate
+    parseParam('tax', defaultInputs.purchase.propertyTaxRate)
   );
   const [maintenanceRate, setMaintenanceRate] = useState(
-    defaultInputs.purchase.maintenanceRate
+    parseParam('maint', defaultInputs.purchase.maintenanceRate)
   );
   const [rentInflationRate, setRentInflationRate] = useState(
-    defaultInputs.rental.rentInflationRate
+    parseParam('rinfl', defaultInputs.rental.rentInflationRate)
   );
   const [investmentReturnRate, setInvestmentReturnRate] = useState(
-    defaultInputs.financial.investmentReturnRate
+    parseParam('invest', defaultInputs.financial.investmentReturnRate)
   );
   const [marginalTaxRate, setMarginalTaxRate] = useState(
-    defaultInputs.financial.marginalTaxRate
+    parseParam('mtax', defaultInputs.financial.marginalTaxRate)
+  );
+  const [yearsToPlot, setYearsToPlot] = useState(
+    parseParam('years', 30)
   );
 
   const [results, setResults] = useState<CalculationResult | null>(null);
@@ -111,7 +130,7 @@ export default function Calculator({
         investmentReturnRate: debouncedInvestmentReturnRate,
         marginalTaxRate: debouncedMarginalTaxRate,
       },
-      yearsToAnalyze: 30,
+      yearsToAnalyze: yearsToPlot,
     };
 
     const calculationResults = calculateRentVsBuy(inputs);
@@ -128,6 +147,76 @@ export default function Calculator({
     debouncedInvestmentReturnRate,
     debouncedMarginalTaxRate,
     countryConfig,
+    yearsToPlot,
+  ]);
+
+  // Sync state to URL params (debounced to avoid excessive updates)
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    // Only add params if they differ from defaults
+    if (homePrice !== defaultHomePrice) params.set('price', homePrice.toString());
+    else params.delete('price');
+
+    if (monthlyRent !== defaultMonthlyRent) params.set('rent', monthlyRent.toString());
+    else params.delete('rent');
+
+    if (downPaymentPercent !== defaultInputs.purchase.downPaymentPercent)
+      params.set('down', downPaymentPercent.toString());
+    else params.delete('down');
+
+    if (interestRate !== defaultInputs.purchase.interestRate)
+      params.set('rate', interestRate.toString());
+    else params.delete('rate');
+
+    if (loanTermYears !== defaultInputs.purchase.loanTermYears)
+      params.set('term', loanTermYears.toString());
+    else params.delete('term');
+
+    if (propertyTaxRate !== defaultInputs.purchase.propertyTaxRate)
+      params.set('tax', propertyTaxRate.toString());
+    else params.delete('tax');
+
+    if (maintenanceRate !== defaultInputs.purchase.maintenanceRate)
+      params.set('maint', maintenanceRate.toString());
+    else params.delete('maint');
+
+    if (rentInflationRate !== defaultInputs.rental.rentInflationRate)
+      params.set('rinfl', rentInflationRate.toString());
+    else params.delete('rinfl');
+
+    if (investmentReturnRate !== defaultInputs.financial.investmentReturnRate)
+      params.set('invest', investmentReturnRate.toString());
+    else params.delete('invest');
+
+    if (marginalTaxRate !== defaultInputs.financial.marginalTaxRate)
+      params.set('mtax', marginalTaxRate.toString());
+    else params.delete('mtax');
+
+    if (yearsToPlot !== 30) params.set('years', yearsToPlot.toString());
+    else params.delete('years');
+
+    // Update URL without triggering a navigation
+    const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
+    router.replace(newUrl, { scroll: false });
+  }, [
+    homePrice,
+    monthlyRent,
+    downPaymentPercent,
+    interestRate,
+    loanTermYears,
+    propertyTaxRate,
+    maintenanceRate,
+    rentInflationRate,
+    investmentReturnRate,
+    marginalTaxRate,
+    yearsToPlot,
+    defaultHomePrice,
+    defaultMonthlyRent,
+    defaultInputs,
+    pathname,
+    router,
+    searchParams,
   ]);
 
   if (!results) {
@@ -180,8 +269,16 @@ export default function Calculator({
         />
 
         {/* Input Section */}
-        <div className="bg-white rounded-xl shadow-lg p-6 space-y-6">
-          <h2 className="text-2xl font-bold text-gray-900">{labels.adjustScenario}</h2>
+        <div
+          className="bg-white rounded-xl shadow-lg p-6 space-y-6"
+          style={themeColor ? { borderTopWidth: '6px', borderTopColor: themeColor, borderTopStyle: 'solid' } : undefined}
+        >
+          <h2
+            className="text-2xl font-bold text-gray-900 px-4 py-3 -mx-4 -mt-4 mb-4 rounded-t-lg"
+            style={themeColor ? { backgroundColor: `${themeColor}1A` } : undefined}
+          >
+            {labels.adjustScenario}
+          </h2>
 
           <QuickInputs
             cityName={cityName}
@@ -205,6 +302,7 @@ export default function Calculator({
             rentInflationRate={rentInflationRate * 100}
             investmentReturnRate={investmentReturnRate * 100}
             marginalTaxRate={marginalTaxRate * 100}
+            yearsToPlot={yearsToPlot}
             onDownPaymentChange={setDownPaymentPercent}
             onInterestRateChange={setInterestRate}
             onLoanTermChange={setLoanTermYears}
@@ -213,6 +311,7 @@ export default function Calculator({
             onRentInflationChange={setRentInflationRate}
             onInvestmentReturnChange={setInvestmentReturnRate}
             onMarginalTaxChange={setMarginalTaxRate}
+            onYearsToPlotChange={setYearsToPlot}
             propertyTaxLabel={labels.propertyTax}
             labels={{
               advancedSettings: labels.advancedSettings,
@@ -230,8 +329,14 @@ export default function Calculator({
         </div>
 
         {/* Chart */}
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <h3 className="text-xl font-bold text-gray-900 mb-4">
+        <div
+          className="bg-white rounded-xl shadow-lg p-6"
+          style={themeColor ? { borderTopWidth: '6px', borderTopColor: themeColor, borderTopStyle: 'solid' } : undefined}
+        >
+          <h3
+            className="text-xl font-bold text-gray-900 mb-4 px-4 py-3 -mx-4 -mt-4 rounded-t-lg"
+            style={themeColor ? { backgroundColor: `${themeColor}1A` } : undefined}
+          >
             {labels.netWorthOverTime}
           </h3>
           <NetWorthChart
@@ -264,8 +369,16 @@ export default function Calculator({
       <div className="hidden lg:grid lg:grid-cols-5 lg:gap-8">
         {/* LEFT COLUMN (40% = 2 of 5 columns) - Scrollable Inputs */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white rounded-xl shadow-lg p-6 space-y-6 sticky top-6">
-            <h2 className="text-2xl font-bold text-gray-900">{labels.adjustScenario}</h2>
+          <div
+            className="bg-white rounded-xl shadow-lg p-6 space-y-6 sticky top-6"
+            style={themeColor ? { borderTopWidth: '6px', borderTopColor: themeColor, borderTopStyle: 'solid' } : undefined}
+          >
+            <h2
+              className="text-2xl font-bold text-gray-900 px-4 py-3 -mx-4 -mt-4 mb-4 rounded-t-lg"
+              style={themeColor ? { backgroundColor: `${themeColor}1A` } : undefined}
+            >
+              {labels.adjustScenario}
+            </h2>
 
             <QuickInputs
               cityName={cityName}
@@ -289,6 +402,7 @@ export default function Calculator({
               rentInflationRate={rentInflationRate * 100}
               investmentReturnRate={investmentReturnRate * 100}
               marginalTaxRate={marginalTaxRate * 100}
+              yearsToPlot={yearsToPlot}
               onDownPaymentChange={setDownPaymentPercent}
               onInterestRateChange={setInterestRate}
               onLoanTermChange={setLoanTermYears}
@@ -297,6 +411,7 @@ export default function Calculator({
               onRentInflationChange={setRentInflationRate}
               onInvestmentReturnChange={setInvestmentReturnRate}
               onMarginalTaxChange={setMarginalTaxRate}
+              onYearsToPlotChange={setYearsToPlot}
               propertyTaxLabel={labels.propertyTax}
               labels={{
                 advancedSettings: labels.advancedSettings,
@@ -342,8 +457,14 @@ export default function Calculator({
           />
 
           {/* Chart */}
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">
+          <div
+            className="bg-white rounded-xl shadow-lg p-6"
+            style={themeColor ? { borderTopWidth: '6px', borderTopColor: themeColor, borderTopStyle: 'solid' } : undefined}
+          >
+            <h3
+              className="text-xl font-bold text-gray-900 mb-4 px-4 py-3 -mx-4 -mt-4 rounded-t-lg"
+              style={themeColor ? { backgroundColor: `${themeColor}1A` } : undefined}
+            >
               {labels.netWorthOverTime}
             </h3>
             <NetWorthChart

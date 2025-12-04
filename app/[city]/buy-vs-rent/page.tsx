@@ -96,12 +96,13 @@ export default async function CityBuyVsRentPage({ params, searchParams }: PagePr
       {/* City Hero Section with Flag Watermark */}
       <section className="bg-white border-b border-gray-200 shadow-sm py-8 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4">
-          {/* Flag Watermark - Large, Subtle, Behind Text */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <span className="text-9xl opacity-10 select-none" aria-hidden="true">
-              {flag}
-            </span>
-          </div>
+          {/* Flag Watermark - HUGE, Very Subtle, Positioned Top-Right */}
+          <span
+            className="text-[150px] opacity-5 absolute -top-4 -right-4 rotate-12 pointer-events-none select-none"
+            aria-hidden="true"
+          >
+            {flag}
+          </span>
 
           {/* City Title - On Top of Watermark */}
           <div className="relative text-center">

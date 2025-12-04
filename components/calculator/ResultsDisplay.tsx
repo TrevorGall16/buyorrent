@@ -5,6 +5,7 @@
  * Shows break-even verdict, trust badge, and recommendation
  */
 
+import { useState } from 'react';
 import { BreakEvenResult } from '@/lib/types';
 
 interface ResultsDisplayProps {
@@ -39,6 +40,19 @@ export default function ResultsDisplay({
   themeColor,
   labels,
 }: ResultsDisplayProps) {
+  const [copySuccess, setCopySuccess] = useState(false);
+
+  // Handle share button click
+  const handleShare = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy URL:', err);
+    }
+  };
+
   // Determine verdict message
   const getVerdictMessage = (): {
     title: string;
@@ -95,9 +109,10 @@ export default function ResultsDisplay({
 
   return (
     <div className="relative">
-      {/* Verdict Card - HERO SIZE */}
+      {/* Verdict Card - HERO SIZE with Theme Color Border */}
       <div
         className={`${colors.bg} ${colors.border} border-2 rounded-xl p-8 md:p-12`}
+        style={themeColor ? { borderTopWidth: '6px', borderTopColor: themeColor } : undefined}
         role="status"
         aria-live="polite"
       >
@@ -141,8 +156,8 @@ export default function ResultsDisplay({
               {verdict.message}
             </p>
 
-            {/* Recommendation Badge - Larger */}
-            <div>
+            {/* Recommendation Badge and Share Button */}
+            <div className="flex flex-wrap items-center gap-3">
               <span
                 className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold text-white ${colors.badge}`}
               >
@@ -150,6 +165,29 @@ export default function ResultsDisplay({
                 {recommendation === 'rent' && `✓ ${labels.rentingRecommended}`}
                 {recommendation === 'neutral' && `≈ ${labels.roughlyEquivalent}`}
               </span>
+
+              {/* Share Button */}
+              <button
+                onClick={handleShare}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-full transition-colors shadow-sm"
+                aria-label="Share this scenario"
+              >
+                {copySuccess ? (
+                  <>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Copied!
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                    </svg>
+                    Share
+                  </>
+                )}
+              </button>
             </div>
           </div>
         </div>
