@@ -16,6 +16,7 @@ interface AdvancedSettingsProps {
   rentInflationRate: number;
   investmentReturnRate: number;
   marginalTaxRate: number;
+  yearsToPlot: number;
   onDownPaymentChange: (value: number) => void;
   onInterestRateChange: (value: number) => void;
   onLoanTermChange: (value: number) => void;
@@ -24,6 +25,7 @@ interface AdvancedSettingsProps {
   onRentInflationChange: (value: number) => void;
   onInvestmentReturnChange: (value: number) => void;
   onMarginalTaxChange: (value: number) => void;
+  onYearsToPlotChange: (value: number) => void;
   propertyTaxLabel?: string;
   labels?: {
     advancedSettings: string;
@@ -48,6 +50,7 @@ export default function AdvancedSettings({
   rentInflationRate,
   investmentReturnRate,
   marginalTaxRate,
+  yearsToPlot,
   onDownPaymentChange,
   onInterestRateChange,
   onLoanTermChange,
@@ -56,6 +59,7 @@ export default function AdvancedSettings({
   onRentInflationChange,
   onInvestmentReturnChange,
   onMarginalTaxChange,
+  onYearsToPlotChange,
   propertyTaxLabel = 'Property Tax Rate',
   labels,
 }: AdvancedSettingsProps) {
@@ -232,6 +236,24 @@ export default function AdvancedSettings({
               max={50}
               step={1}
               suffix="%"
+              formatValue={(val) => val.toString()}
+            />
+          </div>
+
+          {/* Analysis Timeframe */}
+          <div className="space-y-4 pt-4 border-t border-gray-200">
+            <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wide">
+              Analysis Timeframe
+            </h4>
+
+            <InputField
+              label="Years to Plot"
+              value={yearsToPlot}
+              onChange={onYearsToPlotChange}
+              min={10}
+              max={50}
+              step={5}
+              suffix={` ${labels?.years || 'years'}`}
               formatValue={(val) => val.toString()}
             />
           </div>
