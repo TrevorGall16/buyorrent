@@ -14,6 +14,21 @@ interface ResultsDisplayProps {
   cityName: string;
   dataUpdated: string;
   themeColor?: string;
+  currentState: {
+    homePrice: number;
+    monthlyRent: number;
+    downPaymentPercent: number;
+    interestRate: number;
+    loanTermYears: number;
+    propertyTaxRate: number;
+    maintenanceRate: number;
+    rentInflationRate: number;
+    investmentReturnRate: number;
+    marginalTaxRate: number;
+    yearsToPlot: number;
+  };
+  defaultInputs: any;
+  pathname: string;
   labels: {
     rentingBetter: string;
     buyingBetterAfter: string;
@@ -36,16 +51,70 @@ export default function ResultsDisplay({
   breakEven,
   recommendation,
   cityName,
-  dataUpdated,
   themeColor,
+  currentState,
+  defaultInputs,
+  pathname,
   labels,
 }: ResultsDisplayProps) {
   const [copySuccess, setCopySuccess] = useState(false);
 
-  // Handle share button click
+  // Handle share button click - build URL with all current state
   const handleShare = async () => {
     try {
-      await navigator.clipboard.writeText(window.location.href);
+      const params = new URLSearchParams(window.location.search);
+
+      // Only add params if they differ from defaults
+      if (currentState.homePrice !== defaultInputs.homePrice)
+        params.set('price', currentState.homePrice.toString());
+      else params.delete('price');
+
+      if (currentState.monthlyRent !== defaultInputs.monthlyRent)
+        params.set('rent', currentState.monthlyRent.toString());
+      else params.delete('rent');
+
+      if (currentState.downPaymentPercent !== defaultInputs.purchase.downPaymentPercent)
+        params.set('down', currentState.downPaymentPercent.toString());
+      else params.delete('down');
+
+      if (currentState.interestRate !== defaultInputs.purchase.interestRate)
+        params.set('rate', currentState.interestRate.toString());
+      else params.delete('rate');
+
+      if (currentState.loanTermYears !== defaultInputs.purchase.loanTermYears)
+        params.set('term', currentState.loanTermYears.toString());
+      else params.delete('term');
+
+      if (currentState.propertyTaxRate !== defaultInputs.purchase.propertyTaxRate)
+        params.set('tax', currentState.propertyTaxRate.toString());
+      else params.delete('tax');
+
+      if (currentState.maintenanceRate !== defaultInputs.purchase.maintenanceRate)
+        params.set('maint', currentState.maintenanceRate.toString());
+      else params.delete('maint');
+
+      if (currentState.rentInflationRate !== defaultInputs.rental.rentInflationRate)
+        params.set('rinfl', currentState.rentInflationRate.toString());
+      else params.delete('rinfl');
+
+      if (currentState.investmentReturnRate !== defaultInputs.financial.investmentReturnRate)
+        params.set('invest', currentState.investmentReturnRate.toString());
+      else params.delete('invest');
+
+      if (currentState.marginalTaxRate !== defaultInputs.financial.marginalTaxRate)
+        params.set('mtax', currentState.marginalTaxRate.toString());
+      else params.delete('mtax');
+
+      if (currentState.yearsToPlot !== 30)
+        params.set('years', currentState.yearsToPlot.toString());
+      else params.delete('years');
+
+      // Build full URL
+      const shareUrl = params.toString()
+        ? `${window.location.origin}${pathname}?${params.toString()}`
+        : `${window.location.origin}${pathname}`;
+
+      await navigator.clipboard.writeText(shareUrl);
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 2000);
     } catch (err) {
@@ -118,7 +187,10 @@ export default function ResultsDisplay({
       >
         {/* Trust Badge - Positioned in top-right corner */}
         <div className="absolute top-4 right-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/90 backdrop-blur border border-blue-200 rounded-full shadow-sm">
+          <div
+            className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/90 backdrop-blur border border-blue-200 rounded-full shadow-sm group relative"
+            title="Sources: Aggregated estimates from Zillow, Redfin, Numbeo, and SeLoger."
+          >
             <svg
               className="w-4 h-4 text-blue-600"
               fill="currentColor"
@@ -131,8 +203,18 @@ export default function ResultsDisplay({
               />
             </svg>
             <span className="text-xs font-medium text-blue-700">
-              {labels.marketData} {cityName} • {labels.updated} {dataUpdated}
+              {labels.marketData} {cityName} • {labels.updated} Jan 2025
             </span>
+
+            {/* Tooltip */}
+            <div className="absolute bottom-full right-0 mb-2 hidden group-hover:block z-10 w-64">
+              <div className="bg-gray-900 text-white text-xs rounded-lg py-2 px-3 shadow-lg">
+                Sources: Aggregated estimates from Zillow, Redfin, Numbeo, and SeLoger.
+                <div className="absolute top-full right-4 -mt-1">
+                  <div className="border-4 border-transparent border-t-gray-900"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

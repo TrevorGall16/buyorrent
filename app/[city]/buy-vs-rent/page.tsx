@@ -83,11 +83,21 @@ export default async function CityBuyVsRentPage({ params, searchParams }: PagePr
   const location = state ? `${name}, ${state}` : name;
 
   // Get flag emoji based on country code
-  const flagEmojis = {
+  const flagEmojis: Record<CountryCode, string> = {
     US: '🇺🇸',
     FR: '🇫🇷',
     DE: '🇩🇪',
     GB: '🇬🇧',
+    CA: '🇨🇦',
+    AU: '🇦🇺',
+    ES: '🇪🇸',
+    IT: '🇮🇹',
+    NL: '🇳🇱',
+    SE: '🇸🇪',
+    CH: '🇨🇭',
+    BE: '🇧🇪',
+    IE: '🇮🇪',
+    PT: '🇵🇹',
   };
   const flag = flagEmojis[country_code];
 
