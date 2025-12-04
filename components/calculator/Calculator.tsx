@@ -15,6 +15,7 @@ import AdvancedSettings from './AdvancedSettings';
 import NetWorthChart from './NetWorthChart';
 import ResultsDisplay from './ResultsDisplay';
 import BreakdownTable from './BreakdownTable';
+import AdContainer from '@/components/ads/AdContainer';
 
 interface CalculatorProps {
   cityName: string;
@@ -22,6 +23,7 @@ interface CalculatorProps {
   defaultHomePrice: number;
   defaultMonthlyRent: number;
   dataUpdated?: string;
+  themeColor?: string;
 }
 
 export default function Calculator({
@@ -30,6 +32,7 @@ export default function Calculator({
   defaultHomePrice,
   defaultMonthlyRent,
   dataUpdated = 'Dec 2024',
+  themeColor,
 }: CalculatorProps) {
   // Get country configuration
   const countryConfig = getCountryConfig(countryCode);
@@ -151,11 +154,28 @@ export default function Calculator({
           recommendation={results.summary.recommendation}
           cityName={cityName}
           dataUpdated={dataUpdated}
+          themeColor={themeColor}
+          labels={{
+            rentingBetter: countryConfig.labels.rentingBetter,
+            buyingBetterAfter: countryConfig.labels.buyingBetterAfter,
+            years: countryConfig.labels.years,
+            months: countryConfig.labels.months,
+            and: countryConfig.labels.and,
+            buyingMessage: countryConfig.labels.buyingMessage,
+            rentingMessage: countryConfig.labels.rentingMessage,
+            stayAtLeast: countryConfig.labels.stayAtLeast,
+            forBuyingToMakeSense: countryConfig.labels.forBuyingToMakeSense,
+            marketData: countryConfig.labels.marketData,
+            updated: countryConfig.labels.updated,
+            buyingRecommended: countryConfig.labels.buyingRecommended,
+            rentingRecommended: countryConfig.labels.rentingRecommended,
+            roughlyEquivalent: countryConfig.labels.roughlyEquivalent,
+          }}
         />
 
         {/* Input Section */}
         <div className="bg-white rounded-xl shadow-lg p-6 space-y-6">
-          <h2 className="text-2xl font-bold text-gray-900">Adjust Your Scenario</h2>
+          <h2 className="text-2xl font-bold text-gray-900">{countryConfig.labels.adjustScenario}</h2>
 
           <QuickInputs
             cityName={cityName}
@@ -164,6 +184,10 @@ export default function Calculator({
             currencySymbol={countryConfig.currencySymbol}
             onHomePriceChange={setHomePrice}
             onMonthlyRentChange={setMonthlyRent}
+            labels={{
+              homePrice: countryConfig.labels.homePrice,
+              monthlyRent: countryConfig.labels.monthlyRent,
+            }}
           />
 
           <AdvancedSettings
@@ -184,13 +208,25 @@ export default function Calculator({
             onInvestmentReturnChange={setInvestmentReturnRate}
             onMarginalTaxChange={setMarginalTaxRate}
             propertyTaxLabel={countryConfig.labels.propertyTax}
+            labels={{
+              advancedSettings: countryConfig.labels.advancedSettings,
+              advancedSettingsSubtitle: countryConfig.labels.advancedSettingsSubtitle,
+              downPayment: countryConfig.labels.downPayment,
+              interestRate: countryConfig.labels.interestRate,
+              loanTerm: countryConfig.labels.loanTerm,
+              years: countryConfig.labels.years,
+              maintenanceRate: countryConfig.labels.maintenanceRate,
+              rentInflation: countryConfig.labels.rentInflation,
+              investmentReturn: countryConfig.labels.investmentReturn,
+              marginalTaxRate: countryConfig.labels.marginalTaxRate,
+            }}
           />
         </div>
 
         {/* Chart */}
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h3 className="text-xl font-bold text-gray-900 mb-4">
-            Net Worth Over Time
+            {countryConfig.labels.netWorthOverTime}
           </h3>
           <NetWorthChart
             dataPoints={results.dataPoints}
@@ -208,6 +244,9 @@ export default function Calculator({
           monthlyMortgage={monthlyMortgage}
           monthlyRent={monthlyRent}
         />
+
+        {/* Mobile Ad */}
+        <AdContainer slot="mobile" />
       </div>
 
       {/* Desktop: Dashboard Layout (40% Left / 60% Right) */}
@@ -215,7 +254,7 @@ export default function Calculator({
         {/* LEFT COLUMN (40% = 2 of 5 columns) - Scrollable Inputs */}
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white rounded-xl shadow-lg p-6 space-y-6 sticky top-6">
-            <h2 className="text-2xl font-bold text-gray-900">Adjust Your Scenario</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{countryConfig.labels.adjustScenario}</h2>
 
             <QuickInputs
               cityName={cityName}
@@ -224,6 +263,10 @@ export default function Calculator({
               currencySymbol={countryConfig.currencySymbol}
               onHomePriceChange={setHomePrice}
               onMonthlyRentChange={setMonthlyRent}
+              labels={{
+                homePrice: countryConfig.labels.homePrice,
+                monthlyRent: countryConfig.labels.monthlyRent,
+              }}
             />
 
             <AdvancedSettings
@@ -244,6 +287,18 @@ export default function Calculator({
               onInvestmentReturnChange={setInvestmentReturnRate}
               onMarginalTaxChange={setMarginalTaxRate}
               propertyTaxLabel={countryConfig.labels.propertyTax}
+              labels={{
+                advancedSettings: countryConfig.labels.advancedSettings,
+                advancedSettingsSubtitle: countryConfig.labels.advancedSettingsSubtitle,
+                downPayment: countryConfig.labels.downPayment,
+                interestRate: countryConfig.labels.interestRate,
+                loanTerm: countryConfig.labels.loanTerm,
+                years: countryConfig.labels.years,
+                maintenanceRate: countryConfig.labels.maintenanceRate,
+                rentInflation: countryConfig.labels.rentInflation,
+                investmentReturn: countryConfig.labels.investmentReturn,
+                marginalTaxRate: countryConfig.labels.marginalTaxRate,
+              }}
             />
           </div>
         </div>
@@ -256,12 +311,29 @@ export default function Calculator({
             recommendation={results.summary.recommendation}
             cityName={cityName}
             dataUpdated={dataUpdated}
+            themeColor={themeColor}
+            labels={{
+              rentingBetter: countryConfig.labels.rentingBetter,
+              buyingBetterAfter: countryConfig.labels.buyingBetterAfter,
+              years: countryConfig.labels.years,
+              months: countryConfig.labels.months,
+              and: countryConfig.labels.and,
+              buyingMessage: countryConfig.labels.buyingMessage,
+              rentingMessage: countryConfig.labels.rentingMessage,
+              stayAtLeast: countryConfig.labels.stayAtLeast,
+              forBuyingToMakeSense: countryConfig.labels.forBuyingToMakeSense,
+              marketData: countryConfig.labels.marketData,
+              updated: countryConfig.labels.updated,
+              buyingRecommended: countryConfig.labels.buyingRecommended,
+              rentingRecommended: countryConfig.labels.rentingRecommended,
+              roughlyEquivalent: countryConfig.labels.roughlyEquivalent,
+            }}
           />
 
           {/* Chart */}
           <div className="bg-white rounded-xl shadow-lg p-6">
             <h3 className="text-xl font-bold text-gray-900 mb-4">
-              Net Worth Over Time
+              {countryConfig.labels.netWorthOverTime}
             </h3>
             <NetWorthChart
               dataPoints={results.dataPoints}
@@ -279,6 +351,11 @@ export default function Calculator({
             monthlyMortgage={monthlyMortgage}
             monthlyRent={monthlyRent}
           />
+
+          {/* Desktop Sidebar Ad (300x600) - Sticky */}
+          <div className="sticky top-6">
+            <AdContainer slot="sidebar" />
+          </div>
         </div>
       </div>
     </>

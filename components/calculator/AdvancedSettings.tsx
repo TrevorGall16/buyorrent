@@ -25,6 +25,18 @@ interface AdvancedSettingsProps {
   onInvestmentReturnChange: (value: number) => void;
   onMarginalTaxChange: (value: number) => void;
   propertyTaxLabel?: string;
+  labels?: {
+    advancedSettings: string;
+    advancedSettingsSubtitle: string;
+    downPayment: string;
+    interestRate: string;
+    loanTerm: string;
+    years: string;
+    maintenanceRate: string;
+    rentInflation: string;
+    investmentReturn: string;
+    marginalTaxRate: string;
+  };
 }
 
 export default function AdvancedSettings({
@@ -45,6 +57,7 @@ export default function AdvancedSettings({
   onInvestmentReturnChange,
   onMarginalTaxChange,
   propertyTaxLabel = 'Property Tax Rate',
+  labels,
 }: AdvancedSettingsProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -64,10 +77,10 @@ export default function AdvancedSettings({
           <span className="text-2xl">⚙️</span>
           <div>
             <span className="text-base font-bold text-gray-900 block">
-              Advanced Settings
+              {labels?.advancedSettings || 'Advanced Settings'}
             </span>
             <p className="text-xs text-gray-500 mt-0.5">
-              Fine-tune assumptions for more accurate results
+              {labels?.advancedSettingsSubtitle || 'Fine-tune assumptions for more accurate results'}
             </p>
           </div>
         </div>
@@ -102,7 +115,7 @@ export default function AdvancedSettings({
             </h4>
 
             <InputField
-              label="Down Payment"
+              label={labels?.downPayment || 'Down Payment'}
               value={downPaymentPercent}
               onChange={(val) => onDownPaymentChange(val / 100)}
               min={0}
@@ -113,7 +126,7 @@ export default function AdvancedSettings({
             />
 
             <InputField
-              label="Interest Rate"
+              label={labels?.interestRate || 'Interest Rate'}
               value={interestRate}
               onChange={(val) => onInterestRateChange(val / 100)}
               min={2}
@@ -125,7 +138,7 @@ export default function AdvancedSettings({
 
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">
-                Loan Term
+                {labels?.loanTerm || 'Loan Term'}
               </label>
               <div className="flex gap-2">
                 <button
@@ -137,7 +150,7 @@ export default function AdvancedSettings({
                   }`}
                   aria-pressed={loanTermYears === 15}
                 >
-                  15 Years
+                  15 {labels?.years || 'Years'}
                 </button>
                 <button
                   onClick={() => onLoanTermChange(30)}
@@ -148,7 +161,7 @@ export default function AdvancedSettings({
                   }`}
                   aria-pressed={loanTermYears === 30}
                 >
-                  30 Years
+                  30 {labels?.years || 'Years'}
                 </button>
               </div>
             </div>
@@ -165,7 +178,7 @@ export default function AdvancedSettings({
             />
 
             <InputField
-              label="Annual Maintenance"
+              label={labels?.maintenanceRate || 'Annual Maintenance'}
               value={maintenanceRate}
               onChange={(val) => onMaintenanceChange(val / 100)}
               min={0.5}
@@ -183,7 +196,7 @@ export default function AdvancedSettings({
             </h4>
 
             <InputField
-              label="Rent Inflation"
+              label={labels?.rentInflation || 'Rent Inflation'}
               value={rentInflationRate}
               onChange={(val) => onRentInflationChange(val / 100)}
               min={0}
@@ -201,7 +214,7 @@ export default function AdvancedSettings({
             </h4>
 
             <InputField
-              label="Investment Return"
+              label={labels?.investmentReturn || 'Investment Return'}
               value={investmentReturnRate}
               onChange={(val) => onInvestmentReturnChange(val / 100)}
               min={0}
@@ -212,7 +225,7 @@ export default function AdvancedSettings({
             />
 
             <InputField
-              label="Marginal Tax Rate"
+              label={labels?.marginalTaxRate || 'Marginal Tax Rate'}
               value={marginalTaxRate}
               onChange={(val) => onMarginalTaxChange(val / 100)}
               min={0}

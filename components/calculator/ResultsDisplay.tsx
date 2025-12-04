@@ -12,6 +12,23 @@ interface ResultsDisplayProps {
   recommendation: 'buy' | 'rent' | 'neutral';
   cityName: string;
   dataUpdated: string;
+  themeColor?: string;
+  labels: {
+    rentingBetter: string;
+    buyingBetterAfter: string;
+    years: string;
+    months: string;
+    and: string;
+    buyingMessage: string;
+    rentingMessage: string;
+    stayAtLeast: string;
+    forBuyingToMakeSense: string;
+    marketData: string;
+    updated: string;
+    buyingRecommended: string;
+    rentingRecommended: string;
+    roughlyEquivalent: string;
+  };
 }
 
 export default function ResultsDisplay({
@@ -19,6 +36,8 @@ export default function ResultsDisplay({
   recommendation,
   cityName,
   dataUpdated,
+  themeColor,
+  labels,
 }: ResultsDisplayProps) {
   // Determine verdict message
   const getVerdictMessage = (): {
@@ -29,8 +48,8 @@ export default function ResultsDisplay({
   } => {
     if (breakEven.year === null) {
       return {
-        title: 'Renting is Better',
-        message: `In ${cityName}, renting remains financially advantageous throughout the 30-year period based on current market conditions.`,
+        title: labels.rentingBetter,
+        message: `${cityName}, ${labels.rentingMessage}.`,
         icon: '🏢',
         color: 'red' as const,
       };
@@ -41,16 +60,16 @@ export default function ResultsDisplay({
 
     if (years <= 5) {
       return {
-        title: `Buying is Better After ${years} Years`,
-        message: `In ${cityName}, buying becomes financially better after approximately ${years} years${months > 0 ? ` and ${months} months` : ''}.`,
+        title: `${labels.buyingBetterAfter} ${years} ${labels.years}`,
+        message: `${cityName}, ${labels.buyingMessage} ${years} ${labels.years}${months > 0 ? ` ${labels.and} ${months} ${labels.months}` : ''}.`,
         icon: '🏠',
         color: 'green' as const,
       };
     }
 
     return {
-      title: `Buying is Better After ${years} Years`,
-      message: `In ${cityName}, you'll need to stay at least ${years} years${months > 0 ? ` and ${months} months` : ''} for buying to make financial sense.`,
+      title: `${labels.buyingBetterAfter} ${years} ${labels.years}`,
+      message: `${cityName}, ${labels.stayAtLeast} ${years} ${labels.years}${months > 0 ? ` ${labels.and} ${months} ${labels.months}` : ''} ${labels.forBuyingToMakeSense}.`,
       icon: '🏠',
       color: 'green' as const,
     };
@@ -97,7 +116,7 @@ export default function ResultsDisplay({
               />
             </svg>
             <span className="text-xs font-medium text-blue-700">
-              Market Data for {cityName} • Updated {dataUpdated}
+              {labels.marketData} {cityName} • {labels.updated} {dataUpdated}
             </span>
           </div>
         </div>
@@ -109,8 +128,11 @@ export default function ResultsDisplay({
           </div>
 
           <div className="flex-1 pt-2">
-            {/* HERO Title - Much Larger */}
-            <h2 className={`text-4xl md:text-5xl font-bold ${colors.text} mb-4 leading-tight`}>
+            {/* HERO Title - Much Larger with Theme Color */}
+            <h2
+              className="text-4xl md:text-5xl font-bold mb-4 leading-tight"
+              style={themeColor ? { color: themeColor } : undefined}
+            >
               {verdict.title}
             </h2>
 
@@ -124,9 +146,9 @@ export default function ResultsDisplay({
               <span
                 className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold text-white ${colors.badge}`}
               >
-                {recommendation === 'buy' && '✓ Buying Recommended'}
-                {recommendation === 'rent' && '✓ Renting Recommended'}
-                {recommendation === 'neutral' && '≈ Roughly Equivalent'}
+                {recommendation === 'buy' && `✓ ${labels.buyingRecommended}`}
+                {recommendation === 'rent' && `✓ ${labels.rentingRecommended}`}
+                {recommendation === 'neutral' && `≈ ${labels.roughlyEquivalent}`}
               </span>
             </div>
           </div>

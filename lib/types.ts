@@ -15,6 +15,35 @@ export interface CountryDefaults {
   labels: {
     closingCosts: string;
     propertyTax: string;
+    homePrice: string;
+    monthlyRent: string;
+    downPayment: string;
+    interestRate: string;
+    loanTerm: string;
+    maintenanceRate: string;
+    rentInflation: string;
+    investmentReturn: string;
+    marginalTaxRate: string;
+    advancedSettings: string;
+    advancedSettingsSubtitle: string;
+    adjustScenario: string;
+    netWorthOverTime: string;
+    detailedBreakdown: string;
+    buyingBetter: string;
+    rentingBetter: string;
+    buyingBetterAfter: string;
+    years: string;
+    marketData: string;
+    updated: string;
+    buyingRecommended: string;
+    rentingRecommended: string;
+    roughlyEquivalent: string;
+    buyingMessage: string;
+    rentingMessage: string;
+    stayAtLeast: string;
+    forBuyingToMakeSense: string;
+    and: string;
+    months: string;
   };
 }
 

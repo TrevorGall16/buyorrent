@@ -14,6 +14,10 @@ interface QuickInputsProps {
   currencySymbol: string;
   onHomePriceChange: (value: number) => void;
   onMonthlyRentChange: (value: number) => void;
+  labels?: {
+    homePrice: string;
+    monthlyRent: string;
+  };
 }
 
 export default function QuickInputs({
@@ -23,6 +27,7 @@ export default function QuickInputs({
   currencySymbol,
   onHomePriceChange,
   onMonthlyRentChange,
+  labels,
 }: QuickInputsProps) {
   return (
     <div className="space-y-8 md:space-y-10">
@@ -42,7 +47,7 @@ export default function QuickInputs({
       {/* Home Price Slider - With Card Wrapper */}
       <div className="bg-gray-50/50 rounded-xl p-5 border border-gray-100 hover:bg-gray-100 transition-colors">
         <InputField
-          label="Home Price"
+          label={labels?.homePrice || 'Home Price'}
           value={homePrice}
           onChange={onHomePriceChange}
           min={100000}
@@ -59,7 +64,7 @@ export default function QuickInputs({
       {/* Monthly Rent Slider - With Card Wrapper */}
       <div className="bg-gray-50/50 rounded-xl p-5 border border-gray-100 hover:bg-gray-100 transition-colors">
         <InputField
-          label="Monthly Rent"
+          label={labels?.monthlyRent || 'Monthly Rent'}
           value={monthlyRent}
           onChange={onMonthlyRentChange}
           min={500}

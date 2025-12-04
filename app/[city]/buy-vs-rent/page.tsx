@@ -17,6 +17,7 @@ interface CityData {
   country_code: CountryCode;
   currency_symbol: string;
   data_updated: string;
+  theme_color: string;
   defaults: {
     avg_home_price: number;
     avg_rent: number;
@@ -71,7 +72,7 @@ export default async function CityBuyVsRentPage({ params }: PageProps) {
     notFound();
   }
 
-  const { name, state, country_code, defaults, data_updated } = cityData;
+  const { name, state, country_code, defaults, data_updated, theme_color } = cityData;
   const location = state ? `${name}, ${state}` : name;
 
   return (
@@ -128,6 +129,7 @@ export default async function CityBuyVsRentPage({ params }: PageProps) {
           defaultHomePrice={defaults.avg_home_price}
           defaultMonthlyRent={defaults.avg_rent}
           dataUpdated={data_updated}
+          themeColor={theme_color}
         />
       </div>
 
