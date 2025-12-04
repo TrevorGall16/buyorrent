@@ -4,16 +4,17 @@
  */
 
 interface AdContainerProps {
-  slot: 'sidebar' | 'mobile' | 'footer';
+  slot: 'sidebar' | 'mobile' | 'mobile-secondary' | 'footer';
   className?: string;
 }
 
 export default function AdContainer({ slot, className = '' }: AdContainerProps) {
   // Determine dimensions based on slot type
   const slotStyles = {
-    sidebar: 'ad-slot-sidebar', // 300x600px
-    mobile: 'ad-slot-mobile',   // 100% x 250px
-    footer: 'ad-slot-footer',   // 100% x 50px
+    sidebar: 'ad-slot-sidebar',          // 300x600px
+    mobile: 'ad-slot-mobile',            // 100% x 250px
+    'mobile-secondary': 'ad-slot-mobile', // 100% x 250px (same as mobile)
+    footer: 'ad-slot-footer',            // 100% x 50px
   };
 
   return (
