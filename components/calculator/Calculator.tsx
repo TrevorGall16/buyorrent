@@ -241,6 +241,11 @@ export default function Calculator({
           />
         </div>
 
+        {/* Mobile Secondary Ad - Between Chart and Breakdown */}
+        <div className="lg:hidden">
+          <AdContainer slot="mobile-secondary" />
+        </div>
+
         {/* Breakdown Table */}
         <BreakdownTable
           finalYearData={finalYearData}

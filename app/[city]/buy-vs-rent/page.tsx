@@ -1,9 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
 import Calculator from '@/components/calculator/Calculator';
 import AdContainer from '@/components/ads/AdContainer';
-import LanguageSelector from '@/components/LanguageSelector';
 import citiesData from '@/data/cities.json';
 import { CountryCode } from '@/lib/types';
 import { validateCitiesData } from '@/lib/validate-cities';
@@ -84,48 +82,38 @@ export default async function CityBuyVsRentPage({ params, searchParams }: PagePr
   const { name, state, country_code, defaults, data_updated, theme_color } = cityData;
   const location = state ? `${name}, ${state}` : name;
 
+  // Get flag emoji based on country code
+  const flagEmojis = {
+    US: '🇺🇸',
+    FR: '🇫🇷',
+    DE: '🇩🇪',
+    GB: '🇬🇧',
+  };
+  const flag = flagEmojis[country_code];
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Header with Home Button */}
-      <header className="bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            {/* Left: Home Button */}
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors group"
-            >
-              <svg
-                className="w-5 h-5 transition-transform group-hover:-translate-x-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                />
-              </svg>
-              <span className="font-medium">Home</span>
-            </Link>
+      {/* City Hero Section with Flag Watermark */}
+      <section className="bg-white border-b border-gray-200 shadow-sm py-8 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4">
+          {/* Flag Watermark - Large, Subtle, Behind Text */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <span className="text-9xl opacity-10 select-none" aria-hidden="true">
+              {flag}
+            </span>
+          </div>
 
-            {/* Center: Title */}
-            <div className="text-center flex-1">
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
-                {location}
-              </h1>
-              <p className="text-sm text-gray-500 mt-1">Buy vs. Rent Calculator</p>
-            </div>
-
-            {/* Right: Language Selector */}
-            <div>
-              <LanguageSelector />
-            </div>
+          {/* City Title - On Top of Watermark */}
+          <div className="relative text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
+              {location}
+            </h1>
+            <p className="text-lg text-gray-600">
+              Buy vs. Rent Calculator
+            </p>
           </div>
         </div>
-      </header>
+      </section>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Mobile Ad (Only visible on mobile) */}
