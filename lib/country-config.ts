@@ -180,6 +180,20 @@ export function getCountryConfig(countryCode: CountryCode): CountryDefaults {
 }
 
 /**
+ * Get labels by language code (for manual language switching)
+ */
+export function getLabelsByLanguage(lang: 'en' | 'fr' | 'de'): CountryDefaults['labels'] {
+  switch (lang) {
+    case 'fr':
+      return COUNTRY_CONFIGS.FR.labels;
+    case 'de':
+      return COUNTRY_CONFIGS.DE.labels;
+    default:
+      return COUNTRY_CONFIGS.US.labels; // English default
+  }
+}
+
+/**
  * Get default calculator inputs for a country
  */
 export function getDefaultInputsForCountry(

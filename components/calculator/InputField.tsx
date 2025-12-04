@@ -69,7 +69,7 @@ export default function InputField({
             min={min}
             max={max}
             step={step}
-            className="w-24 px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            className="w-24 px-2 py-1 text-sm text-gray-900 bg-white border border-gray-300 rounded-md opacity-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
             aria-label={`${label} - exact value`}
           />
         </div>

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Calculator from '@/components/calculator/Calculator';
 import AdContainer from '@/components/ads/AdContainer';
+import LanguageSelector from '@/components/LanguageSelector';
 import citiesData from '@/data/cities.json';
 import { CountryCode } from '@/lib/types';
 import { validateCitiesData } from '@/lib/validate-cities';
@@ -29,6 +30,9 @@ interface CityData {
 interface PageProps {
   params: Promise<{
     city: string;
+  }>;
+  searchParams: Promise<{
+    lang?: string;
   }>;
 }
 
@@ -61,9 +65,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function CityBuyVsRentPage({ params }: PageProps) {
+export default async function CityBuyVsRentPage({ params, searchParams }: PageProps) {
   // Find city data
   const { city } = await params;
+  const { lang } = await searchParams;
+
+  // Determine language from URL param (default to English)
+  const language = (lang === 'fr' || lang === 'de' ? lang : 'en') as 'en' | 'fr' | 'de';
+
   const cityData = citiesData.find(
     (c) => c.slug === city
   ) as CityData | undefined;
@@ -110,8 +119,10 @@ export default async function CityBuyVsRentPage({ params }: PageProps) {
               <p className="text-sm text-gray-500 mt-1">Buy vs. Rent Calculator</p>
             </div>
 
-            {/* Right: Spacer for balance */}
-            <div className="w-20"></div>
+            {/* Right: Language Selector */}
+            <div>
+              <LanguageSelector />
+            </div>
           </div>
         </div>
       </header>
@@ -130,6 +141,7 @@ export default async function CityBuyVsRentPage({ params }: PageProps) {
           defaultMonthlyRent={defaults.avg_rent}
           dataUpdated={data_updated}
           themeColor={theme_color}
+          language={language}
         />
       </div>
 
