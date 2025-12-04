@@ -3,7 +3,7 @@
  * Supports international markets with country-specific defaults
  */
 
-export type CountryCode = 'US' | 'FR' | 'DE' | 'GB';
+export type CountryCode = 'US' | 'FR' | 'DE' | 'GB' | 'CA' | 'AU' | 'ES' | 'IT' | 'NL' | 'SE' | 'CH' | 'BE' | 'IE' | 'PT';
 
 export interface CountryDefaults {
   countryCode: CountryCode;

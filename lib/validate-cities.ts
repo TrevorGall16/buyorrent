@@ -38,9 +38,9 @@ function validateCityData(city: any, index: number): city is CityData {
   }
 
   // Check country_code
-  const validCountryCodes: CountryCode[] = ['US', 'FR', 'DE', 'GB'];
+  const validCountryCodes: CountryCode[] = ['US', 'FR', 'DE', 'GB', 'CA', 'AU', 'ES', 'IT', 'NL', 'SE', 'CH', 'BE', 'IE', 'PT'];
   if (!validCountryCodes.includes(city.country_code)) {
-    errors.push(`City ${index} (${city.name}): Invalid 'country_code' (must be US, FR, DE, or GB)`);
+    errors.push(`City ${index} (${city.name}): Invalid 'country_code' (must be one of: ${validCountryCodes.join(', ')})`);
   }
 
   // Check currency symbol

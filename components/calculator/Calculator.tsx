@@ -6,7 +6,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { useSearchParams, usePathname } from 'next/navigation';
 import { calculateRentVsBuy, calculateMonthlyMortgagePayment } from '@/lib/finance';
 import { getDefaultInputsForCountry, getCountryConfig, getLabelsByLanguage } from '@/lib/country-config';
 import { CountryCode, CalculationResult } from '@/lib/types';
@@ -51,7 +51,6 @@ export default function Calculator({
 
   // URL state management
   const searchParams = useSearchParams();
-  const router = useRouter();
   const pathname = usePathname();
 
   // Helper to parse number from URL params
@@ -108,19 +107,6 @@ export default function Calculator({
   const debouncedInvestmentReturnRate = useDebounce(investmentReturnRate, 300);
   const debouncedMarginalTaxRate = useDebounce(marginalTaxRate, 300);
 
-  // Debounce URL updates with longer delay (1500ms) to prevent History API rate limiting
-  const debouncedHomePriceForURL = useDebounce(homePrice, 1500);
-  const debouncedMonthlyRentForURL = useDebounce(monthlyRent, 1500);
-  const debouncedDownPaymentPercentForURL = useDebounce(downPaymentPercent, 1500);
-  const debouncedInterestRateForURL = useDebounce(interestRate, 1500);
-  const debouncedLoanTermYearsForURL = useDebounce(loanTermYears, 1500);
-  const debouncedPropertyTaxRateForURL = useDebounce(propertyTaxRate, 1500);
-  const debouncedMaintenanceRateForURL = useDebounce(maintenanceRate, 1500);
-  const debouncedRentInflationRateForURL = useDebounce(rentInflationRate, 1500);
-  const debouncedInvestmentReturnRateForURL = useDebounce(investmentReturnRate, 1500);
-  const debouncedMarginalTaxRateForURL = useDebounce(marginalTaxRate, 1500);
-  const debouncedYearsToPlotForURL = useDebounce(yearsToPlot, 1500);
-
   // Recalculate whenever debounced inputs change
   useEffect(() => {
     const inputs = {
@@ -163,75 +149,6 @@ export default function Calculator({
     yearsToPlot,
   ]);
 
-  // Sync state to URL params (heavily debounced to prevent History API rate limiting)
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    // Only add params if they differ from defaults (using debounced values)
-    if (debouncedHomePriceForURL !== defaultHomePrice) params.set('price', debouncedHomePriceForURL.toString());
-    else params.delete('price');
-
-    if (debouncedMonthlyRentForURL !== defaultMonthlyRent) params.set('rent', debouncedMonthlyRentForURL.toString());
-    else params.delete('rent');
-
-    if (debouncedDownPaymentPercentForURL !== defaultInputs.purchase.downPaymentPercent)
-      params.set('down', debouncedDownPaymentPercentForURL.toString());
-    else params.delete('down');
-
-    if (debouncedInterestRateForURL !== defaultInputs.purchase.interestRate)
-      params.set('rate', debouncedInterestRateForURL.toString());
-    else params.delete('rate');
-
-    if (debouncedLoanTermYearsForURL !== defaultInputs.purchase.loanTermYears)
-      params.set('term', debouncedLoanTermYearsForURL.toString());
-    else params.delete('term');
-
-    if (debouncedPropertyTaxRateForURL !== defaultInputs.purchase.propertyTaxRate)
-      params.set('tax', debouncedPropertyTaxRateForURL.toString());
-    else params.delete('tax');
-
-    if (debouncedMaintenanceRateForURL !== defaultInputs.purchase.maintenanceRate)
-      params.set('maint', debouncedMaintenanceRateForURL.toString());
-    else params.delete('maint');
-
-    if (debouncedRentInflationRateForURL !== defaultInputs.rental.rentInflationRate)
-      params.set('rinfl', debouncedRentInflationRateForURL.toString());
-    else params.delete('rinfl');
-
-    if (debouncedInvestmentReturnRateForURL !== defaultInputs.financial.investmentReturnRate)
-      params.set('invest', debouncedInvestmentReturnRateForURL.toString());
-    else params.delete('invest');
-
-    if (debouncedMarginalTaxRateForURL !== defaultInputs.financial.marginalTaxRate)
-      params.set('mtax', debouncedMarginalTaxRateForURL.toString());
-    else params.delete('mtax');
-
-    if (debouncedYearsToPlotForURL !== 30) params.set('years', debouncedYearsToPlotForURL.toString());
-    else params.delete('years');
-
-    // Update URL without triggering a navigation
-    const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
-    router.replace(newUrl, { scroll: false });
-  }, [
-    debouncedHomePriceForURL,
-    debouncedMonthlyRentForURL,
-    debouncedDownPaymentPercentForURL,
-    debouncedInterestRateForURL,
-    debouncedLoanTermYearsForURL,
-    debouncedPropertyTaxRateForURL,
-    debouncedMaintenanceRateForURL,
-    debouncedRentInflationRateForURL,
-    debouncedInvestmentReturnRateForURL,
-    debouncedMarginalTaxRateForURL,
-    debouncedYearsToPlotForURL,
-    defaultHomePrice,
-    defaultMonthlyRent,
-    defaultInputs,
-    pathname,
-    router,
-    searchParams,
-  ]);
-
   if (!results) {
     return (
       <div className="flex items-center justify-center p-12">
@@ -263,6 +180,25 @@ export default function Calculator({
           cityName={cityName}
           dataUpdated={dataUpdated}
           themeColor={themeColor}
+          currentState={{
+            homePrice,
+            monthlyRent,
+            downPaymentPercent,
+            interestRate,
+            loanTermYears,
+            propertyTaxRate,
+            maintenanceRate,
+            rentInflationRate,
+            investmentReturnRate,
+            marginalTaxRate,
+            yearsToPlot,
+          }}
+          defaultInputs={{
+            homePrice: defaultHomePrice,
+            monthlyRent: defaultMonthlyRent,
+            ...defaultInputs,
+          }}
+          pathname={pathname}
           labels={{
             rentingBetter: labels.rentingBetter,
             buyingBetterAfter: labels.buyingBetterAfter,
@@ -451,6 +387,25 @@ export default function Calculator({
             cityName={cityName}
             dataUpdated={dataUpdated}
             themeColor={themeColor}
+            currentState={{
+              homePrice,
+              monthlyRent,
+              downPaymentPercent,
+              interestRate,
+              loanTermYears,
+              propertyTaxRate,
+              maintenanceRate,
+              rentInflationRate,
+              investmentReturnRate,
+              marginalTaxRate,
+              yearsToPlot,
+            }}
+            defaultInputs={{
+              homePrice: defaultHomePrice,
+              monthlyRent: defaultMonthlyRent,
+              ...defaultInputs,
+            }}
+            pathname={pathname}
             labels={{
               rentingBetter: labels.rentingBetter,
               buyingBetterAfter: labels.buyingBetterAfter,
