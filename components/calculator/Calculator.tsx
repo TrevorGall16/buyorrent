@@ -7,7 +7,7 @@
 
 import { useState, useEffect } from 'react';
 import { calculateRentVsBuy, calculateMonthlyMortgagePayment } from '@/lib/finance';
-import { getDefaultInputsForCountry, getCountryConfig } from '@/lib/country-config';
+import { getDefaultInputsForCountry, getCountryConfig, getLabelsByLanguage } from '@/lib/country-config';
 import { CountryCode, CalculationResult } from '@/lib/types';
 import { useDebounce } from '@/lib/hooks/useDebounce';
 import QuickInputs from './QuickInputs';
@@ -24,6 +24,7 @@ interface CalculatorProps {
   defaultMonthlyRent: number;
   dataUpdated?: string;
   themeColor?: string;
+  language?: 'en' | 'fr' | 'de';
 }
 
 export default function Calculator({
@@ -33,9 +34,14 @@ export default function Calculator({
   defaultMonthlyRent,
   dataUpdated = 'Dec 2024',
   themeColor,
+  language = 'en',
 }: CalculatorProps) {
-  // Get country configuration
+  // Get country configuration (for currency and financial settings)
   const countryConfig = getCountryConfig(countryCode);
+
+  // Get labels based on language (manual selection, not country)
+  const labels = getLabelsByLanguage(language);
+
   const defaultInputs = getDefaultInputsForCountry(
     countryCode,
     defaultHomePrice,
@@ -156,26 +162,26 @@ export default function Calculator({
           dataUpdated={dataUpdated}
           themeColor={themeColor}
           labels={{
-            rentingBetter: countryConfig.labels.rentingBetter,
-            buyingBetterAfter: countryConfig.labels.buyingBetterAfter,
-            years: countryConfig.labels.years,
-            months: countryConfig.labels.months,
-            and: countryConfig.labels.and,
-            buyingMessage: countryConfig.labels.buyingMessage,
-            rentingMessage: countryConfig.labels.rentingMessage,
-            stayAtLeast: countryConfig.labels.stayAtLeast,
-            forBuyingToMakeSense: countryConfig.labels.forBuyingToMakeSense,
-            marketData: countryConfig.labels.marketData,
-            updated: countryConfig.labels.updated,
-            buyingRecommended: countryConfig.labels.buyingRecommended,
-            rentingRecommended: countryConfig.labels.rentingRecommended,
-            roughlyEquivalent: countryConfig.labels.roughlyEquivalent,
+            rentingBetter: labels.rentingBetter,
+            buyingBetterAfter: labels.buyingBetterAfter,
+            years: labels.years,
+            months: labels.months,
+            and: labels.and,
+            buyingMessage: labels.buyingMessage,
+            rentingMessage: labels.rentingMessage,
+            stayAtLeast: labels.stayAtLeast,
+            forBuyingToMakeSense: labels.forBuyingToMakeSense,
+            marketData: labels.marketData,
+            updated: labels.updated,
+            buyingRecommended: labels.buyingRecommended,
+            rentingRecommended: labels.rentingRecommended,
+            roughlyEquivalent: labels.roughlyEquivalent,
           }}
         />
 
         {/* Input Section */}
         <div className="bg-white rounded-xl shadow-lg p-6 space-y-6">
-          <h2 className="text-2xl font-bold text-gray-900">{countryConfig.labels.adjustScenario}</h2>
+          <h2 className="text-2xl font-bold text-gray-900">{labels.adjustScenario}</h2>
 
           <QuickInputs
             cityName={cityName}
@@ -185,8 +191,8 @@ export default function Calculator({
             onHomePriceChange={setHomePrice}
             onMonthlyRentChange={setMonthlyRent}
             labels={{
-              homePrice: countryConfig.labels.homePrice,
-              monthlyRent: countryConfig.labels.monthlyRent,
+              homePrice: labels.homePrice,
+              monthlyRent: labels.monthlyRent,
             }}
           />
 
@@ -207,18 +213,18 @@ export default function Calculator({
             onRentInflationChange={setRentInflationRate}
             onInvestmentReturnChange={setInvestmentReturnRate}
             onMarginalTaxChange={setMarginalTaxRate}
-            propertyTaxLabel={countryConfig.labels.propertyTax}
+            propertyTaxLabel={labels.propertyTax}
             labels={{
-              advancedSettings: countryConfig.labels.advancedSettings,
-              advancedSettingsSubtitle: countryConfig.labels.advancedSettingsSubtitle,
-              downPayment: countryConfig.labels.downPayment,
-              interestRate: countryConfig.labels.interestRate,
-              loanTerm: countryConfig.labels.loanTerm,
-              years: countryConfig.labels.years,
-              maintenanceRate: countryConfig.labels.maintenanceRate,
-              rentInflation: countryConfig.labels.rentInflation,
-              investmentReturn: countryConfig.labels.investmentReturn,
-              marginalTaxRate: countryConfig.labels.marginalTaxRate,
+              advancedSettings: labels.advancedSettings,
+              advancedSettingsSubtitle: labels.advancedSettingsSubtitle,
+              downPayment: labels.downPayment,
+              interestRate: labels.interestRate,
+              loanTerm: labels.loanTerm,
+              years: labels.years,
+              maintenanceRate: labels.maintenanceRate,
+              rentInflation: labels.rentInflation,
+              investmentReturn: labels.investmentReturn,
+              marginalTaxRate: labels.marginalTaxRate,
             }}
           />
         </div>
@@ -226,7 +232,7 @@ export default function Calculator({
         {/* Chart */}
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h3 className="text-xl font-bold text-gray-900 mb-4">
-            {countryConfig.labels.netWorthOverTime}
+            {labels.netWorthOverTime}
           </h3>
           <NetWorthChart
             dataPoints={results.dataPoints}
@@ -254,7 +260,7 @@ export default function Calculator({
         {/* LEFT COLUMN (40% = 2 of 5 columns) - Scrollable Inputs */}
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white rounded-xl shadow-lg p-6 space-y-6 sticky top-6">
-            <h2 className="text-2xl font-bold text-gray-900">{countryConfig.labels.adjustScenario}</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{labels.adjustScenario}</h2>
 
             <QuickInputs
               cityName={cityName}
@@ -264,8 +270,8 @@ export default function Calculator({
               onHomePriceChange={setHomePrice}
               onMonthlyRentChange={setMonthlyRent}
               labels={{
-                homePrice: countryConfig.labels.homePrice,
-                monthlyRent: countryConfig.labels.monthlyRent,
+                homePrice: labels.homePrice,
+                monthlyRent: labels.monthlyRent,
               }}
             />
 
@@ -286,18 +292,18 @@ export default function Calculator({
               onRentInflationChange={setRentInflationRate}
               onInvestmentReturnChange={setInvestmentReturnRate}
               onMarginalTaxChange={setMarginalTaxRate}
-              propertyTaxLabel={countryConfig.labels.propertyTax}
+              propertyTaxLabel={labels.propertyTax}
               labels={{
-                advancedSettings: countryConfig.labels.advancedSettings,
-                advancedSettingsSubtitle: countryConfig.labels.advancedSettingsSubtitle,
-                downPayment: countryConfig.labels.downPayment,
-                interestRate: countryConfig.labels.interestRate,
-                loanTerm: countryConfig.labels.loanTerm,
-                years: countryConfig.labels.years,
-                maintenanceRate: countryConfig.labels.maintenanceRate,
-                rentInflation: countryConfig.labels.rentInflation,
-                investmentReturn: countryConfig.labels.investmentReturn,
-                marginalTaxRate: countryConfig.labels.marginalTaxRate,
+                advancedSettings: labels.advancedSettings,
+                advancedSettingsSubtitle: labels.advancedSettingsSubtitle,
+                downPayment: labels.downPayment,
+                interestRate: labels.interestRate,
+                loanTerm: labels.loanTerm,
+                years: labels.years,
+                maintenanceRate: labels.maintenanceRate,
+                rentInflation: labels.rentInflation,
+                investmentReturn: labels.investmentReturn,
+                marginalTaxRate: labels.marginalTaxRate,
               }}
             />
           </div>
@@ -313,27 +319,27 @@ export default function Calculator({
             dataUpdated={dataUpdated}
             themeColor={themeColor}
             labels={{
-              rentingBetter: countryConfig.labels.rentingBetter,
-              buyingBetterAfter: countryConfig.labels.buyingBetterAfter,
-              years: countryConfig.labels.years,
-              months: countryConfig.labels.months,
-              and: countryConfig.labels.and,
-              buyingMessage: countryConfig.labels.buyingMessage,
-              rentingMessage: countryConfig.labels.rentingMessage,
-              stayAtLeast: countryConfig.labels.stayAtLeast,
-              forBuyingToMakeSense: countryConfig.labels.forBuyingToMakeSense,
-              marketData: countryConfig.labels.marketData,
-              updated: countryConfig.labels.updated,
-              buyingRecommended: countryConfig.labels.buyingRecommended,
-              rentingRecommended: countryConfig.labels.rentingRecommended,
-              roughlyEquivalent: countryConfig.labels.roughlyEquivalent,
+              rentingBetter: labels.rentingBetter,
+              buyingBetterAfter: labels.buyingBetterAfter,
+              years: labels.years,
+              months: labels.months,
+              and: labels.and,
+              buyingMessage: labels.buyingMessage,
+              rentingMessage: labels.rentingMessage,
+              stayAtLeast: labels.stayAtLeast,
+              forBuyingToMakeSense: labels.forBuyingToMakeSense,
+              marketData: labels.marketData,
+              updated: labels.updated,
+              buyingRecommended: labels.buyingRecommended,
+              rentingRecommended: labels.rentingRecommended,
+              roughlyEquivalent: labels.roughlyEquivalent,
             }}
           />
 
           {/* Chart */}
           <div className="bg-white rounded-xl shadow-lg p-6">
             <h3 className="text-xl font-bold text-gray-900 mb-4">
-              {countryConfig.labels.netWorthOverTime}
+              {labels.netWorthOverTime}
             </h3>
             <NetWorthChart
               dataPoints={results.dataPoints}
