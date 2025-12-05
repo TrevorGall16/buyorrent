@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
+import CookieBanner from "@/components/CookieBanner";
 
 export const metadata: Metadata = {
   title: "RentOrBuy-Pro - Buy vs Rent Calculator",
@@ -18,6 +19,7 @@ export default function RootLayout({
       <body className="antialiased">
         <Header />
         {children}
+        <CookieBanner />
       </body>
     </html>
   );
