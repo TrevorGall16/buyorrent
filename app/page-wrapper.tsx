@@ -3,6 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import citiesData from '@/data/cities.json';
 import CitySelector from '@/components/CitySelector';
+import Footer from '@/components/Footer';
 import { getHomePageLabels } from '@/lib/country-config';
 import { Suspense } from 'react';
 
@@ -58,28 +59,7 @@ function HomePageContent() {
         </div>
 
         {/* Footer */}
-        <footer className="text-center space-y-6 py-8 border-t border-gray-200">
-          <div className="flex justify-center gap-8 text-sm text-gray-600">
-            <a href="#" className="hover:text-gray-900 transition-colors">
-              {labels.footerAbout}
-            </a>
-            <a href="#" className="hover:text-gray-900 transition-colors">
-              {labels.footerMethodology}
-            </a>
-            <a href="#" className="hover:text-gray-900 transition-colors">
-              {labels.footerContact}
-            </a>
-            <a href="#" className="hover:text-gray-900 transition-colors">
-              {labels.footerPrivacy}
-            </a>
-          </div>
-          <p className="text-sm text-gray-500">
-            {labels.footerBuiltWith}
-          </p>
-          <p className="text-xs text-gray-400" suppressHydrationWarning>
-            © {new Date().getFullYear()} RentOrBuy-Pro. {labels.footerCopyright}
-          </p>
-        </footer>
+        <Footer labels={labels} />
       </div>
     </main>
   );
