@@ -25,7 +25,7 @@ interface CalculatorProps {
   defaultMonthlyRent: number;
   dataUpdated?: string;
   themeColor?: string;
-  language?: 'en' | 'fr' | 'de';
+  language?: 'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 'pt';
 }
 
 export default function Calculator({

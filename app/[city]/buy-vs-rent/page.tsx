@@ -69,7 +69,8 @@ export default async function CityBuyVsRentPage({ params, searchParams }: PagePr
   const { lang } = await searchParams;
 
   // Determine language from URL param (default to English)
-  const language = (lang === 'fr' || lang === 'de' ? lang : 'en') as 'en' | 'fr' | 'de';
+  const validLanguages = ['en', 'fr', 'de', 'es', 'it', 'nl', 'sv', 'pt'] as const;
+  const language = (validLanguages.includes(lang as any) ? lang : 'en') as 'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 'pt';
 
   const cityData = citiesData.find(
     (c) => c.slug === city

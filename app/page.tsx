@@ -1,5 +1,6 @@
-import Link from 'next/link';
+import { Suspense } from 'react';
 import citiesData from '@/data/cities.json';
+import CitySelector from '@/components/CitySelector';
 
 export default function HomePage() {
   // Group cities by country
@@ -11,13 +12,6 @@ export default function HomePage() {
     acc[country].push(city);
     return acc;
   }, {} as Record<string, typeof citiesData>);
-
-  const countryNames = {
-    US: 'United States 🇺🇸',
-    DE: 'Germany 🇩🇪',
-    FR: 'France 🇫🇷',
-    GB: 'United Kingdom 🇬🇧',
-  };
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
@@ -45,50 +39,9 @@ export default function HomePage() {
             Select a city to see personalized rent vs. buy analysis
           </p>
 
-          <div className="space-y-8">
-            {Object.entries(citiesByCountry).map(([countryCode, cities]) => (
-              <div key={countryCode}>
-                <h3 className="text-lg font-semibold text-gray-700 mb-4">
-                  {countryNames[countryCode as keyof typeof countryNames]}
-                </h3>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {cities.map((city) => (
-                    <Link
-                      key={city.slug}
-                      href={`/${city.slug}/buy-vs-rent`}
-                      className="group flex items-center justify-between p-5 bg-gray-50 hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-400 rounded-xl transition-all shadow-sm hover:shadow-md"
-                      style={
-                        { '--theme-color': city.theme_color } as React.CSSProperties
-                      }
-                    >
-                      <div>
-                        <div className="font-bold text-lg text-gray-900 group-hover:text-blue-700 mb-1">
-                          {city.name}
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          Avg. {city.currency_symbol}
-                          {city.defaults.avg_home_price.toLocaleString()}
-                        </div>
-                      </div>
-                      <svg
-                        className="w-6 h-6 text-gray-400 group-hover:text-blue-600 transition-all group-hover:translate-x-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2.5}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+          <Suspense fallback={<div className="text-center">Loading cities...</div>}>
+            <CitySelector citiesByCountry={citiesByCountry} />
+          </Suspense>
         </div>
 
         {/* Footer */}
@@ -110,8 +63,8 @@ export default function HomePage() {
           <p className="text-sm text-gray-500">
             Built with Next.js 15 • TypeScript • Tailwind CSS • Recharts
           </p>
-          <p className="text-xs text-gray-400">
-            © 2024 RentOrBuy-Pro. Financial data for educational purposes only.
+          <p className="text-xs text-gray-400" suppressHydrationWarning>
+            © {new Date().getFullYear()} RentOrBuy-Pro. Financial data for educational purposes only.
           </p>
         </footer>
       </div>
