@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Calculator from '@/components/calculator/Calculator';
 import AdContainer from '@/components/ads/AdContainer';
+import StructuredData from '@/components/StructuredData';
 import citiesData from '@/data/cities.json';
 import { CountryCode } from '@/lib/types';
 import { validateCitiesData } from '@/lib/validate-cities';
@@ -103,9 +104,21 @@ export default async function CityBuyVsRentPage({ params, searchParams }: PagePr
   const flag = flagEmojis[country_code];
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* City Hero Section with Flag Watermark */}
-      <section className="bg-white border-b border-gray-200 shadow-sm py-8 relative overflow-hidden">
+    <>
+      {/* Structured Data for SEO (JSON-LD) */}
+      <StructuredData
+        cityName={name}
+        citySlug={city}
+        countryCode={country_code}
+        currencySymbol={cityData.currency_symbol}
+        avgHomePrice={defaults.avg_home_price}
+        avgRent={defaults.avg_rent}
+        language={language}
+      />
+
+      <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+        {/* City Hero Section with Flag Watermark */}
+        <section className="bg-white border-b border-gray-200 shadow-sm py-8 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4">
           {/* Flag Watermark - HUGE, Very Subtle, Positioned Top-Right */}
           <span
@@ -145,10 +158,11 @@ export default async function CityBuyVsRentPage({ params, searchParams }: PagePr
         />
       </div>
 
-      {/* Footer Ad (Fixed bottom on mobile) */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50">
-        <AdContainer slot="footer" />
-      </div>
-    </main>
+        {/* Footer Ad (Fixed bottom on mobile) */}
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50">
+          <AdContainer slot="footer" />
+        </div>
+      </main>
+    </>
   );
 }
