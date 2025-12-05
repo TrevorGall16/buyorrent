@@ -590,6 +590,29 @@ export function getCountryConfig(countryCode: CountryCode): CountryDefaults {
 }
 
 /**
+ * Get country name with flag emoji by country code
+ */
+export function getCountryName(code: string): string {
+  const map: Record<string, string> = {
+    'US': 'United States 🇺🇸',
+    'FR': 'France 🇫🇷',
+    'DE': 'Germany 🇩🇪',
+    'GB': 'United Kingdom 🇬🇧',
+    'CA': 'Canada 🇨🇦',
+    'AU': 'Australia 🇦🇺',
+    'ES': 'Spain 🇪🇸',
+    'IT': 'Italy 🇮🇹',
+    'NL': 'Netherlands 🇳🇱',
+    'SE': 'Sweden 🇸🇪',
+    'CH': 'Switzerland 🇨🇭',
+    'BE': 'Belgium 🇧🇪',
+    'IE': 'Ireland 🇮🇪',
+    'PT': 'Portugal 🇵🇹'
+  };
+  return map[code] || 'Other';
+}
+
+/**
  * Get labels by language code (for manual language switching)
  */
 export function getLabelsByLanguage(
