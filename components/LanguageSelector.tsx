@@ -7,7 +7,7 @@
 
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
-export type Language = 'en' | 'fr' | 'de';
+export type Language = 'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 'pt';
 
 interface LanguageOption {
   code: Language;
@@ -19,6 +19,11 @@ const LANGUAGES: LanguageOption[] = [
   { code: 'en', label: 'English', flag: '🇺🇸' },
   { code: 'fr', label: 'Français', flag: '🇫🇷' },
   { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
+  { code: 'es', label: 'Español', flag: '🇪🇸' },
+  { code: 'it', label: 'Italiano', flag: '🇮🇹' },
+  { code: 'nl', label: 'Nederlands', flag: '🇳🇱' },
+  { code: 'sv', label: 'Svenska', flag: '🇸🇪' },
+  { code: 'pt', label: 'Português', flag: '🇵🇹' },
 ];
 
 export default function LanguageSelector() {
