@@ -45,11 +45,11 @@ function HomePageContent() {
         </div>
 
         {/* City Selection */}
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-12">
+        <div className="mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-2 text-center">
             {labels.chooseCityTitle}
           </h2>
-          <p className="text-gray-600 text-center mb-8">
+          <p className="text-gray-600 text-center mb-12">
             {labels.chooseCitySubtitle}
           </p>
 
