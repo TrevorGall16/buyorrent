@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
 Sitemap: https://www.rentorbuyworld.com/sitemap.xml
+Sitemap: https://www.rentorbuyworld.com/sitemap.xml

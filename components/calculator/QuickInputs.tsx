@@ -14,6 +14,10 @@ interface QuickInputsProps {
   currencySymbol: string;
   onHomePriceChange: (value: number) => void;
   onMonthlyRentChange: (value: number) => void;
+  labels?: {
+    homePrice: string;
+    monthlyRent: string;
+  };
 }
 
 export default function QuickInputs({
@@ -23,9 +27,10 @@ export default function QuickInputs({
   currencySymbol,
   onHomePriceChange,
   onMonthlyRentChange,
+  labels,
 }: QuickInputsProps) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 md:space-y-10">
       {/* City Display */}
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
         <div className="flex items-center justify-between">
@@ -39,29 +44,36 @@ export default function QuickInputs({
         </div>
       </div>
 
-      {/* Home Price Slider */}
-      <InputField
-        label="Home Price"
-        value={homePrice}
-        onChange={onHomePriceChange}
-        min={100000}
-        max={2000000}
-        step={10000}
-        prefix={currencySymbol}
-        formatValue={(val) => val.toLocaleString()}
-      />
+      {/* Home Price Slider - With Card Wrapper */}
+      <div className="bg-gray-50/50 rounded-xl p-5 border border-gray-100 hover:bg-gray-100 transition-colors">
+        <InputField
+          label={labels?.homePrice || 'Home Price'}
+          value={homePrice}
+          onChange={onHomePriceChange}
+          min={100000}
+          max={2000000}
+          step={10000}
+          prefix={currencySymbol}
+          formatValue={(val) => val.toLocaleString()}
+        />
+      </div>
 
-      {/* Monthly Rent Slider */}
-      <InputField
-        label="Monthly Rent"
-        value={monthlyRent}
-        onChange={onMonthlyRentChange}
-        min={500}
-        max={10000}
-        step={50}
-        prefix={currencySymbol}
-        formatValue={(val) => val.toLocaleString()}
-      />
+      {/* Divider */}
+      <div className="border-b border-gray-200"></div>
+
+      {/* Monthly Rent Slider - With Card Wrapper */}
+      <div className="bg-gray-50/50 rounded-xl p-5 border border-gray-100 hover:bg-gray-100 transition-colors">
+        <InputField
+          label={labels?.monthlyRent || 'Monthly Rent'}
+          value={monthlyRent}
+          onChange={onMonthlyRentChange}
+          min={500}
+          max={10000}
+          step={50}
+          prefix={currencySymbol}
+          formatValue={(val) => val.toLocaleString()}
+        />
+      </div>
     </div>
   );
 }

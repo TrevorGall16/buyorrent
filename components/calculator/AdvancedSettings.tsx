@@ -16,6 +16,7 @@ interface AdvancedSettingsProps {
   rentInflationRate: number;
   investmentReturnRate: number;
   marginalTaxRate: number;
+  yearsToPlot: number;
   onDownPaymentChange: (value: number) => void;
   onInterestRateChange: (value: number) => void;
   onLoanTermChange: (value: number) => void;
@@ -24,7 +25,20 @@ interface AdvancedSettingsProps {
   onRentInflationChange: (value: number) => void;
   onInvestmentReturnChange: (value: number) => void;
   onMarginalTaxChange: (value: number) => void;
+  onYearsToPlotChange: (value: number) => void;
   propertyTaxLabel?: string;
+  labels?: {
+    advancedSettings: string;
+    advancedSettingsSubtitle: string;
+    downPayment: string;
+    interestRate: string;
+    loanTerm: string;
+    years: string;
+    maintenanceRate: string;
+    rentInflation: string;
+    investmentReturn: string;
+    marginalTaxRate: string;
+  };
 }
 
 export default function AdvancedSettings({
@@ -36,6 +50,7 @@ export default function AdvancedSettings({
   rentInflationRate,
   investmentReturnRate,
   marginalTaxRate,
+  yearsToPlot,
   onDownPaymentChange,
   onInterestRateChange,
   onLoanTermChange,
@@ -44,24 +59,38 @@ export default function AdvancedSettings({
   onRentInflationChange,
   onInvestmentReturnChange,
   onMarginalTaxChange,
+  onYearsToPlotChange,
   propertyTaxLabel = 'Property Tax Rate',
+  labels,
 }: AdvancedSettingsProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border border-gray-200 rounded-lg overflow-hidden">
-      {/* Toggle Button */}
+    <div className="overflow-hidden">
+      {/* Toggle Button - More Prominent */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors flex items-center justify-between text-left"
+        className="w-full px-6 py-4 bg-white hover:bg-blue-50 transition-all
+                   flex items-center justify-between text-left
+                   border-2 border-gray-200 hover:border-blue-300 rounded-xl
+                   shadow-sm hover:shadow-md"
         aria-expanded={isOpen}
         aria-controls="advanced-settings-content"
       >
-        <span className="text-sm font-semibold text-gray-700">
-          ⚙️ Advanced Settings
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="text-2xl">⚙️</span>
+          <div>
+            <span className="text-base font-bold text-gray-900 block">
+              {labels?.advancedSettings || 'Advanced Settings'}
+            </span>
+            <p className="text-xs text-gray-500 mt-0.5">
+              {labels?.advancedSettingsSubtitle || 'Fine-tune assumptions for more accurate results'}
+            </p>
+          </div>
+        </div>
+
         <svg
-          className={`w-5 h-5 text-gray-500 transition-transform ${
+          className={`w-7 h-7 text-gray-600 transition-transform flex-shrink-0 ${
             isOpen ? 'rotate-180' : ''
           }`}
           fill="none"
@@ -71,7 +100,7 @@ export default function AdvancedSettings({
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth={2}
+            strokeWidth={2.5}
             d="M19 9l-7 7-7-7"
           />
         </svg>
@@ -90,7 +119,7 @@ export default function AdvancedSettings({
             </h4>
 
             <InputField
-              label="Down Payment"
+              label={labels?.downPayment || 'Down Payment'}
               value={downPaymentPercent}
               onChange={(val) => onDownPaymentChange(val / 100)}
               min={0}
@@ -101,7 +130,7 @@ export default function AdvancedSettings({
             />
 
             <InputField
-              label="Interest Rate"
+              label={labels?.interestRate || 'Interest Rate'}
               value={interestRate}
               onChange={(val) => onInterestRateChange(val / 100)}
               min={2}
@@ -113,7 +142,7 @@ export default function AdvancedSettings({
 
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">
-                Loan Term
+                {labels?.loanTerm || 'Loan Term'}
               </label>
               <div className="flex gap-2">
                 <button
@@ -125,7 +154,7 @@ export default function AdvancedSettings({
                   }`}
                   aria-pressed={loanTermYears === 15}
                 >
-                  15 Years
+                  15 {labels?.years || 'Years'}
                 </button>
                 <button
                   onClick={() => onLoanTermChange(30)}
@@ -136,7 +165,7 @@ export default function AdvancedSettings({
                   }`}
                   aria-pressed={loanTermYears === 30}
                 >
-                  30 Years
+                  30 {labels?.years || 'Years'}
                 </button>
               </div>
             </div>
@@ -153,7 +182,7 @@ export default function AdvancedSettings({
             />
 
             <InputField
-              label="Annual Maintenance"
+              label={labels?.maintenanceRate || 'Annual Maintenance'}
               value={maintenanceRate}
               onChange={(val) => onMaintenanceChange(val / 100)}
               min={0.5}
@@ -171,7 +200,7 @@ export default function AdvancedSettings({
             </h4>
 
             <InputField
-              label="Rent Inflation"
+              label={labels?.rentInflation || 'Rent Inflation'}
               value={rentInflationRate}
               onChange={(val) => onRentInflationChange(val / 100)}
               min={0}
@@ -189,7 +218,7 @@ export default function AdvancedSettings({
             </h4>
 
             <InputField
-              label="Investment Return"
+              label={labels?.investmentReturn || 'Investment Return'}
               value={investmentReturnRate}
               onChange={(val) => onInvestmentReturnChange(val / 100)}
               min={0}
@@ -200,13 +229,31 @@ export default function AdvancedSettings({
             />
 
             <InputField
-              label="Marginal Tax Rate"
+              label={labels?.marginalTaxRate || 'Marginal Tax Rate'}
               value={marginalTaxRate}
               onChange={(val) => onMarginalTaxChange(val / 100)}
               min={0}
               max={50}
               step={1}
               suffix="%"
+              formatValue={(val) => val.toString()}
+            />
+          </div>
+
+          {/* Analysis Timeframe */}
+          <div className="space-y-4 pt-4 border-t border-gray-200">
+            <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wide">
+              Analysis Timeframe
+            </h4>
+
+            <InputField
+              label="Years to Plot"
+              value={yearsToPlot}
+              onChange={onYearsToPlotChange}
+              min={10}
+              max={50}
+              step={5}
+              suffix={` ${labels?.years || 'years'}`}
               formatValue={(val) => val.toString()}
             />
           </div>

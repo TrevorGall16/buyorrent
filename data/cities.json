@@ -6,6 +6,7 @@
     "country_code": "US",
     "currency_symbol": "$",
     "data_updated": "Dec 2024",
+    "theme_color": "#f97316",
     "defaults": {
       "avg_home_price": 450000,
       "avg_rent": 2200,
@@ -20,6 +21,7 @@
     "country_code": "US",
     "currency_symbol": "$",
     "data_updated": "Dec 2024",
+    "theme_color": "#3b82f6",
     "defaults": {
       "avg_home_price": 750000,
       "avg_rent": 3500,
@@ -34,6 +36,7 @@
     "country_code": "US",
     "currency_symbol": "$",
     "data_updated": "Dec 2024",
+    "theme_color": "#dc2626",
     "defaults": {
       "avg_home_price": 1200000,
       "avg_rent": 3800,
@@ -42,17 +45,63 @@
     }
   },
   {
-    "slug": "berlin",
-    "name": "Berlin",
-    "state": null,
-    "country_code": "DE",
-    "currency_symbol": "€",
-    "data_updated": "Dec 2024",
+    "slug": "dallas",
+    "name": "Dallas",
+    "state": "Texas",
+    "country_code": "US",
+    "currency_symbol": "$",
+    "data_updated": "Jan 2025",
+    "theme_color": "#8b5cf6",
     "defaults": {
-      "avg_home_price": 450000,
-      "avg_rent": 1400,
-      "closing_cost_rate": 0.12,
-      "property_tax_rate": 0.0035
+      "avg_home_price": 380000,
+      "avg_rent": 1900,
+      "closing_cost_rate": 0.03,
+      "property_tax_rate": 0.022
+    }
+  },
+  {
+    "slug": "los-angeles",
+    "name": "Los Angeles",
+    "state": "California",
+    "country_code": "US",
+    "currency_symbol": "$",
+    "data_updated": "Jan 2025",
+    "theme_color": "#ec4899",
+    "defaults": {
+      "avg_home_price": 950000,
+      "avg_rent": 3200,
+      "closing_cost_rate": 0.03,
+      "property_tax_rate": 0.011
+    }
+  },
+  {
+    "slug": "chicago",
+    "name": "Chicago",
+    "state": "Illinois",
+    "country_code": "US",
+    "currency_symbol": "$",
+    "data_updated": "Jan 2025",
+    "theme_color": "#0ea5e9",
+    "defaults": {
+      "avg_home_price": 320000,
+      "avg_rent": 2100,
+      "closing_cost_rate": 0.03,
+      "property_tax_rate": 0.019
+    }
+  },
+  {
+    "slug": "miami",
+    "name": "Miami",
+    "state": "Florida",
+    "country_code": "US",
+    "currency_symbol": "$",
+    "data_updated": "Jan 2025",
+    "theme_color": "#06b6d4",
+    "defaults": {
+      "avg_home_price": 550000,
+      "avg_rent": 2800,
+      "closing_cost_rate": 0.03,
+      "property_tax_rate": 0.012
     }
   },
   {
@@ -62,11 +111,87 @@
     "country_code": "FR",
     "currency_symbol": "€",
     "data_updated": "Dec 2024",
+    "theme_color": "#6366f1",
     "defaults": {
       "avg_home_price": 500000,
       "avg_rent": 1800,
       "closing_cost_rate": 0.075,
       "property_tax_rate": 0.008
+    }
+  },
+  {
+    "slug": "lyon",
+    "name": "Lyon",
+    "state": null,
+    "country_code": "FR",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#a855f7",
+    "defaults": {
+      "avg_home_price": 350000,
+      "avg_rent": 1200,
+      "closing_cost_rate": 0.075,
+      "property_tax_rate": 0.008
+    }
+  },
+  {
+    "slug": "marseille",
+    "name": "Marseille",
+    "state": null,
+    "country_code": "FR",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#14b8a6",
+    "defaults": {
+      "avg_home_price": 280000,
+      "avg_rent": 1100,
+      "closing_cost_rate": 0.075,
+      "property_tax_rate": 0.008
+    }
+  },
+  {
+    "slug": "berlin",
+    "name": "Berlin",
+    "state": null,
+    "country_code": "DE",
+    "currency_symbol": "€",
+    "data_updated": "Dec 2024",
+    "theme_color": "#eab308",
+    "defaults": {
+      "avg_home_price": 450000,
+      "avg_rent": 1400,
+      "closing_cost_rate": 0.12,
+      "property_tax_rate": 0.0035
+    }
+  },
+  {
+    "slug": "munich",
+    "name": "Munich",
+    "state": null,
+    "country_code": "DE",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#22c55e",
+    "defaults": {
+      "avg_home_price": 750000,
+      "avg_rent": 1800,
+      "closing_cost_rate": 0.12,
+      "property_tax_rate": 0.0035
+    }
+  },
+  {
+    "slug": "hamburg",
+    "name": "Hamburg",
+    "state": null,
+    "country_code": "DE",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#f59e0b",
+    "defaults": {
+      "avg_home_price": 480000,
+      "avg_rent": 1500,
+      "closing_cost_rate": 0.12,
+      "property_tax_rate": 0.0035
     }
   },
   {
@@ -76,11 +201,492 @@
     "country_code": "GB",
     "currency_symbol": "£",
     "data_updated": "Dec 2024",
+    "theme_color": "#7c3aed",
     "defaults": {
       "avg_home_price": 600000,
       "avg_rent": 2500,
       "closing_cost_rate": 0.04,
       "property_tax_rate": 0.015
+    }
+  },
+  {
+    "slug": "manchester",
+    "name": "Manchester",
+    "state": null,
+    "country_code": "GB",
+    "currency_symbol": "£",
+    "data_updated": "Jan 2025",
+    "theme_color": "#ef4444",
+    "defaults": {
+      "avg_home_price": 280000,
+      "avg_rent": 1400,
+      "closing_cost_rate": 0.04,
+      "property_tax_rate": 0.015
+    }
+  },
+  {
+    "slug": "birmingham",
+    "name": "Birmingham",
+    "state": null,
+    "country_code": "GB",
+    "currency_symbol": "£",
+    "data_updated": "Jan 2025",
+    "theme_color": "#14b8a6",
+    "defaults": {
+      "avg_home_price": 250000,
+      "avg_rent": 1200,
+      "closing_cost_rate": 0.04,
+      "property_tax_rate": 0.015
+    }
+  },
+  {
+    "slug": "toronto",
+    "name": "Toronto",
+    "state": "Ontario",
+    "country_code": "CA",
+    "currency_symbol": "$",
+    "data_updated": "Jan 2025",
+    "theme_color": "#dc2626",
+    "defaults": {
+      "avg_home_price": 1100000,
+      "avg_rent": 2800,
+      "closing_cost_rate": 0.04,
+      "property_tax_rate": 0.01
+    }
+  },
+  {
+    "slug": "vancouver",
+    "name": "Vancouver",
+    "state": "British Columbia",
+    "country_code": "CA",
+    "currency_symbol": "$",
+    "data_updated": "Jan 2025",
+    "theme_color": "#10b981",
+    "defaults": {
+      "avg_home_price": 1250000,
+      "avg_rent": 2900,
+      "closing_cost_rate": 0.04,
+      "property_tax_rate": 0.0025
+    }
+  },
+  {
+    "slug": "montreal",
+    "name": "Montreal",
+    "state": "Quebec",
+    "country_code": "CA",
+    "currency_symbol": "$",
+    "data_updated": "Jan 2025",
+    "theme_color": "#3b82f6",
+    "defaults": {
+      "avg_home_price": 550000,
+      "avg_rent": 1800,
+      "closing_cost_rate": 0.04,
+      "property_tax_rate": 0.015
+    }
+  },
+  {
+    "slug": "sydney",
+    "name": "Sydney",
+    "state": "New South Wales",
+    "country_code": "AU",
+    "currency_symbol": "$",
+    "data_updated": "Jan 2025",
+    "theme_color": "#0ea5e9",
+    "defaults": {
+      "avg_home_price": 1300000,
+      "avg_rent": 3200,
+      "closing_cost_rate": 0.05,
+      "property_tax_rate": 0.006
+    }
+  },
+  {
+    "slug": "melbourne",
+    "name": "Melbourne",
+    "state": "Victoria",
+    "country_code": "AU",
+    "currency_symbol": "$",
+    "data_updated": "Jan 2025",
+    "theme_color": "#8b5cf6",
+    "defaults": {
+      "avg_home_price": 950000,
+      "avg_rent": 2600,
+      "closing_cost_rate": 0.05,
+      "property_tax_rate": 0.006
+    }
+  },
+  {
+    "slug": "brisbane",
+    "name": "Brisbane",
+    "state": "Queensland",
+    "country_code": "AU",
+    "currency_symbol": "$",
+    "data_updated": "Jan 2025",
+    "theme_color": "#f59e0b",
+    "defaults": {
+      "avg_home_price": 750000,
+      "avg_rent": 2200,
+      "closing_cost_rate": 0.05,
+      "property_tax_rate": 0.006
+    }
+  },
+  {
+    "slug": "madrid",
+    "name": "Madrid",
+    "state": null,
+    "country_code": "ES",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#eab308",
+    "defaults": {
+      "avg_home_price": 400000,
+      "avg_rent": 1500,
+      "closing_cost_rate": 0.10,
+      "property_tax_rate": 0.004
+    }
+  },
+  {
+    "slug": "barcelona",
+    "name": "Barcelona",
+    "state": null,
+    "country_code": "ES",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#f97316",
+    "defaults": {
+      "avg_home_price": 450000,
+      "avg_rent": 1600,
+      "closing_cost_rate": 0.10,
+      "property_tax_rate": 0.004
+    }
+  },
+  {
+    "slug": "valencia",
+    "name": "Valencia",
+    "state": null,
+    "country_code": "ES",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#ec4899",
+    "defaults": {
+      "avg_home_price": 280000,
+      "avg_rent": 1100,
+      "closing_cost_rate": 0.10,
+      "property_tax_rate": 0.004
+    }
+  },
+  {
+    "slug": "rome",
+    "name": "Rome",
+    "state": null,
+    "country_code": "IT",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#10b981",
+    "defaults": {
+      "avg_home_price": 480000,
+      "avg_rent": 1500,
+      "closing_cost_rate": 0.09,
+      "property_tax_rate": 0.0076
+    }
+  },
+  {
+    "slug": "milan",
+    "name": "Milan",
+    "state": null,
+    "country_code": "IT",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#6366f1",
+    "defaults": {
+      "avg_home_price": 550000,
+      "avg_rent": 1700,
+      "closing_cost_rate": 0.09,
+      "property_tax_rate": 0.0076
+    }
+  },
+  {
+    "slug": "naples",
+    "name": "Naples",
+    "state": null,
+    "country_code": "IT",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#ef4444",
+    "defaults": {
+      "avg_home_price": 280000,
+      "avg_rent": 950,
+      "closing_cost_rate": 0.09,
+      "property_tax_rate": 0.0076
+    }
+  },
+  {
+    "slug": "amsterdam",
+    "name": "Amsterdam",
+    "state": null,
+    "country_code": "NL",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#f97316",
+    "defaults": {
+      "avg_home_price": 550000,
+      "avg_rent": 2100,
+      "closing_cost_rate": 0.06,
+      "property_tax_rate": 0.003
+    }
+  },
+  {
+    "slug": "rotterdam",
+    "name": "Rotterdam",
+    "state": null,
+    "country_code": "NL",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#3b82f6",
+    "defaults": {
+      "avg_home_price": 380000,
+      "avg_rent": 1600,
+      "closing_cost_rate": 0.06,
+      "property_tax_rate": 0.003
+    }
+  },
+  {
+    "slug": "the-hague",
+    "name": "The Hague",
+    "state": null,
+    "country_code": "NL",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#22c55e",
+    "defaults": {
+      "avg_home_price": 420000,
+      "avg_rent": 1700,
+      "closing_cost_rate": 0.06,
+      "property_tax_rate": 0.003
+    }
+  },
+  {
+    "slug": "stockholm",
+    "name": "Stockholm",
+    "state": null,
+    "country_code": "SE",
+    "currency_symbol": "kr",
+    "data_updated": "Jan 2025",
+    "theme_color": "#3b82f6",
+    "defaults": {
+      "avg_home_price": 6500000,
+      "avg_rent": 14000,
+      "closing_cost_rate": 0.02,
+      "property_tax_rate": 0.0075
+    }
+  },
+  {
+    "slug": "gothenburg",
+    "name": "Gothenburg",
+    "state": null,
+    "country_code": "SE",
+    "currency_symbol": "kr",
+    "data_updated": "Jan 2025",
+    "theme_color": "#eab308",
+    "defaults": {
+      "avg_home_price": 4500000,
+      "avg_rent": 11000,
+      "closing_cost_rate": 0.02,
+      "property_tax_rate": 0.0075
+    }
+  },
+  {
+    "slug": "malmo",
+    "name": "Malmo",
+    "state": null,
+    "country_code": "SE",
+    "currency_symbol": "kr",
+    "data_updated": "Jan 2025",
+    "theme_color": "#06b6d4",
+    "defaults": {
+      "avg_home_price": 3800000,
+      "avg_rent": 9500,
+      "closing_cost_rate": 0.02,
+      "property_tax_rate": 0.0075
+    }
+  },
+  {
+    "slug": "zurich",
+    "name": "Zurich",
+    "state": null,
+    "country_code": "CH",
+    "currency_symbol": "CHF",
+    "data_updated": "Jan 2025",
+    "theme_color": "#dc2626",
+    "defaults": {
+      "avg_home_price": 1800000,
+      "avg_rent": 2800,
+      "closing_cost_rate": 0.035,
+      "property_tax_rate": 0.002
+    }
+  },
+  {
+    "slug": "geneva",
+    "name": "Geneva",
+    "state": null,
+    "country_code": "CH",
+    "currency_symbol": "CHF",
+    "data_updated": "Jan 2025",
+    "theme_color": "#0ea5e9",
+    "defaults": {
+      "avg_home_price": 1650000,
+      "avg_rent": 2600,
+      "closing_cost_rate": 0.035,
+      "property_tax_rate": 0.002
+    }
+  },
+  {
+    "slug": "basel",
+    "name": "Basel",
+    "state": null,
+    "country_code": "CH",
+    "currency_symbol": "CHF",
+    "data_updated": "Jan 2025",
+    "theme_color": "#8b5cf6",
+    "defaults": {
+      "avg_home_price": 1350000,
+      "avg_rent": 2200,
+      "closing_cost_rate": 0.035,
+      "property_tax_rate": 0.002
+    }
+  },
+  {
+    "slug": "brussels",
+    "name": "Brussels",
+    "state": null,
+    "country_code": "BE",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#eab308",
+    "defaults": {
+      "avg_home_price": 380000,
+      "avg_rent": 1400,
+      "closing_cost_rate": 0.125,
+      "property_tax_rate": 0.008
+    }
+  },
+  {
+    "slug": "antwerp",
+    "name": "Antwerp",
+    "state": null,
+    "country_code": "BE",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#f97316",
+    "defaults": {
+      "avg_home_price": 320000,
+      "avg_rent": 1200,
+      "closing_cost_rate": 0.125,
+      "property_tax_rate": 0.008
+    }
+  },
+  {
+    "slug": "ghent",
+    "name": "Ghent",
+    "state": null,
+    "country_code": "BE",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#10b981",
+    "defaults": {
+      "avg_home_price": 280000,
+      "avg_rent": 1000,
+      "closing_cost_rate": 0.125,
+      "property_tax_rate": 0.008
+    }
+  },
+  {
+    "slug": "dublin",
+    "name": "Dublin",
+    "state": null,
+    "country_code": "IE",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#22c55e",
+    "defaults": {
+      "avg_home_price": 450000,
+      "avg_rent": 2100,
+      "closing_cost_rate": 0.02,
+      "property_tax_rate": 0.0018
+    }
+  },
+  {
+    "slug": "cork",
+    "name": "Cork",
+    "state": null,
+    "country_code": "IE",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#f97316",
+    "defaults": {
+      "avg_home_price": 320000,
+      "avg_rent": 1500,
+      "closing_cost_rate": 0.02,
+      "property_tax_rate": 0.0018
+    }
+  },
+  {
+    "slug": "limerick",
+    "name": "Limerick",
+    "state": null,
+    "country_code": "IE",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#3b82f6",
+    "defaults": {
+      "avg_home_price": 280000,
+      "avg_rent": 1300,
+      "closing_cost_rate": 0.02,
+      "property_tax_rate": 0.0018
+    }
+  },
+  {
+    "slug": "lisbon",
+    "name": "Lisbon",
+    "state": null,
+    "country_code": "PT",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#f97316",
+    "defaults": {
+      "avg_home_price": 450000,
+      "avg_rent": 1600,
+      "closing_cost_rate": 0.06,
+      "property_tax_rate": 0.003
+    }
+  },
+  {
+    "slug": "porto",
+    "name": "Porto",
+    "state": null,
+    "country_code": "PT",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#3b82f6",
+    "defaults": {
+      "avg_home_price": 320000,
+      "avg_rent": 1200,
+      "closing_cost_rate": 0.06,
+      "property_tax_rate": 0.003
+    }
+  },
+  {
+    "slug": "braga",
+    "name": "Braga",
+    "state": null,
+    "country_code": "PT",
+    "currency_symbol": "€",
+    "data_updated": "Jan 2025",
+    "theme_color": "#dc2626",
+    "defaults": {
+      "avg_home_price": 220000,
+      "avg_rent": 850,
+      "closing_cost_rate": 0.06,
+      "property_tax_rate": 0.003
     }
   }
 ]
