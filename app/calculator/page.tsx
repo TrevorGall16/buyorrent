@@ -11,7 +11,7 @@ import { useSearchParams } from 'next/navigation';
 import Calculator from '@/components/calculator/Calculator';
 import RegionSelector from '@/components/RegionSelector';
 import GlobalDisclaimer from '@/components/GlobalDisclaimer';
-import { getCountryConfig, getDefaultInputsForCountry } from '@/lib/country-config';
+import { getCountryConfig } from '@/lib/country-config';
 import { CountryCode } from '@/lib/types';
 
 type Language = 'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 'pt';
