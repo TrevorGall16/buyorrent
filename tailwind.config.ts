@@ -16,6 +16,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif'],
+        tinos: ['Tinos', 'Georgia', 'Times New Roman', 'serif'],
       },
     },
   },
