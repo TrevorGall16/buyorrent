@@ -80,12 +80,16 @@ export default function NetWorthChart({
   };
 
   return (
-    <div className="w-full rounded-xl border border-gray-200 bg-white shadow-sm p-6">
+    <div className="w-full rounded-xl border border-slate-200/60 border-t-white/60 bg-white shadow-sm p-6">
       <div className="mb-6">
-        <h3 className="text-xl font-bold text-gray-900">Net Worth Over Time</h3>
-        <p className="text-sm text-gray-500 mt-1">
-          Compare financial outcomes between renting and buying
-          {breakEvenYear && ` • Break-even: Year ${breakEvenYear}`}
+        <h3 className="text-xl font-bold tracking-tight text-slate-900">Net Worth Over Time</h3>
+        <p className="text-sm text-slate-600 mt-2 leading-relaxed">
+          This chart compares accumulated wealth over time. The <span className="inline-flex items-center gap-1"><span className="inline-block w-3 h-3 rounded-full bg-blue-500"></span><span className="font-medium text-blue-700">Renter</span></span> invests their down payment savings, while the <span className="inline-flex items-center gap-1"><span className="inline-block w-3 h-3 rounded-full" style={{ backgroundColor: themeColor }}></span><span className="font-medium" style={{ color: themeColor }}>Owner</span></span> builds equity. The higher line is the financial winner.
+          {breakEvenYear && (
+            <span className="block mt-1 text-blue-600 font-semibold">
+              ⚡ Break-even point: Year {breakEvenYear}
+            </span>
+          )}
         </p>
       </div>
 

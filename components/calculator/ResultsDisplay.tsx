@@ -236,10 +236,12 @@ export default function ResultsDisplay({
               {verdict.title}
             </h2>
 
-            {/* Message */}
-            <p className="text-lg md:text-xl text-gray-700 leading-relaxed mb-6">
-              {verdict.message}
-            </p>
+            {/* Message - Styled Container */}
+            <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r mb-6">
+              <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
+                {verdict.message}
+              </p>
+            </div>
 
             {/* Recommendation Badge and Share Button */}
             <div className="flex flex-wrap items-center gap-3">
