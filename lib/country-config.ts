@@ -3,9 +3,9 @@
  * Based on SPECIFICATION: BUSINESS LOGIC & USER FLOW
  */
 
-import { CountryCode, CountryDefaults } from './types';
+import { CountryDefaults } from './types';
 
-export const COUNTRY_CONFIGS: Record<CountryCode, CountryDefaults> = {
+export const COUNTRY_CONFIGS = {
   US: {
     countryCode: 'US',
     currencySymbol: '$',
@@ -585,8 +585,8 @@ export const COUNTRY_CONFIGS: Record<CountryCode, CountryDefaults> = {
 /**
  * Get country configuration by country code
  */
-export function getCountryConfig(countryCode: CountryCode): CountryDefaults {
-  return COUNTRY_CONFIGS[countryCode];
+export function getCountryConfig(countryCode: string): CountryDefaults {
+  return COUNTRY_CONFIGS[countryCode as keyof typeof COUNTRY_CONFIGS] as CountryDefaults;
 }
 
 /**
@@ -610,6 +610,29 @@ export function getCountryName(code: string): string {
     'PT': 'Portugal 🇵🇹'
   };
   return map[code] || 'Other';
+}
+
+/**
+ * Get theme color for each country
+ */
+export function getCountryThemeColor(code: string): string {
+  const colorMap: Record<string, string> = {
+    'US': '#2563EB',  // Blue
+    'FR': '#002654',  // Navy
+    'DE': '#DD0000',  // Red
+    'GB': '#C8102E',  // Crimson
+    'CA': '#FF0000',  // Red
+    'AU': '#00843D',  // Green
+    'ES': '#C60B1E',  // Spanish Red
+    'IT': '#009246',  // Italian Green
+    'NL': '#FF9B00',  // Dutch Orange
+    'SE': '#006AA7',  // Swedish Blue
+    'CH': '#FF0000',  // Swiss Red
+    'BE': '#FDDA24',  // Belgian Yellow
+    'IE': '#169B62',  // Irish Green
+    'PT': '#006600',  // Portuguese Green
+  };
+  return colorMap[code] || '#3b82f6'; // Default blue
 }
 
 /**
@@ -775,7 +798,7 @@ export function getHomePageLabels(
  * Get default calculator inputs for a country
  */
 export function getDefaultInputsForCountry(
-  countryCode: CountryCode,
+  countryCode: string,
   homePrice: number,
   monthlyRent: number
 ) {
@@ -803,4 +826,50 @@ export function getDefaultInputsForCountry(
     },
     yearsToAnalyze: 30,
   };
+}
+
+/**
+ * Get country name with flag emoji by country code
+ */
+export function getCountryName(code: string): string {
+  const map: Record<string, string> = {
+    'US': 'United States 🇺🇸',
+    'FR': 'France 🇫🇷',
+    'DE': 'Germany 🇩🇪',
+    'GB': 'United Kingdom 🇬🇧',
+    'CA': 'Canada 🇨🇦',
+    'AU': 'Australia 🇦🇺',
+    'ES': 'Spain 🇪🇸',
+    'IT': 'Italy 🇮🇹',
+    'NL': 'Netherlands 🇳🇱',
+    'SE': 'Sweden 🇸🇪',
+    'CH': 'Switzerland 🇨🇭',
+    'BE': 'Belgium 🇧🇪',
+    'IE': 'Ireland 🇮🇪',
+    'PT': 'Portugal 🇵🇹'
+  };
+  return map[code] || 'Other';
+}
+
+/**
+ * Get theme color for each country
+ */
+export function getCountryThemeColor(code: string): string {
+  const colorMap: Record<string, string> = {
+    'US': '#2563EB',  // Blue
+    'FR': '#002654',  // Navy
+    'DE': '#DD0000',  // Red
+    'GB': '#C8102E',  // Crimson
+    'CA': '#FF0000',  // Red
+    'AU': '#00843D',  // Green
+    'ES': '#C60B1E',  // Spanish Red
+    'IT': '#009246',  // Italian Green
+    'NL': '#FF9B00',  // Dutch Orange
+    'SE': '#006AA7',  // Swedish Blue
+    'CH': '#FF0000',  // Swiss Red
+    'BE': '#FDDA24',  // Belgian Yellow
+    'IE': '#169B62',  // Irish Green
+    'PT': '#006600',  // Portuguese Green
+  };
+  return colorMap[code] || '#3b82f6'; // Default blue
 }

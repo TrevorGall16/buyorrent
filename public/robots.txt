@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 User-agent: *
 Allow: /
-=======
-User-agent: *
-Allow: /
->>>>>>> 6a4716ac7351ed4d3c1080c1996f61a40e25e550
+Sitemap: https://www.rentorbuyworld.com/sitemap.xml
 Sitemap: https://www.rentorbuyworld.com/sitemap.xml
