@@ -21,7 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="antialiased">
+      <body className="antialiased bg-grid-pattern" style={{
+        backgroundImage: `radial-gradient(circle at center, white 0%, rgba(255, 255, 255, 0.95) 40%, rgba(255, 255, 255, 0.9) 100%), radial-gradient(circle, #cbd5e1 1px, transparent 1px)`,
+        backgroundSize: '100% 100%, 40px 40px'
+      }}>
         {/* 2. ADD THIS BLOCK HERE */}
         <Script
           async

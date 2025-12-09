@@ -20,12 +20,14 @@ interface NetWorthChartProps {
   dataPoints: YearlyDataPoint[];
   currencySymbol: string;
   breakEvenYear: number | null;
+  themeColor?: string;
 }
 
 export default function NetWorthChart({
   dataPoints,
   currencySymbol,
   breakEvenYear,
+  themeColor = '#22c55e', // Default green
 }: NetWorthChartProps) {
   // Format currency for display
   const formatCurrency = (value: number) => {
@@ -58,7 +60,10 @@ export default function NetWorthChart({
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="h-3 w-3 rounded-full bg-green-500" />
+            <div
+              className="h-3 w-3 rounded-full"
+              style={{ backgroundColor: themeColor }}
+            />
             <span className="text-xs text-gray-600">Owner:</span>
             <span className="text-xs font-semibold text-gray-900">
               {formatCurrency(data.ownerNetWorth)}
@@ -88,7 +93,7 @@ export default function NetWorthChart({
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={dataPoints}
-            margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+            margin={{ top: 10, right: 10, left: 60, bottom: 0 }}
           >
             <defs>
               {/* Blue Gradient for Rent */}
@@ -96,13 +101,25 @@ export default function NetWorthChart({
                 <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8} />
                 <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.1} />
               </linearGradient>
-              {/* Green Gradient for Buy */}
+              {/* Dynamic Gradient for Buy - Uses Country Theme Color */}
               <linearGradient id="buyFill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#22c55e" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#22c55e" stopOpacity={0.1} />
+                <stop
+                  offset="5%"
+                  stopColor={themeColor}
+                  stopOpacity={0.8}
+                />
+                <stop
+                  offset="95%"
+                  stopColor={themeColor}
+                  stopOpacity={0.1}
+                />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke="#e5e7eb"
+              vertical={true}
+            />
             <XAxis
               dataKey="year"
               ticks={[0, 5, 10, 15, 20, 25, 30]}
@@ -113,6 +130,7 @@ export default function NetWorthChart({
               tickFormatter={formatCurrency}
               stroke="#9ca3af"
               style={{ fontSize: '12px' }}
+              width={80}
             />
             <Tooltip content={<CustomTooltip />} />
             <Area
@@ -126,7 +144,7 @@ export default function NetWorthChart({
             <Area
               type="monotone"
               dataKey="ownerNetWorth"
-              stroke="#22c55e"
+              stroke={themeColor}
               strokeWidth={2}
               fill="url(#buyFill)"
               name="Owner Net Worth"
