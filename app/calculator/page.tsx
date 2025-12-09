@@ -24,7 +24,7 @@ function CalculatorPageContent() {
   const countryConfig = getCountryConfig(selectedRegion);
 
   // Use country-specific defaults for better UX (not city-specific)
-  const countryDefaults = getDefaultInputsForCountry(selectedRegion, 0, 0);
+  //const countryDefaults = getDefaultInputsForCountry(selectedRegion, 0, 0);
 
   // Use median home price and rent for the selected country (generic defaults)
   // These are just starting points - users will adjust them
