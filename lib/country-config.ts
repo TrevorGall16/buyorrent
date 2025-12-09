@@ -613,6 +613,29 @@ export function getCountryName(code: string): string {
 }
 
 /**
+ * Get theme color for each country
+ */
+export function getCountryThemeColor(code: string): string {
+  const colorMap: Record<string, string> = {
+    'US': '#2563EB',  // Blue
+    'FR': '#002654',  // Navy
+    'DE': '#DD0000',  // Red
+    'GB': '#C8102E',  // Crimson
+    'CA': '#FF0000',  // Red
+    'AU': '#00843D',  // Green
+    'ES': '#C60B1E',  // Spanish Red
+    'IT': '#009246',  // Italian Green
+    'NL': '#FF9B00',  // Dutch Orange
+    'SE': '#006AA7',  // Swedish Blue
+    'CH': '#FF0000',  // Swiss Red
+    'BE': '#FDDA24',  // Belgian Yellow
+    'IE': '#169B62',  // Irish Green
+    'PT': '#006600',  // Portuguese Green
+  };
+  return colorMap[code] || '#3b82f6'; // Default blue
+}
+
+/**
  * Get labels by language code (for manual language switching)
  */
 export function getLabelsByLanguage(
