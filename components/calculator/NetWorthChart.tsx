@@ -1,13 +1,8 @@
 'use client';
 
 /**
-<<<<<<< HEAD
- * Net Worth Comparison Chart
- * AreaChart with gradient showing Renter vs Owner net worth over time
-=======
  * Net Worth Comparison Chart - High-End FinTech Design
- * Gradient Area Chart showing Renter vs Owner net worth over time
->>>>>>> ce91f68596613eb3e2794073a3f4137fe445cf37
+ * Gradient Area Chart using Standard Recharts
  */
 
 import {
@@ -20,8 +15,6 @@ import {
   Tooltip,
 } from 'recharts';
 import { YearlyDataPoint } from '@/lib/types';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ChartContainer } from '@/components/ui/chart';
 
 interface NetWorthChartProps {
   dataPoints: YearlyDataPoint[];
@@ -46,35 +39,16 @@ export default function NetWorthChart({
     return `${currencySymbol}${value.toFixed(0)}`;
   };
 
-<<<<<<< HEAD
-  // Chart configuration for colors
-  const chartConfig = {
-    renterNetWorth: {
-      label: "Renter Net Worth",
-      color: "hsl(0, 84%, 60%)", // Red
-    },
-    ownerNetWorth: {
-      label: "Owner Net Worth",
-      color: "hsl(142, 71%, 45%)", // Green
-    },
-  };
-
-  return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Net Worth Over Time</CardTitle>
-        <p className="text-sm text-muted-foreground">
-          Compare financial outcomes between renting and buying
-          {breakEvenYear && ` • Break-even: Year ${breakEvenYear}`}
-=======
-  // Custom Tooltip Component
+  // Custom Tooltip
   const CustomTooltip = ({ active, payload }: any) => {
     if (!active || !payload || payload.length === 0) return null;
 
     const data = payload[0].payload;
     return (
       <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-lg">
-        <p className="text-sm font-semibold text-gray-900 mb-2">Year {data.year}</p>
+        <p className="text-sm font-semibold text-gray-900 mb-2">
+          Year {data.year}
+        </p>
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <div className="h-3 w-3 rounded-full bg-blue-500" />
@@ -117,15 +91,15 @@ export default function NetWorthChart({
             margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
           >
             <defs>
-              {/* Blue Gradient for Renter */}
-              <linearGradient id="colorRenter" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+              {/* Blue Gradient for Rent */}
+              <linearGradient id="rentFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.1} />
               </linearGradient>
-              {/* Green Gradient for Owner */}
-              <linearGradient id="colorOwner" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#22c55e" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="#22c55e" stopOpacity={0} />
+              {/* Green Gradient for Buy */}
+              <linearGradient id="buyFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#22c55e" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#22c55e" stopOpacity={0.1} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
@@ -146,7 +120,7 @@ export default function NetWorthChart({
               dataKey="renterNetWorth"
               stroke="#3b82f6"
               strokeWidth={2}
-              fill="url(#colorRenter)"
+              fill="url(#rentFill)"
               name="Renter Net Worth"
             />
             <Area
@@ -154,112 +128,21 @@ export default function NetWorthChart({
               dataKey="ownerNetWorth"
               stroke="#22c55e"
               strokeWidth={2}
-              fill="url(#colorOwner)"
+              fill="url(#buyFill)"
               name="Owner Net Worth"
             />
           </AreaChart>
         </ResponsiveContainer>
       </div>
 
-      {/* Accessibility: Text summary for screen readers */}
-      <div className="sr-only" role="region" aria-label="Chart data summary">
-        <p>
-          This chart compares net worth between renting and buying over{' '}
-          {dataPoints.length} years.
-          {breakEvenYear
-            ? ` Buying becomes financially better after ${breakEvenYear} years.`
-            : ' Based on current assumptions, renting remains financially better throughout the analysis period.'}
->>>>>>> ce91f68596613eb3e2794073a3f4137fe445cf37
-        </p>
-      </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig} className="h-[400px] w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart
-              data={dataPoints}
-              margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-            >
-              <defs>
-                <linearGradient id="colorRenter" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="hsl(0, 84%, 60%)" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="hsl(0, 84%, 60%)" stopOpacity={0} />
-                </linearGradient>
-                <linearGradient id="colorOwner" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="hsl(142, 71%, 45%)" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="hsl(142, 71%, 45%)" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-              <XAxis
-                dataKey="year"
-                label={{ value: 'Years', position: 'insideBottom', offset: -5 }}
-                className="text-xs"
-              />
-              <YAxis
-                tickFormatter={formatCurrency}
-                label={{ value: 'Net Worth', angle: -90, position: 'insideLeft' }}
-                className="text-xs"
-              />
-              <Tooltip
-                content={({ active, payload }) => {
-                  if (!active || !payload || payload.length === 0) return null;
-
-                  const data = payload[0].payload;
-                  return (
-                    <div className="rounded-lg border bg-background p-3 shadow-md">
-                      <p className="text-sm font-semibold mb-2">Year {data.year}</p>
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <div className="h-2 w-2 rounded-full" style={{ backgroundColor: 'hsl(0, 84%, 60%)' }} />
-                          <span className="text-xs text-muted-foreground">Renter:</span>
-                          <span className="text-xs font-medium">{formatCurrency(data.renterNetWorth)}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <div className="h-2 w-2 rounded-full" style={{ backgroundColor: 'hsl(142, 71%, 45%)' }} />
-                          <span className="text-xs text-muted-foreground">Owner:</span>
-                          <span className="text-xs font-medium">{formatCurrency(data.ownerNetWorth)}</span>
-                        </div>
-                      </div>
-                      {breakEvenYear && data.year === Math.floor(breakEvenYear) && (
-                        <p className="text-xs text-primary mt-2 font-semibold">
-                          ⚡ Break-even point
-                        </p>
-                      )}
-                    </div>
-                  );
-                }}
-              />
-              <Area
-                type="monotone"
-                dataKey="renterNetWorth"
-                stroke="hsl(0, 84%, 60%)"
-                strokeWidth={2}
-                fill="url(#colorRenter)"
-                name="Renter Net Worth"
-              />
-              <Area
-                type="monotone"
-                dataKey="ownerNetWorth"
-                stroke="hsl(142, 71%, 45%)"
-                strokeWidth={2}
-                fill="url(#colorOwner)"
-                name="Owner Net Worth"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        </ChartContainer>
-
-        {/* Accessibility: Text summary for screen readers */}
-        <div className="sr-only" role="region" aria-label="Chart data summary">
-          <p>
-            This chart compares net worth between renting and buying over{' '}
-            {dataPoints.length} years.
-            {breakEvenYear
-              ? ` Buying becomes financially better after ${breakEvenYear} years.`
-              : ' Based on current assumptions, renting remains financially better throughout the analysis period.'}
-          </p>
-        </div>
-      </CardContent>
-    </Card>
+      {/* Accessibility */}
+      <div className="sr-only">
+        This chart compares net worth between renting and buying over{' '}
+        {dataPoints.length} years.
+        {breakEvenYear
+          ? ` Buying becomes financially better after ${breakEvenYear} years.`
+          : ' Renting remains financially better throughout the analysis period.'}
+      </div>
+    </div>
   );
 }
