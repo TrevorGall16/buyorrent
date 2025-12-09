@@ -1,9 +1,11 @@
 /**
- * CityCard Component - Horizontal Card Layout
- * High-End FinTech Design using Standard Tailwind CSS
+ * CityCard Component - Modern Real Estate Look
+ * Horizontal Card Layout with High-End FinTech Design
  */
 
 import Link from 'next/link';
+
+type Language = 'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 'pt';
 
 interface CityCardProps {
   city: {
@@ -16,62 +18,50 @@ interface CityCardProps {
     };
   };
   countryColor: string;
+  language?: Language;
 }
 
-export default function CityCard({ city, countryColor }: CityCardProps) {
-  const formatPrice = (value: number) => {
-    if (value >= 1000000) {
-      return `${city.currency_symbol}${(value / 1000000).toFixed(1)}M`;
-    }
-    if (value >= 1000) {
-      return `${city.currency_symbol}${(value / 1000).toFixed(0)}K`;
-    }
-    return `${city.currency_symbol}${value.toFixed(0)}`;
-  };
+const buttonText: Record<Language, string> = {
+  en: 'View Analysis →',
+  fr: 'Voir l\'analyse →',
+  de: 'Analyse anzeigen →',
+  es: 'Ver análisis →',
+  it: 'Visualizza analisi →',
+  nl: 'Bekijk analyse →',
+  sv: 'Visa analys →',
+  pt: 'Ver análise →',
+};
+
+export default function CityCard({ city, countryColor, language = 'en' }: CityCardProps) {
+  const btnText = buttonText[language] || buttonText.en;
 
   return (
-    <Link href={`/${city.slug}/buy-vs-rent`}>
-      <div className="flex flex-col sm:flex-row overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all hover:-translate-y-1 cursor-pointer">
-        {/* Left: Image */}
-        <div className="w-full sm:w-1/3 h-48 sm:h-auto relative">
+    <Link href={`/${city.slug}/buy-vs-rent${language !== 'en' ? `?lang=${language}` : ''}`}>
+      <div className="group flex flex-col sm:flex-row overflow-hidden rounded-2xl border border-slate-200/60 bg-white shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer">
+        {/* Left: Image (35%) */}
+        <div className="relative w-full sm:w-[35%] h-48 sm:h-auto overflow-hidden">
           <img
             src={`https://placehold.co/600x400/e2e8f0/1e293b?text=${encodeURIComponent(city.name)}`}
             alt={city.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
-          {/* Country Color Accent */}
+          {/* Country Color Accent - Top Border */}
           <div
             className="absolute top-0 left-0 w-full h-1"
             style={{ backgroundColor: countryColor }}
           />
         </div>
 
-        {/* Right: Content */}
-        <div className="p-6 flex flex-col justify-between flex-1">
-          {/* Header */}
-          <div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">{city.name}</h3>
+        {/* Right: Content (65%) */}
+        <div className="flex flex-col justify-center p-6 sm:p-8 flex-1">
+          {/* City Name */}
+          <h3 className="text-2xl font-bold text-gray-900 mb-6">
+            {city.name}
+          </h3>
 
-            {/* Data Summary */}
-            <div className="space-y-2 mb-4">
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-500">Buy:</span>
-                <span className="text-lg font-semibold text-gray-900">
-                  {formatPrice(city.defaults.avg_home_price)}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-500">Rent:</span>
-                <span className="text-lg font-semibold text-gray-900">
-                  {formatPrice(city.defaults.avg_rent)}/mo
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Action Button */}
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-lg mt-4 w-fit hover:bg-blue-700 transition-colors">
-            View Analysis →
+          {/* Action Button - Pill Shape with Blue Gradient */}
+          <button className="w-fit px-6 py-3 rounded-full bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold shadow-md hover:shadow-lg hover:from-blue-700 hover:to-blue-600 transition-all duration-200">
+            {btnText}
           </button>
         </div>
       </div>

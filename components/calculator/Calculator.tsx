@@ -292,6 +292,7 @@ export default function Calculator({
             dataPoints={results.dataPoints}
             currencySymbol={countryConfig.currencySymbol}
             breakEvenYear={results.breakEven.year}
+            themeColor={themeColor}
           />
         </div>
 
@@ -439,6 +440,7 @@ export default function Calculator({
               dataPoints={results.dataPoints}
               currencySymbol={countryConfig.currencySymbol}
               breakEvenYear={results.breakEven.year}
+              themeColor={themeColor}
             />
           </div>
 
