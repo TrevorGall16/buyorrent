@@ -129,10 +129,13 @@ export default function ResultsDisplay({
     icon: string;
     color: 'green' | 'red';
   } => {
+    // Handle city name prefix - omit for "Global Calculator"
+    const cityPrefix = cityName === 'Global Calculator' ? 'In this scenario' : `In ${cityName}`;
+
     if (breakEven.year === null) {
       return {
         title: labels.rentingBetter,
-        message: `${cityName}, ${labels.rentingMessage}.`,
+        message: `${cityPrefix}, ${labels.rentingMessage}.`,
         icon: '🏢',
         color: 'red' as const,
       };
@@ -144,7 +147,7 @@ export default function ResultsDisplay({
     if (years <= 5) {
       return {
         title: `${labels.buyingBetterAfter} ${years} ${labels.years}`,
-        message: `${cityName}, ${labels.buyingMessage} ${years} ${labels.years}${months > 0 ? ` ${labels.and} ${months} ${labels.months}` : ''}.`,
+        message: `${cityPrefix}, ${labels.buyingMessage} ${years} ${labels.years}${months > 0 ? ` ${labels.and} ${months} ${labels.months}` : ''}.`,
         icon: '🏠',
         color: 'green' as const,
       };
@@ -152,7 +155,7 @@ export default function ResultsDisplay({
 
     return {
       title: `${labels.buyingBetterAfter} ${years} ${labels.years}`,
-      message: `${cityName}, ${labels.stayAtLeast} ${years} ${labels.years}${months > 0 ? ` ${labels.and} ${months} ${labels.months}` : ''} ${labels.forBuyingToMakeSense}.`,
+      message: `${cityPrefix}, ${labels.stayAtLeast} ${years} ${labels.years}${months > 0 ? ` ${labels.and} ${months} ${labels.months}` : ''} ${labels.forBuyingToMakeSense}.`,
       icon: '🏠',
       color: 'green' as const,
     };

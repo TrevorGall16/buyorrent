@@ -23,13 +23,37 @@ function CalculatorPageContent() {
   const language = (searchParams.get('lang') || 'en') as Language;
   const countryConfig = getCountryConfig(selectedRegion);
 
-  // Use country-specific defaults for better UX (not city-specific)
-  //const countryDefaults = getDefaultInputsForCountry(selectedRegion, 0, 0);
-
   // Use median home price and rent for the selected country (generic defaults)
   // These are just starting points - users will adjust them
-  const defaultHomePrice = selectedRegion === 'US' ? 400000 : selectedRegion === 'GB' ? 300000 : selectedRegion === 'DE' ? 350000 : selectedRegion === 'FR' ? 300000 : selectedRegion === 'CA' ? 500000 : selectedRegion === 'AU' ? 600000 : 400000;
-  const defaultMonthlyRent = selectedRegion === 'US' ? 2000 : selectedRegion === 'GB' ? 1500 : selectedRegion === 'DE' ? 1200 : selectedRegion === 'FR' ? 1400 : selectedRegion === 'CA' ? 1800 : selectedRegion === 'AU' ? 2200 : 2000;
+  const defaultHomePrice = selectedRegion === 'US' ? 400000 :
+    selectedRegion === 'GB' ? 300000 :
+    selectedRegion === 'DE' ? 350000 :
+    selectedRegion === 'FR' ? 300000 :
+    selectedRegion === 'CA' ? 500000 :
+    selectedRegion === 'AU' ? 600000 :
+    selectedRegion === 'ES' ? 250000 :
+    selectedRegion === 'IT' ? 280000 :
+    selectedRegion === 'NL' ? 350000 :
+    selectedRegion === 'SE' ? 300000 :
+    selectedRegion === 'CH' ? 800000 :
+    selectedRegion === 'BE' ? 300000 :
+    selectedRegion === 'IE' ? 320000 :
+    selectedRegion === 'PT' ? 220000 : 400000;
+
+  const defaultMonthlyRent = selectedRegion === 'US' ? 2000 :
+    selectedRegion === 'GB' ? 1500 :
+    selectedRegion === 'DE' ? 1200 :
+    selectedRegion === 'FR' ? 1400 :
+    selectedRegion === 'CA' ? 1800 :
+    selectedRegion === 'AU' ? 2200 :
+    selectedRegion === 'ES' ? 1000 :
+    selectedRegion === 'IT' ? 1100 :
+    selectedRegion === 'NL' ? 1500 :
+    selectedRegion === 'SE' ? 1300 :
+    selectedRegion === 'CH' ? 2000 :
+    selectedRegion === 'BE' ? 1200 :
+    selectedRegion === 'IE' ? 1600 :
+    selectedRegion === 'PT' ? 900 : 2000;
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12">
@@ -55,8 +79,9 @@ function CalculatorPageContent() {
         {/* Disclaimer */}
         <GlobalDisclaimer variant="inline" />
 
-        {/* Calculator Component */}
+        {/* Calculator Component - key prop forces remount when region changes */}
         <Calculator
+          key={selectedRegion}
           cityName="Global Calculator"
           countryCode={selectedRegion}
           defaultHomePrice={defaultHomePrice}

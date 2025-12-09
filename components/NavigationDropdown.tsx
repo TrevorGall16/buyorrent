@@ -81,17 +81,19 @@ export default function NavigationDropdown({ label, items }: NavigationDropdownP
       </button>
 
       {isOpen && (
-        <div className="absolute left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-          {items.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-600 transition-colors first:rounded-t-lg last:rounded-b-lg"
-              onClick={() => setIsOpen(false)}
-            >
-              {item.label}
-            </Link>
-          ))}
+        <div className="absolute left-0 mt-0 pt-2 w-56 z-50">
+          <div className="bg-white border border-gray-200 rounded-lg shadow-lg">
+            {items.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-600 transition-colors first:rounded-t-lg last:rounded-b-lg"
+                onClick={() => setIsOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
         </div>
       )}
     </div>

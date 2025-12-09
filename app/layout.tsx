@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Script from "next/script"; // 1. IMPORT THIS
 import "./globals.css";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import CookieBanner from "@/components/CookieBanner";
+import { getHomePageLabels } from "@/lib/country-config";
 
 export const metadata: Metadata = {
   title: "RentOrBuy-Pro - Buy vs Rent Calculator",
@@ -19,6 +21,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const labels = getHomePageLabels('en');
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased bg-grid-pattern" style={{
@@ -32,9 +36,10 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
-        
+
         <Header />
         {children}
+        <Footer labels={labels} />
         <CookieBanner />
       </body>
     </html>
