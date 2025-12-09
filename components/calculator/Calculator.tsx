@@ -214,7 +214,10 @@ export default function Calculator({
             buyingRecommended: labels.buyingRecommended,
             rentingRecommended: labels.rentingRecommended,
             roughlyEquivalent: labels.roughlyEquivalent,
+            resultScenarioPrefix: labels.resultScenarioPrefix,
           }}
+          dataSourceName={countryConfig.dataSourceName}
+          dataSourceUrl={countryConfig.dataSourceUrl}
         />
 
         {/* Input Section */}
@@ -293,6 +296,12 @@ export default function Calculator({
             currencySymbol={countryConfig.currencySymbol}
             breakEvenYear={results.breakEven.year}
             themeColor={themeColor}
+            labels={{
+              chartTitle: labels.chartTitle,
+              chartSubtitle: labels.chartSubtitle,
+              chartAxisYear: labels.chartAxisYear,
+              chartAxisAmount: labels.chartAxisAmount,
+            }}
           />
         </div>
 
@@ -422,7 +431,10 @@ export default function Calculator({
               buyingRecommended: labels.buyingRecommended,
               rentingRecommended: labels.rentingRecommended,
               roughlyEquivalent: labels.roughlyEquivalent,
+              resultScenarioPrefix: labels.resultScenarioPrefix,
             }}
+            dataSourceName={countryConfig.dataSourceName}
+            dataSourceUrl={countryConfig.dataSourceUrl}
           />
 
           {/* Chart */}
@@ -441,6 +453,12 @@ export default function Calculator({
               currencySymbol={countryConfig.currencySymbol}
               breakEvenYear={results.breakEven.year}
               themeColor={themeColor}
+              labels={{
+                chartTitle: labels.chartTitle,
+                chartSubtitle: labels.chartSubtitle,
+                chartAxisYear: labels.chartAxisYear,
+                chartAxisAmount: labels.chartAxisAmount,
+              }}
             />
           </div>
 

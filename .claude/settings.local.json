@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node update_countries.js:*)",
+      "Bash(npm run type-check:*)"
+    ]
+  }
+}
