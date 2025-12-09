@@ -1,7 +1,7 @@
 ---
 name: web-dev-architect
 description: Use this agent when building or modifying website code, including HTML, CSS, JavaScript, React components, or full-stack web applications. Examples:\n\n<example>\nContext: User needs a responsive landing page created from scratch.\nuser: "I need a landing page for a SaaS product with a hero section, features, and pricing"\nassistant: "I'm going to use the Task tool to launch the web-dev-architect agent to build this landing page following modern web development best practices."\n</example>\n\n<example>\nContext: User wants to improve an existing component's accessibility and performance.\nuser: "Can you review and improve this navigation component?"\nassistant: "I'll use the web-dev-architect agent to analyze and enhance this navigation component with accessibility improvements and performance optimizations."\n</example>\n\n<example>\nContext: User is implementing a new feature requiring frontend architecture decisions.\nuser: "I need to add user authentication UI to my React app"\nassistant: "Let me launch the web-dev-architect agent to design and implement a secure, user-friendly authentication interface following React best practices."\n</example>
-model: opus
+model: sonnet
 color: cyan
 ---
 
