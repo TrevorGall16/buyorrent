@@ -8,7 +8,7 @@ import { MetadataRoute } from 'next';
 import citiesData from '@/data/cities.json';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://rentorbuy-pro.com';
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.rentorbuyworld.com';
 
   // Home page
   const homePageEntry: MetadataRoute.Sitemap[0] = {
