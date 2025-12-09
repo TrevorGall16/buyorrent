@@ -18,6 +18,28 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 1.0,
   };
 
+  // Static pages
+  const staticPages: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/calculator`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 1.0,
+    },
+    {
+      url: `${baseUrl}/how-it-works`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/data-and-sources`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+  ];
+
   // Generate entries for all city pages
   const cityPageEntries: MetadataRoute.Sitemap = citiesData.map((city) => ({
     url: `${baseUrl}/${city.slug}/buy-vs-rent`,
@@ -27,5 +49,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   // Combine all entries
-  return [homePageEntry, ...cityPageEntries];
+  return [homePageEntry, ...staticPages, ...cityPageEntries];
 }

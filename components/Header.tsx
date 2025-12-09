@@ -2,14 +2,33 @@
 
 /**
  * Global Header Component
- * Appears on all pages with language selector and home button
+ * Appears on all pages with navigation, language selector, and mobile menu
  */
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import LanguageSelector from './LanguageSelector';
+import NavigationDropdown from './NavigationDropdown';
+import MobileMenu from './MobileMenu';
+import { NavigationItem } from '@/lib/types';
 
 export default function Header() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const navItems: NavigationItem[] = [
+    { label: 'Home', href: '/' },
+    { label: 'Calculator', href: '/calculator' },
+    {
+      label: 'Resources',
+      href: '#',
+      children: [
+        { label: 'How It Works', href: '/how-it-works' },
+        { label: 'Data & Sources', href: '/data-and-sources' },
+      ],
+    },
+  ];
+
   return (
     <header className="bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 py-3">
@@ -37,12 +56,65 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Right: Language Selector */}
-          <Suspense fallback={<div className="w-32 h-8 bg-gray-100 rounded animate-pulse" />}>
-            <LanguageSelector />
-          </Suspense>
+          {/* Center: Navigation (Desktop) */}
+          <nav className="hidden md:flex items-center gap-2">
+            <Link
+              href="/"
+              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
+            >
+              Home
+            </Link>
+            <Link
+              href="/calculator"
+              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
+            >
+              Calculator
+            </Link>
+            <NavigationDropdown
+              label="Resources"
+              items={[
+                { label: 'How It Works', href: '/how-it-works' },
+                { label: 'Data & Sources', href: '/data-and-sources' },
+              ]}
+            />
+          </nav>
+
+          {/* Right: Language Selector + Mobile Menu Button */}
+          <div className="flex items-center gap-4">
+            <Suspense fallback={<div className="w-32 h-8 bg-gray-100 rounded animate-pulse" />}>
+              <LanguageSelector />
+            </Suspense>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(true)}
+              className="md:hidden p-2 text-gray-700 hover:text-gray-900 transition-colors"
+              aria-label="Open menu"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      <MobileMenu
+        isOpen={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+        navItems={navItems}
+      />
     </header>
   );
 }

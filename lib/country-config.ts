@@ -670,12 +670,37 @@ export interface HomePageLabels {
   heroDescription: string;
   chooseCityTitle: string;
   chooseCitySubtitle: string;
+  // Navigation
+  navHome: string;
+  navCalculator: string;
+  navResources: string;
+  navHowItWorks: string;
+  navDataSources: string;
+  // Footer (existing)
   footerAbout: string;
   footerMethodology: string;
   footerContact: string;
   footerPrivacy: string;
   footerBuiltWith: string;
   footerCopyright: string;
+  // Footer (new)
+  footerBrandMission: string;
+  footerToolsTitle: string;
+  footerLearnMoreTitle: string;
+  footerGlobalCalculator: string;
+  footerTopCities: string;
+  footerHowItWorks: string;
+  footerDataSources: string;
+  // Calculator page
+  calculatorPageTitle: string;
+  calculatorPageSubtitle: string;
+  calculatorSelectRegion: string;
+  // Content pages
+  howItWorksTitle: string;
+  dataSourcesTitle: string;
+  dataSourcesWarning: string;
+  // Global disclaimer
+  disclaimerGlobal: string;
 }
 
 const HOME_PAGE_LABELS: Record<'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 'pt', HomePageLabels> = {
@@ -685,12 +710,37 @@ const HOME_PAGE_LABELS: Record<'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 
     heroDescription: 'Get data-driven insights for your city. We analyze 30 years of financial outcomes, including hidden costs, opportunity costs, and international tax differences.',
     chooseCityTitle: 'Choose Your City',
     chooseCitySubtitle: 'Select a city to see personalized rent vs. buy analysis',
+    // Navigation
+    navHome: 'Home',
+    navCalculator: 'Calculator',
+    navResources: 'Resources',
+    navHowItWorks: 'How It Works',
+    navDataSources: 'Data & Sources',
+    // Footer (existing)
     footerAbout: 'About',
     footerMethodology: 'Methodology',
     footerContact: 'Contact',
     footerPrivacy: 'Privacy',
     footerBuiltWith: 'Built with Next.js 15 • TypeScript • Tailwind CSS • Recharts',
     footerCopyright: 'Financial data for educational purposes only.',
+    // Footer (new)
+    footerBrandMission: 'Make smarter financial decisions with data-driven rent vs buy analysis for cities worldwide.',
+    footerToolsTitle: 'Tools',
+    footerLearnMoreTitle: 'Learn More',
+    footerGlobalCalculator: 'Global Calculator',
+    footerTopCities: 'Top Cities',
+    footerHowItWorks: 'How It Works',
+    footerDataSources: 'Data & Sources',
+    // Calculator page
+    calculatorPageTitle: 'Global Calculator',
+    calculatorPageSubtitle: 'Enter your own numbers and see 30-year financial projections',
+    calculatorSelectRegion: 'Select Region / Currency',
+    // Content pages
+    howItWorksTitle: 'How Our Calculator Works',
+    dataSourcesTitle: 'Our Data & Sources',
+    dataSourcesWarning: 'IMPORTANT: Our data is modeled, interpolated, and estimated. It is NOT guaranteed to be accurate or current. Always verify with local sources and consult real estate professionals.',
+    // Global disclaimer
+    disclaimerGlobal: 'Educational purposes only. This tool provides financial analysis, not financial advice. Always consult a qualified financial advisor before making major financial decisions.',
   },
   fr: {
     heroTitle: 'Louer ou Acheter ?',
@@ -698,12 +748,37 @@ const HOME_PAGE_LABELS: Record<'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 
     heroDescription: 'Obtenez des informations basées sur des données pour votre ville. Nous analysons 30 ans de résultats financiers, y compris les coûts cachés, les coûts d\'opportunité et les différences fiscales internationales.',
     chooseCityTitle: 'Choisissez Votre Ville',
     chooseCitySubtitle: 'Sélectionnez une ville pour voir une analyse personnalisée location vs. achat',
+    // Navigation (English placeholders for Phase 1)
+    navHome: 'Home',
+    navCalculator: 'Calculator',
+    navResources: 'Resources',
+    navHowItWorks: 'How It Works',
+    navDataSources: 'Data & Sources',
+    // Footer (existing)
     footerAbout: 'À propos',
     footerMethodology: 'Méthodologie',
     footerContact: 'Contact',
     footerPrivacy: 'Confidentialité',
     footerBuiltWith: 'Construit avec Next.js 15 • TypeScript • Tailwind CSS • Recharts',
     footerCopyright: 'Données financières à des fins éducatives uniquement.',
+    // Footer (new - English placeholders for Phase 1)
+    footerBrandMission: 'Make smarter financial decisions with data-driven rent vs buy analysis for cities worldwide.',
+    footerToolsTitle: 'Tools',
+    footerLearnMoreTitle: 'Learn More',
+    footerGlobalCalculator: 'Global Calculator',
+    footerTopCities: 'Top Cities',
+    footerHowItWorks: 'How It Works',
+    footerDataSources: 'Data & Sources',
+    // Calculator page (English placeholders for Phase 1)
+    calculatorPageTitle: 'Global Calculator',
+    calculatorPageSubtitle: 'Enter your own numbers and see 30-year financial projections',
+    calculatorSelectRegion: 'Select Region / Currency',
+    // Content pages (English placeholders for Phase 1)
+    howItWorksTitle: 'How Our Calculator Works',
+    dataSourcesTitle: 'Our Data & Sources',
+    dataSourcesWarning: 'IMPORTANT: Our data is modeled, interpolated, and estimated. It is NOT guaranteed to be accurate or current. Always verify with local sources and consult real estate professionals.',
+    // Global disclaimer (English placeholder for Phase 1)
+    disclaimerGlobal: 'Educational purposes only. This tool provides financial analysis, not financial advice. Always consult a qualified financial advisor before making major financial decisions.',
   },
   de: {
     heroTitle: 'Mieten oder Kaufen?',
@@ -711,12 +786,37 @@ const HOME_PAGE_LABELS: Record<'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 
     heroDescription: 'Erhalten Sie datenbasierte Einblicke für Ihre Stadt. Wir analysieren 30 Jahre finanzielle Ergebnisse, einschließlich versteckter Kosten, Opportunitätskosten und internationaler Steuerunterschiede.',
     chooseCityTitle: 'Wählen Sie Ihre Stadt',
     chooseCitySubtitle: 'Wählen Sie eine Stadt für eine personalisierte Mieten vs. Kaufen Analyse',
+    // Navigation (English placeholders for Phase 1)
+    navHome: 'Home',
+    navCalculator: 'Calculator',
+    navResources: 'Resources',
+    navHowItWorks: 'How It Works',
+    navDataSources: 'Data & Sources',
+    // Footer (existing)
     footerAbout: 'Über uns',
     footerMethodology: 'Methodik',
     footerContact: 'Kontakt',
     footerPrivacy: 'Datenschutz',
     footerBuiltWith: 'Erstellt mit Next.js 15 • TypeScript • Tailwind CSS • Recharts',
     footerCopyright: 'Finanzdaten nur für Bildungszwecke.',
+    // Footer (new - English placeholders for Phase 1)
+    footerBrandMission: 'Make smarter financial decisions with data-driven rent vs buy analysis for cities worldwide.',
+    footerToolsTitle: 'Tools',
+    footerLearnMoreTitle: 'Learn More',
+    footerGlobalCalculator: 'Global Calculator',
+    footerTopCities: 'Top Cities',
+    footerHowItWorks: 'How It Works',
+    footerDataSources: 'Data & Sources',
+    // Calculator page (English placeholders for Phase 1)
+    calculatorPageTitle: 'Global Calculator',
+    calculatorPageSubtitle: 'Enter your own numbers and see 30-year financial projections',
+    calculatorSelectRegion: 'Select Region / Currency',
+    // Content pages (English placeholders for Phase 1)
+    howItWorksTitle: 'How Our Calculator Works',
+    dataSourcesTitle: 'Our Data & Sources',
+    dataSourcesWarning: 'IMPORTANT: Our data is modeled, interpolated, and estimated. It is NOT guaranteed to be accurate or current. Always verify with local sources and consult real estate professionals.',
+    // Global disclaimer (English placeholder for Phase 1)
+    disclaimerGlobal: 'Educational purposes only. This tool provides financial analysis, not financial advice. Always consult a qualified financial advisor before making major financial decisions.',
   },
   es: {
     heroTitle: '¿Alquilar o Comprar?',
@@ -724,12 +824,37 @@ const HOME_PAGE_LABELS: Record<'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 
     heroDescription: 'Obtenga información basada en datos para su ciudad. Analizamos 30 años de resultados financieros, incluidos costos ocultos, costos de oportunidad y diferencias fiscales internacionales.',
     chooseCityTitle: 'Elija Su Ciudad',
     chooseCitySubtitle: 'Seleccione una ciudad para ver un análisis personalizado de alquilar vs. comprar',
+    // Navigation (English placeholders for Phase 1)
+    navHome: 'Home',
+    navCalculator: 'Calculator',
+    navResources: 'Resources',
+    navHowItWorks: 'How It Works',
+    navDataSources: 'Data & Sources',
+    // Footer (existing)
     footerAbout: 'Acerca de',
     footerMethodology: 'Metodología',
     footerContact: 'Contacto',
     footerPrivacy: 'Privacidad',
     footerBuiltWith: 'Construido con Next.js 15 • TypeScript • Tailwind CSS • Recharts',
     footerCopyright: 'Datos financieros solo con fines educativos.',
+    // Footer (new - English placeholders for Phase 1)
+    footerBrandMission: 'Make smarter financial decisions with data-driven rent vs buy analysis for cities worldwide.',
+    footerToolsTitle: 'Tools',
+    footerLearnMoreTitle: 'Learn More',
+    footerGlobalCalculator: 'Global Calculator',
+    footerTopCities: 'Top Cities',
+    footerHowItWorks: 'How It Works',
+    footerDataSources: 'Data & Sources',
+    // Calculator page (English placeholders for Phase 1)
+    calculatorPageTitle: 'Global Calculator',
+    calculatorPageSubtitle: 'Enter your own numbers and see 30-year financial projections',
+    calculatorSelectRegion: 'Select Region / Currency',
+    // Content pages (English placeholders for Phase 1)
+    howItWorksTitle: 'How Our Calculator Works',
+    dataSourcesTitle: 'Our Data & Sources',
+    dataSourcesWarning: 'IMPORTANT: Our data is modeled, interpolated, and estimated. It is NOT guaranteed to be accurate or current. Always verify with local sources and consult real estate professionals.',
+    // Global disclaimer (English placeholder for Phase 1)
+    disclaimerGlobal: 'Educational purposes only. This tool provides financial analysis, not financial advice. Always consult a qualified financial advisor before making major financial decisions.',
   },
   it: {
     heroTitle: 'Affittare o Comprare?',
@@ -737,12 +862,37 @@ const HOME_PAGE_LABELS: Record<'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 
     heroDescription: 'Ottieni approfondimenti basati sui dati per la tua città. Analizziamo 30 anni di risultati finanziari, inclusi costi nascosti, costi opportunità e differenze fiscali internazionali.',
     chooseCityTitle: 'Scegli la Tua Città',
     chooseCitySubtitle: 'Seleziona una città per vedere un\'analisi personalizzata affitto vs. acquisto',
+    // Navigation (English placeholders for Phase 1)
+    navHome: 'Home',
+    navCalculator: 'Calculator',
+    navResources: 'Resources',
+    navHowItWorks: 'How It Works',
+    navDataSources: 'Data & Sources',
+    // Footer (existing)
     footerAbout: 'Chi siamo',
     footerMethodology: 'Metodologia',
     footerContact: 'Contatto',
     footerPrivacy: 'Privacy',
     footerBuiltWith: 'Costruito con Next.js 15 • TypeScript • Tailwind CSS • Recharts',
     footerCopyright: 'Dati finanziari solo a scopo educativo.',
+    // Footer (new - English placeholders for Phase 1)
+    footerBrandMission: 'Make smarter financial decisions with data-driven rent vs buy analysis for cities worldwide.',
+    footerToolsTitle: 'Tools',
+    footerLearnMoreTitle: 'Learn More',
+    footerGlobalCalculator: 'Global Calculator',
+    footerTopCities: 'Top Cities',
+    footerHowItWorks: 'How It Works',
+    footerDataSources: 'Data & Sources',
+    // Calculator page (English placeholders for Phase 1)
+    calculatorPageTitle: 'Global Calculator',
+    calculatorPageSubtitle: 'Enter your own numbers and see 30-year financial projections',
+    calculatorSelectRegion: 'Select Region / Currency',
+    // Content pages (English placeholders for Phase 1)
+    howItWorksTitle: 'How Our Calculator Works',
+    dataSourcesTitle: 'Our Data & Sources',
+    dataSourcesWarning: 'IMPORTANT: Our data is modeled, interpolated, and estimated. It is NOT guaranteed to be accurate or current. Always verify with local sources and consult real estate professionals.',
+    // Global disclaimer (English placeholder for Phase 1)
+    disclaimerGlobal: 'Educational purposes only. This tool provides financial analysis, not financial advice. Always consult a qualified financial advisor before making major financial decisions.',
   },
   nl: {
     heroTitle: 'Huren of Kopen?',
@@ -750,12 +900,37 @@ const HOME_PAGE_LABELS: Record<'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 
     heroDescription: 'Krijg datagedreven inzichten voor uw stad. We analyseren 30 jaar financiële resultaten, inclusief verborgen kosten, opportuniteitskosten en internationale belastingverschillen.',
     chooseCityTitle: 'Kies Uw Stad',
     chooseCitySubtitle: 'Selecteer een stad om een gepersonaliseerde huren vs. kopen analyse te zien',
+    // Navigation (English placeholders for Phase 1)
+    navHome: 'Home',
+    navCalculator: 'Calculator',
+    navResources: 'Resources',
+    navHowItWorks: 'How It Works',
+    navDataSources: 'Data & Sources',
+    // Footer (existing)
     footerAbout: 'Over ons',
     footerMethodology: 'Methodologie',
     footerContact: 'Contact',
     footerPrivacy: 'Privacy',
     footerBuiltWith: 'Gebouwd met Next.js 15 • TypeScript • Tailwind CSS • Recharts',
     footerCopyright: 'Financiële gegevens alleen voor educatieve doeleinden.',
+    // Footer (new - English placeholders for Phase 1)
+    footerBrandMission: 'Make smarter financial decisions with data-driven rent vs buy analysis for cities worldwide.',
+    footerToolsTitle: 'Tools',
+    footerLearnMoreTitle: 'Learn More',
+    footerGlobalCalculator: 'Global Calculator',
+    footerTopCities: 'Top Cities',
+    footerHowItWorks: 'How It Works',
+    footerDataSources: 'Data & Sources',
+    // Calculator page (English placeholders for Phase 1)
+    calculatorPageTitle: 'Global Calculator',
+    calculatorPageSubtitle: 'Enter your own numbers and see 30-year financial projections',
+    calculatorSelectRegion: 'Select Region / Currency',
+    // Content pages (English placeholders for Phase 1)
+    howItWorksTitle: 'How Our Calculator Works',
+    dataSourcesTitle: 'Our Data & Sources',
+    dataSourcesWarning: 'IMPORTANT: Our data is modeled, interpolated, and estimated. It is NOT guaranteed to be accurate or current. Always verify with local sources and consult real estate professionals.',
+    // Global disclaimer (English placeholder for Phase 1)
+    disclaimerGlobal: 'Educational purposes only. This tool provides financial analysis, not financial advice. Always consult a qualified financial advisor before making major financial decisions.',
   },
   sv: {
     heroTitle: 'Hyra eller Köpa?',
@@ -763,12 +938,37 @@ const HOME_PAGE_LABELS: Record<'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 
     heroDescription: 'Få datadrivna insikter för din stad. Vi analyserar 30 års finansiella resultat, inklusive dolda kostnader, alternativkostnader och internationella skillnader i skatt.',
     chooseCityTitle: 'Välj Din Stad',
     chooseCitySubtitle: 'Välj en stad för att se en personlig hyra vs. köp analys',
+    // Navigation (English placeholders for Phase 1)
+    navHome: 'Home',
+    navCalculator: 'Calculator',
+    navResources: 'Resources',
+    navHowItWorks: 'How It Works',
+    navDataSources: 'Data & Sources',
+    // Footer (existing)
     footerAbout: 'Om oss',
     footerMethodology: 'Metodik',
     footerContact: 'Kontakt',
     footerPrivacy: 'Integritet',
     footerBuiltWith: 'Byggd med Next.js 15 • TypeScript • Tailwind CSS • Recharts',
     footerCopyright: 'Finansiell data endast för utbildningsändamål.',
+    // Footer (new - English placeholders for Phase 1)
+    footerBrandMission: 'Make smarter financial decisions with data-driven rent vs buy analysis for cities worldwide.',
+    footerToolsTitle: 'Tools',
+    footerLearnMoreTitle: 'Learn More',
+    footerGlobalCalculator: 'Global Calculator',
+    footerTopCities: 'Top Cities',
+    footerHowItWorks: 'How It Works',
+    footerDataSources: 'Data & Sources',
+    // Calculator page (English placeholders for Phase 1)
+    calculatorPageTitle: 'Global Calculator',
+    calculatorPageSubtitle: 'Enter your own numbers and see 30-year financial projections',
+    calculatorSelectRegion: 'Select Region / Currency',
+    // Content pages (English placeholders for Phase 1)
+    howItWorksTitle: 'How Our Calculator Works',
+    dataSourcesTitle: 'Our Data & Sources',
+    dataSourcesWarning: 'IMPORTANT: Our data is modeled, interpolated, and estimated. It is NOT guaranteed to be accurate or current. Always verify with local sources and consult real estate professionals.',
+    // Global disclaimer (English placeholder for Phase 1)
+    disclaimerGlobal: 'Educational purposes only. This tool provides financial analysis, not financial advice. Always consult a qualified financial advisor before making major financial decisions.',
   },
   pt: {
     heroTitle: 'Arrendar ou Comprar?',
@@ -776,12 +976,37 @@ const HOME_PAGE_LABELS: Record<'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 
     heroDescription: 'Obtenha insights baseados em dados para a sua cidade. Analisamos 30 anos de resultados financeiros, incluindo custos ocultos, custos de oportunidade e diferenças fiscais internacionais.',
     chooseCityTitle: 'Escolha a Sua Cidade',
     chooseCitySubtitle: 'Selecione uma cidade para ver uma análise personalizada de arrendar vs. comprar',
+    // Navigation (English placeholders for Phase 1)
+    navHome: 'Home',
+    navCalculator: 'Calculator',
+    navResources: 'Resources',
+    navHowItWorks: 'How It Works',
+    navDataSources: 'Data & Sources',
+    // Footer (existing)
     footerAbout: 'Sobre',
     footerMethodology: 'Metodologia',
     footerContact: 'Contato',
     footerPrivacy: 'Privacidade',
     footerBuiltWith: 'Construído com Next.js 15 • TypeScript • Tailwind CSS • Recharts',
     footerCopyright: 'Dados financeiros apenas para fins educacionais.',
+    // Footer (new - English placeholders for Phase 1)
+    footerBrandMission: 'Make smarter financial decisions with data-driven rent vs buy analysis for cities worldwide.',
+    footerToolsTitle: 'Tools',
+    footerLearnMoreTitle: 'Learn More',
+    footerGlobalCalculator: 'Global Calculator',
+    footerTopCities: 'Top Cities',
+    footerHowItWorks: 'How It Works',
+    footerDataSources: 'Data & Sources',
+    // Calculator page (English placeholders for Phase 1)
+    calculatorPageTitle: 'Global Calculator',
+    calculatorPageSubtitle: 'Enter your own numbers and see 30-year financial projections',
+    calculatorSelectRegion: 'Select Region / Currency',
+    // Content pages (English placeholders for Phase 1)
+    howItWorksTitle: 'How Our Calculator Works',
+    dataSourcesTitle: 'Our Data & Sources',
+    dataSourcesWarning: 'IMPORTANT: Our data is modeled, interpolated, and estimated. It is NOT guaranteed to be accurate or current. Always verify with local sources and consult real estate professionals.',
+    // Global disclaimer (English placeholder for Phase 1)
+    disclaimerGlobal: 'Educational purposes only. This tool provides financial analysis, not financial advice. Always consult a qualified financial advisor before making major financial decisions.',
   },
 };
 

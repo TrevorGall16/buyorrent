@@ -105,3 +105,23 @@ export interface CalculationResult {
     recommendation: 'buy' | 'rent' | 'neutral';
   };
 }
+
+// Navigation types for Header component
+export interface NavigationItem {
+  label: string;
+  href: string;
+  children?: { label: string; href: string }[];
+}
+
+// Footer label types
+export interface FooterLabels {
+  footerPrivacy: string;
+  footerCopyright: string;
+  footerBrandMission: string;
+  footerToolsTitle: string;
+  footerLearnMoreTitle: string;
+  footerGlobalCalculator: string;
+  footerTopCities: string;
+  footerHowItWorks: string;
+  footerDataSources: string;
+}
