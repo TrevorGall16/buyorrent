@@ -141,17 +141,17 @@ function HomePageContent() {
         {/* Hero Section with Beams Vibe */}
         <div className="relative text-center space-y-6 mb-16">
           {/* Radial Gradient Background */}
-          <div className="absolute inset-0 -top-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-100 via-transparent to-transparent pointer-events-none" />
+          <div className="absolute inset-0 -top-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-100 dark:from-blue-900/30 via-transparent to-transparent pointer-events-none" />
 
           {/* Content */}
           <div className="relative z-10">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-gray-900 mb-4">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100 mb-4">
               {t.title}
             </h1>
-            <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto font-light mb-3">
+            <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto font-light mb-3">
               {t.subtitle}
             </p>
-            <p className="text-base md:text-lg text-gray-500 max-w-2xl mx-auto">
+            <p className="text-base md:text-lg text-gray-500 dark:text-slate-400 max-w-2xl mx-auto">
               {t.description}
             </p>
           </div>
@@ -164,7 +164,7 @@ function HomePageContent() {
               <button
                 key={countryCode}
                 onClick={() => scrollToCountry(countryCode)}
-                className="px-5 py-2.5 rounded-full bg-white border-2 border-slate-200/60 hover:border-blue-400 hover:bg-blue-50 transition-all duration-200 text-sm font-semibold text-gray-700 hover:text-blue-600 shadow-sm hover:shadow-md whitespace-nowrap"
+                className="px-5 py-2.5 rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200/60 dark:border-slate-600 hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-slate-700 transition-all duration-200 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 shadow-sm hover:shadow-md whitespace-nowrap"
               >
                 {countryNames[countryCode] || countryCode}
               </button>
@@ -182,8 +182,8 @@ function HomePageContent() {
               }}
             >
               {/* Country Header with Glassmorphism */}
-              <div className="rounded-xl bg-white/80 backdrop-blur-md border border-slate-200/60 p-4 mb-8 shadow-sm">
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+              <div className="rounded-xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border border-slate-200/60 dark:border-slate-700 p-4 mb-8 shadow-sm">
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100">
                   {countryNames[countryCode] || countryCode}
                 </h2>
               </div>
@@ -204,7 +204,7 @@ function HomePageContent() {
         </div>
 
         {/* Footer */}
-        <div className="mt-20 text-center text-sm text-gray-500">
+        <div className="mt-20 text-center text-sm text-gray-500 dark:text-slate-400">
           <p>{t.footer}</p>
         </div>
       </div>
@@ -217,8 +217,8 @@ export default function HomePage() {
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 dark:border-blue-400 mx-auto"></div>
+          <p className="mt-4 text-gray-600 dark:text-gray-300">Loading...</p>
         </div>
       </div>
     }>

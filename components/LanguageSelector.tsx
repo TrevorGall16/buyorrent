@@ -52,16 +52,16 @@ export default function LanguageSelector() {
       <select
         value={currentLang}
         onChange={(e) => handleLanguageChange(e.target.value as Language)}
-        className="appearance-none bg-white border-2 border-gray-200 hover:border-blue-300 rounded-lg px-4 py-2 pr-10 text-sm font-medium text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer transition-all"
+        className="appearance-none bg-white dark:bg-slate-800 border-2 border-gray-200 dark:border-slate-600 hover:border-blue-300 dark:hover:border-blue-500 rounded-lg px-4 py-2 pr-10 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer transition-all"
         aria-label="Select language"
       >
         {LANGUAGES.map((lang) => (
-          <option key={lang.code} value={lang.code}>
+          <option key={lang.code} value={lang.code} className="bg-white dark:bg-slate-800">
             {lang.flag} {lang.label}
           </option>
         ))}
       </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-300">
         <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
           <path
             fillRule="evenodd"

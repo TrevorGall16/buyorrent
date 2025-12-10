@@ -54,9 +54,9 @@ export default function InputField({
   return (
     <div className="space-y-3">
       <div className="flex justify-between items-baseline mb-1">
-        <label className="text-base font-semibold text-gray-800">{label}</label>
+        <label className="text-base font-semibold text-gray-800 dark:text-gray-200">{label}</label>
         <div className="flex items-center gap-3">
-          <span className="text-xl font-bold text-gray-900">
+          <span className="text-xl font-bold text-gray-900 dark:text-gray-100">
             {prefix}
             {displayValue}
             {suffix}
@@ -69,7 +69,7 @@ export default function InputField({
             min={min}
             max={max}
             step={step}
-            className="w-24 px-2 py-1 text-sm text-gray-900 bg-white border border-gray-300 rounded-md opacity-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            className="w-24 px-2 py-1 text-sm text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-600 rounded-md opacity-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
             aria-label={`${label} - exact value`}
           />
         </div>
@@ -81,14 +81,14 @@ export default function InputField({
         step={step}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+        className="w-full h-2 bg-gray-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-green-600 dark:accent-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
         aria-label={label}
         aria-valuemin={min}
         aria-valuemax={max}
         aria-valuenow={value}
         aria-valuetext={`${prefix}${displayValue}${suffix}`}
       />
-      <div className="flex justify-between text-xs text-gray-500">
+      <div className="flex justify-between text-xs text-gray-500 dark:text-slate-400">
         <span>
           {prefix}
           {min.toLocaleString()}
