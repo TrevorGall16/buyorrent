@@ -44,7 +44,10 @@ interface ResultsDisplayProps {
     buyingRecommended: string;
     rentingRecommended: string;
     roughlyEquivalent: string;
+    resultScenarioPrefix?: string;
   };
+  dataSourceName?: string;
+  dataSourceUrl?: string;
 }
 
 export default function ResultsDisplay({
@@ -56,6 +59,8 @@ export default function ResultsDisplay({
   defaultInputs,
   pathname,
   labels,
+  dataSourceName,
+  dataSourceUrl,
 }: ResultsDisplayProps) {
   const [copySuccess, setCopySuccess] = useState(false);
 
@@ -129,10 +134,16 @@ export default function ResultsDisplay({
     icon: string;
     color: 'green' | 'red';
   } => {
+    // Use label for scenario prefix - fallback to old logic if not provided
+    const scenarioPrefix = labels.resultScenarioPrefix || (cityName === 'Global Calculator' ? 'In this scenario' : `In ${cityName}`);
+
+    // For non-global calculators, use city name instead of generic prefix
+    const cityPrefix = cityName === 'Global Calculator' ? scenarioPrefix : `In ${cityName}`;
+
     if (breakEven.year === null) {
       return {
         title: labels.rentingBetter,
-        message: `${cityName}, ${labels.rentingMessage}.`,
+        message: `${cityPrefix}, ${labels.rentingMessage}.`,
         icon: '🏢',
         color: 'red' as const,
       };
@@ -144,7 +155,7 @@ export default function ResultsDisplay({
     if (years <= 5) {
       return {
         title: `${labels.buyingBetterAfter} ${years} ${labels.years}`,
-        message: `${cityName}, ${labels.buyingMessage} ${years} ${labels.years}${months > 0 ? ` ${labels.and} ${months} ${labels.months}` : ''}.`,
+        message: `${cityPrefix}, ${labels.buyingMessage} ${years} ${labels.years}${months > 0 ? ` ${labels.and} ${months} ${labels.months}` : ''}.`,
         icon: '🏠',
         color: 'green' as const,
       };
@@ -152,7 +163,7 @@ export default function ResultsDisplay({
 
     return {
       title: `${labels.buyingBetterAfter} ${years} ${labels.years}`,
-      message: `${cityName}, ${labels.stayAtLeast} ${years} ${labels.years}${months > 0 ? ` ${labels.and} ${months} ${labels.months}` : ''} ${labels.forBuyingToMakeSense}.`,
+      message: `${cityPrefix}, ${labels.stayAtLeast} ${years} ${labels.years}${months > 0 ? ` ${labels.and} ${months} ${labels.months}` : ''} ${labels.forBuyingToMakeSense}.`,
       icon: '🏠',
       color: 'green' as const,
     };
@@ -187,9 +198,12 @@ export default function ResultsDisplay({
       >
         {/* Trust Badge - Positioned in top-right corner */}
         <div className="absolute top-4 right-4">
-          <div
-            className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/90 backdrop-blur border border-blue-200 rounded-full shadow-sm group relative"
-            title="Sources: Aggregated estimates from Zillow, Redfin, Numbeo, and SeLoger."
+          <a
+            href={dataSourceUrl || '#'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/90 backdrop-blur border border-blue-200 rounded-full shadow-sm group relative hover:bg-blue-50 transition-colors"
+            title={`Sources: ${dataSourceName || 'Market data aggregated from local sources'}`}
           >
             <svg
               className="w-4 h-4 text-blue-600"
@@ -209,13 +223,13 @@ export default function ResultsDisplay({
             {/* Tooltip */}
             <div className="absolute bottom-full right-0 mb-2 hidden group-hover:block z-10 w-64">
               <div className="bg-gray-900 text-white text-xs rounded-lg py-2 px-3 shadow-lg">
-                Sources: Aggregated estimates from Zillow, Redfin, Numbeo, and SeLoger.
+                Sources: {dataSourceName || 'Market data aggregated from local sources'}
                 <div className="absolute top-full right-4 -mt-1">
                   <div className="border-4 border-transparent border-t-gray-900"></div>
                 </div>
               </div>
             </div>
-          </div>
+          </a>
         </div>
 
         <div className="flex items-start gap-6">
@@ -233,10 +247,12 @@ export default function ResultsDisplay({
               {verdict.title}
             </h2>
 
-            {/* Message */}
-            <p className="text-lg md:text-xl text-gray-700 leading-relaxed mb-6">
-              {verdict.message}
-            </p>
+            {/* Message - Styled Container */}
+            <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r mb-6">
+              <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
+                {verdict.message}
+              </p>
+            </div>
 
             {/* Recommendation Badge and Share Button */}
             <div className="flex flex-wrap items-center gap-3">

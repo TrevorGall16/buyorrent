@@ -3,6 +3,7 @@
  */
 
 import { useState, useEffect } from 'react';
+import InfoTooltip from '@/components/ui/InfoTooltip';
 
 interface InputFieldProps {
   label: string;
@@ -14,6 +15,7 @@ interface InputFieldProps {
   prefix?: string;
   suffix?: string;
   formatValue?: (value: number) => string;
+  tooltip?: string;
 }
 
 export default function InputField({
@@ -26,6 +28,7 @@ export default function InputField({
   prefix = '',
   suffix = '',
   formatValue,
+  tooltip,
 }: InputFieldProps) {
   const displayValue = formatValue ? formatValue(value) : value.toLocaleString();
   const [inputValue, setInputValue] = useState(value.toString());
@@ -54,7 +57,10 @@ export default function InputField({
   return (
     <div className="space-y-3">
       <div className="flex justify-between items-baseline mb-1">
-        <label className="text-base font-semibold text-gray-800 dark:text-gray-200">{label}</label>
+        <label className="text-base font-semibold text-gray-800 flex items-center">
+          {label}
+          {tooltip && <InfoTooltip text={tooltip} />}
+        </label>
         <div className="flex items-center gap-3">
           <span className="text-xl font-bold text-gray-900 dark:text-gray-100">
             {prefix}

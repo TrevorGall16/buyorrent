@@ -65,6 +65,14 @@ export default function AdvancedSettings({
 }: AdvancedSettingsProps) {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Tooltip definitions
+  const tooltips = {
+    interestRate: "The annual interest rate on your mortgage loan. This affects your monthly payment and total interest paid over the life of the loan.",
+    maintenance: "Annual cost to maintain the property (repairs, replacements, upkeep). Rule of thumb: 1% of home value per year.",
+    rentInflation: "How much rent increases each year. Historically averages 3% annually, matching general inflation.",
+    investmentReturn: "Expected annual return if you invest your savings instead of buying. Stock market historically averages 5-7% after inflation.",
+  };
+
   return (
     <div className="overflow-hidden">
       {/* Toggle Button - More Prominent */}
@@ -138,6 +146,7 @@ export default function AdvancedSettings({
               step={0.1}
               suffix="%"
               formatValue={(val) => val.toFixed(1)}
+              tooltip={tooltips.interestRate}
             />
 
             <div className="space-y-2">
@@ -190,6 +199,7 @@ export default function AdvancedSettings({
               step={0.1}
               suffix="% of home value"
               formatValue={(val) => val.toFixed(1)}
+              tooltip={tooltips.maintenance}
             />
           </div>
 
@@ -208,6 +218,7 @@ export default function AdvancedSettings({
               step={0.1}
               suffix="% per year"
               formatValue={(val) => val.toFixed(1)}
+              tooltip={tooltips.rentInflation}
             />
           </div>
 
@@ -226,6 +237,7 @@ export default function AdvancedSettings({
               step={0.1}
               suffix="% per year"
               formatValue={(val) => val.toFixed(1)}
+              tooltip={tooltips.investmentReturn}
             />
 
             <InputField

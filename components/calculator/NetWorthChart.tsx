@@ -1,19 +1,20 @@
 'use client';
 
 /**
- * Net Worth Comparison Chart - High-End FinTech Design
- * Gradient Area Chart using Standard Recharts with Dark Mode Support
+ * Net Worth Comparison Chart - Clean Line Chart Design
+ * Clean line chart with axis labels (no gradients)
  */
 
 import { useEffect, useState } from 'react';
 import {
-  AreaChart,
-  Area,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
   ResponsiveContainer,
   Tooltip,
+  Label,
 } from 'recharts';
 import { YearlyDataPoint } from '@/lib/types';
 
@@ -22,6 +23,12 @@ interface NetWorthChartProps {
   currencySymbol: string;
   breakEvenYear: number | null;
   themeColor?: string;
+  labels?: {
+    chartTitle?: string;
+    chartSubtitle?: string;
+    chartAxisYear?: string;
+    chartAxisAmount?: string;
+  };
 }
 
 export default function NetWorthChart({
@@ -29,6 +36,7 @@ export default function NetWorthChart({
   currencySymbol,
   breakEvenYear,
   themeColor = '#22c55e', // Default green
+  labels,
 }: NetWorthChartProps) {
   const [isDark, setIsDark] = useState(false);
 
@@ -100,47 +108,32 @@ export default function NetWorthChart({
     );
   };
 
-  // Grid and axis colors for dark mode
-  const gridColor = isDark ? '#475569' : '#e5e7eb'; // slate-600 : gray-200
-  const axisColor = isDark ? '#94a3b8' : '#9ca3af'; // slate-400 : gray-400
-  const textColor = isDark ? '#e2e8f0' : '#374151'; // slate-200 : gray-700
+  const chartTitle = labels?.chartTitle || 'Net Worth Over Time';
+  const chartSubtitle = labels?.chartSubtitle || 'Accumulated wealth comparison';
+  const axisYearLabel = labels?.chartAxisYear || 'Years';
+  const axisAmountLabel = labels?.chartAxisAmount || 'Net Worth';
 
   return (
-    <div className="w-full rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm p-6">
+    <div className="w-full rounded-xl border border-slate-200/60 border-t-white/60 bg-white shadow-sm p-6">
       <div className="mb-6">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">Net Worth Over Time</h3>
-        <p className="text-sm text-gray-500 dark:text-slate-400 mt-1">
-          Compare financial outcomes between renting and buying
-          {breakEvenYear && ` • Break-even: Year ${breakEvenYear}`}
+        <h3 className="text-xl font-bold tracking-tight text-slate-900">{chartTitle}</h3>
+        <p className="text-sm text-slate-600 mt-2 leading-relaxed">
+          {chartSubtitle}. The <span className="inline-flex items-center gap-1"><span className="inline-block w-3 h-3 rounded-full bg-blue-500"></span><span className="font-medium text-blue-700">Renter</span></span> invests their down payment savings, while the <span className="inline-flex items-center gap-1"><span className="inline-block w-3 h-3 rounded-full" style={{ backgroundColor: themeColor }}></span><span className="font-medium" style={{ color: themeColor }}>Owner</span></span> builds equity. The higher line is the financial winner.
+          {breakEvenYear && (
+            <span className="block mt-1 text-blue-600 font-semibold">
+              ⚡ Break-even point: Year {breakEvenYear}
+            </span>
+          )}
         </p>
       </div>
 
       <div className="w-full h-[400px]">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart
+          <LineChart
             data={dataPoints}
-            margin={{ top: 10, right: 10, left: 60, bottom: 0 }}
+            key={dataPoints.length} // Force re-render when duration changes
+            margin={{ top: 10, right: 10, left: 80, bottom: 40 }}
           >
-            <defs>
-              {/* Blue Gradient for Rent */}
-              <linearGradient id="rentFill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#3b82f6" stopOpacity={isDark ? 0.6 : 0.8} />
-                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.1} />
-              </linearGradient>
-              {/* Dynamic Gradient for Buy - Uses Country Theme Color */}
-              <linearGradient id="buyFill" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor={themeColor}
-                  stopOpacity={isDark ? 0.6 : 0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor={themeColor}
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-            </defs>
             <CartesianGrid
               strokeDasharray="3 3"
               stroke={gridColor}
@@ -148,34 +141,38 @@ export default function NetWorthChart({
             />
             <XAxis
               dataKey="year"
-              ticks={[0, 5, 10, 15, 20, 25, 30]}
-              stroke={axisColor}
-              style={{ fontSize: '12px', fill: textColor }}
-            />
+              stroke="#9ca3af"
+              style={{ fontSize: '12px' }}
+              interval="preserveStartEnd"
+            >
+              <Label value={axisYearLabel} offset={-10} position="insideBottom" style={{ fontSize: '14px', fill: '#6b7280', fontWeight: 600 }} />
+            </XAxis>
             <YAxis
               tickFormatter={formatCurrency}
               stroke={axisColor}
               style={{ fontSize: '12px', fill: textColor }}
               width={80}
-            />
+            >
+              <Label value={`${axisAmountLabel} (${currencySymbol})`} angle={-90} position="insideLeft" style={{ fontSize: '14px', fill: '#6b7280', fontWeight: 600, textAnchor: 'middle' }} />
+            </YAxis>
             <Tooltip content={<CustomTooltip />} />
-            <Area
+            <Line
               type="monotone"
               dataKey="renterNetWorth"
               stroke="#3b82f6"
-              strokeWidth={2}
-              fill="url(#rentFill)"
+              strokeWidth={3}
+              dot={false}
               name="Renter Net Worth"
             />
-            <Area
+            <Line
               type="monotone"
               dataKey="ownerNetWorth"
               stroke={themeColor}
-              strokeWidth={2}
-              fill="url(#buyFill)"
+              strokeWidth={3}
+              dot={false}
               name="Owner Net Worth"
             />
-          </AreaChart>
+          </LineChart>
         </ResponsiveContainer>
       </div>
 

@@ -12,6 +12,8 @@ export interface CountryDefaults {
   propertyTaxRate: number; // As decimal (0.011 = 1.1%)
   brokerFeeMonths: number; // Number of months rent
   marginaTaxRate: number; // Default marginal tax rate
+  dataSourceName: string; // e.g., "Zillow, Redfin, Federal Reserve"
+  dataSourceUrl: string; // URL to primary data source
   labels: {
     closingCosts: string;
     propertyTax: string;
@@ -44,6 +46,11 @@ export interface CountryDefaults {
     forBuyingToMakeSense: string;
     and: string;
     months: string;
+    resultScenarioPrefix: string;
+    chartTitle: string;
+    chartSubtitle: string;
+    chartAxisYear: string;
+    chartAxisAmount: string;
   };
 }
 
@@ -104,4 +111,24 @@ export interface CalculationResult {
     finalOwnerNetWorth: number;
     recommendation: 'buy' | 'rent' | 'neutral';
   };
+}
+
+// Navigation types for Header component
+export interface NavigationItem {
+  label: string;
+  href: string;
+  children?: { label: string; href: string }[];
+}
+
+// Footer label types
+export interface FooterLabels {
+  footerPrivacy: string;
+  footerCopyright: string;
+  footerBrandMission: string;
+  footerToolsTitle: string;
+  footerLearnMoreTitle: string;
+  footerGlobalCalculator: string;
+  footerTopCities: string;
+  footerHowItWorks: string;
+  footerDataSources: string;
 }
