@@ -1,10 +1,25 @@
 import type { Metadata } from "next";
-import Script from "next/script"; // 1. IMPORT THIS
+import Script from "next/script";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CookieBanner from "@/components/CookieBanner";
 import { getHomePageLabels } from "@/lib/country-config";
+
+// Font configuration
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+  style: ["normal", "italic"],
+});
 
 export const metadata: Metadata = {
   title: "RentOrBuy-Pro - Buy vs Rent Calculator",
@@ -24,7 +39,7 @@ export default function RootLayout({
   const labels = getHomePageLabels('en');
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable}`}>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -45,7 +60,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="antialiased bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-gray-100 transition-colors" style={{
+      <body className={`${inter.variable} antialiased bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-gray-100 transition-colors`} style={{
         backgroundImage: `radial-gradient(circle at center, rgb(249 250 251) 0%, rgba(249, 250, 251, 0.95) 40%, rgba(249, 250, 251, 0.9) 100%), radial-gradient(circle, #cbd5e1 1px, transparent 1px)`,
         backgroundSize: '100% 100%, 40px 40px'
       }}>

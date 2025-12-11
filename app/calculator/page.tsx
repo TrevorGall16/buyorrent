@@ -11,6 +11,8 @@ import { useSearchParams } from 'next/navigation';
 import Calculator from '@/components/calculator/Calculator';
 import RegionSelector from '@/components/RegionSelector';
 import GlobalDisclaimer from '@/components/GlobalDisclaimer';
+import AdSidebar from '@/components/ads/AdSidebar';
+import AdUnit from '@/components/ads/AdUnit';
 import { getCountryConfig } from '@/lib/country-config';
 import { CountryCode } from '@/lib/types';
 
@@ -56,14 +58,14 @@ function CalculatorPageContent() {
     selectedRegion === 'PT' ? 900 : 2000;
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12">
+    <main className="min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4">
         {/* Title Section */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold italic mb-4">
             Global Calculator
           </h1>
-          <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
             Enter your own numbers and see 30-year financial projections for any location
           </p>
         </div>
@@ -79,23 +81,39 @@ function CalculatorPageContent() {
         {/* Disclaimer */}
         <GlobalDisclaimer variant="inline" />
 
-        {/* Calculator Component - key prop forces remount when region changes */}
-        <Calculator
-          key={selectedRegion}
-          cityName="Global Calculator"
-          countryCode={selectedRegion}
-          defaultHomePrice={defaultHomePrice}
-          defaultMonthlyRent={defaultMonthlyRent}
-          language={language}
-        />
+        {/* 2-Column Layout: Main Content + Sidebar */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* Main Content - 8 columns on desktop */}
+          <div className="lg:col-span-8">
+            {/* Calculator Component - key prop forces remount when region changes */}
+            <Calculator
+              key={selectedRegion}
+              cityName="Global Calculator"
+              countryCode={selectedRegion}
+              defaultHomePrice={defaultHomePrice}
+              defaultMonthlyRent={defaultMonthlyRent}
+              language={language}
+            />
 
-        {/* Bottom Notice */}
-        <div className="mt-12 text-center">
-          <p className="text-sm text-gray-600">
-            Adjust all values in the calculator above to match your specific situation.
-            <br />
-            These are generic starting values for {countryConfig.currencySymbol} currency.
-          </p>
+            {/* Bottom Notice */}
+            <div className="mt-12 text-center">
+              <p className="text-sm text-slate-600 dark:text-slate-400">
+                Adjust all values in the calculator above to match your specific situation.
+                <br />
+                These are generic starting values for {countryConfig.currencySymbol} currency.
+              </p>
+            </div>
+          </div>
+
+          {/* Sidebar - 4 columns on desktop, hidden on mobile */}
+          <div className="lg:col-span-4">
+            <AdSidebar />
+          </div>
+        </div>
+
+        {/* Mobile Ad - Below content, only visible on mobile */}
+        <div className="lg:hidden mt-8">
+          <AdUnit format="square" />
         </div>
       </div>
     </main>

@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Calculator from '@/components/calculator/Calculator';
-import AdContainer from '@/components/ads/AdContainer';
+import AdSidebar from '@/components/ads/AdSidebar';
+import AdUnit from '@/components/ads/AdUnit';
 import StructuredData from '@/components/StructuredData';
 import citiesData from '@/data/cities.json';
 import { CountryCode } from '@/lib/types';
@@ -116,51 +117,57 @@ export default async function CityBuyVsRentPage({ params, searchParams }: PagePr
         language={language}
       />
 
-      <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      <main className="min-h-screen">
         {/* City Hero Section with Flag Watermark */}
-        <section className="bg-white border-b border-gray-200 shadow-sm py-8 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4">
-          {/* Flag Watermark - HUGE, Very Subtle, Positioned Top-Right */}
-          <span
-            className="text-[150px] opacity-5 absolute -top-4 -right-4 rotate-12 pointer-events-none select-none"
-            aria-hidden="true"
-          >
-            {flag}
-          </span>
+        <section className="bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 shadow-sm py-8 relative overflow-hidden">
+          <div className="max-w-7xl mx-auto px-4">
+            {/* Flag Watermark - HUGE, Very Subtle, Positioned Top-Right */}
+            <span
+              className="text-[150px] opacity-5 dark:opacity-10 absolute -top-4 -right-4 rotate-12 pointer-events-none select-none"
+              aria-hidden="true"
+            >
+              {flag}
+            </span>
 
-          {/* City Title - On Top of Watermark */}
-          <div className="relative text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
-              {location}
-            </h1>
-            <p className="text-lg text-gray-600">
-              Buy vs. Rent Calculator
-            </p>
+            {/* City Title - On Top of Watermark */}
+            <div className="relative text-center">
+              <h1 className="text-4xl md:text-5xl font-bold italic mb-2">
+                {location}
+              </h1>
+              <p className="text-lg text-slate-600 dark:text-slate-400">
+                Buy vs. Rent Calculator
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Mobile Ad (Only visible on mobile) */}
-        <div className="lg:hidden mb-6">
-          <AdContainer slot="mobile" />
-        </div>
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          {/* 2-Column Layout: Main Content + Sidebar */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            {/* Main Content - 8 columns on desktop */}
+            <div className="lg:col-span-8">
+              {/* Calculator with built-in dashboard layout */}
+              <Calculator
+                cityName={name}
+                countryCode={country_code}
+                defaultHomePrice={defaults.avg_home_price}
+                defaultMonthlyRent={defaults.avg_rent}
+                dataUpdated={data_updated}
+                themeColor={theme_color}
+                language={language}
+              />
+            </div>
 
-        {/* Calculator with built-in dashboard layout */}
-        <Calculator
-          cityName={name}
-          countryCode={country_code}
-          defaultHomePrice={defaults.avg_home_price}
-          defaultMonthlyRent={defaults.avg_rent}
-          dataUpdated={data_updated}
-          themeColor={theme_color}
-          language={language}
-        />
-      </div>
+            {/* Sidebar - 4 columns on desktop, hidden on mobile */}
+            <div className="lg:col-span-4">
+              <AdSidebar />
+            </div>
+          </div>
 
-        {/* Footer Ad (Fixed bottom on mobile) */}
-        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50">
-          <AdContainer slot="footer" />
+          {/* Mobile Ad - Below content, only visible on mobile */}
+          <div className="lg:hidden mt-8">
+            <AdUnit format="square" />
+          </div>
         </div>
       </main>
     </>

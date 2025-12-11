@@ -37,7 +37,7 @@ export default function CityCard({ city, countryColor, language = 'en' }: CityCa
 
   return (
     <Link href={`/${city.slug}/buy-vs-rent${language !== 'en' ? `?lang=${language}` : ''}`}>
-      <div className="group flex flex-col sm:flex-row overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm hover:shadow-xl dark:hover:shadow-slate-900/50 transition-all duration-300 hover:-translate-y-1 cursor-pointer">
+      <div className="group flex flex-col sm:flex-row overflow-hidden rounded-2xl border border-gray-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 cursor-pointer">
         {/* Left: Image (35%) */}
         <div className="relative w-full sm:w-[35%] h-48 sm:h-auto overflow-hidden">
           <img
@@ -55,7 +55,7 @@ export default function CityCard({ city, countryColor, language = 'en' }: CityCa
         {/* Right: Content (65%) */}
         <div className="flex flex-col justify-center p-6 sm:p-8 flex-1">
           {/* City Name */}
-          <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+          <h3 className="text-2xl font-bold mb-6">
             {city.name}
           </h3>
 
