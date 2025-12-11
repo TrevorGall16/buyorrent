@@ -109,7 +109,7 @@ export default function Footer({ labels }: FooterProps) {
         {/* Bottom Row */}
         <div className="border-t border-gray-200 pt-6 space-y-2">
           <p className="text-center text-sm text-gray-500">
-            © {year} RentOrBuy-Pro. {labels.footerCopyright}
+            © <span suppressHydrationWarning>{year}</span> RentOrBuy-Pro.
           </p>
           <p className="text-center text-xs text-gray-400">
             <strong>Disclaimer:</strong> Educational purposes only. Consult a financial advisor before making decisions.
