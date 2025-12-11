@@ -57,12 +57,12 @@ export default function InputField({
   return (
     <div className="space-y-3">
       <div className="flex justify-between items-baseline mb-1">
-        <label className="text-base font-semibold text-gray-800 dark:text-gray-200 flex items-center">
+        <label className="text-base font-semibold text-gray-800 dark:text-gray-100 flex items-center">
           {label}
           {tooltip && <InfoTooltip text={tooltip} />}
         </label>
         <div className="flex items-center gap-3">
-          <span className="text-xl font-bold text-gray-900 dark:text-gray-100">
+          <span className="text-xl font-bold text-slate-900 dark:text-white">
             {prefix}
             {displayValue}
             {suffix}
@@ -75,7 +75,7 @@ export default function InputField({
             min={min}
             max={max}
             step={step}
-            className="w-24 px-2 py-1 text-sm text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-md opacity-100 focus:outline-none focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent"
+            className="w-24 px-2 py-1 text-sm text-slate-900 dark:text-white bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-md opacity-100 focus:outline-none focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent"
             aria-label={`${label} - exact value`}
           />
         </div>

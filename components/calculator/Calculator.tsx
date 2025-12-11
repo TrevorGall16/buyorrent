@@ -16,6 +16,7 @@ import AdvancedSettings from './AdvancedSettings';
 import NetWorthChart from './NetWorthChart';
 import ResultsDisplay from './ResultsDisplay';
 import BreakdownTable from './BreakdownTable';
+import InsightEngine from './InsightEngine';
 import AdContainer from '@/components/ads/AdContainer';
 
 interface CalculatorProps {
@@ -320,6 +321,14 @@ export default function Calculator({
           monthlyRent={monthlyRent}
         />
 
+        {/* Dynamic Insight Engine - Educational Content */}
+        <InsightEngine
+          breakEvenYear={results.breakEven.year ?? 30}
+          totalSavings={results.summary.finalOwnerNetWorth - results.summary.finalRenterNetWorth}
+          buyingPower={results.summary.finalOwnerNetWorth}
+          currencySymbol={countryConfig.currencySymbol}
+        />
+
         {/* Mobile Ad */}
         <AdContainer slot="mobile" />
       </div>
@@ -470,6 +479,14 @@ export default function Calculator({
             closingCosts={closingCosts}
             monthlyMortgage={monthlyMortgage}
             monthlyRent={monthlyRent}
+          />
+
+          {/* Dynamic Insight Engine - Educational Content */}
+          <InsightEngine
+            breakEvenYear={results.breakEven.year ?? 30}
+            totalSavings={results.summary.finalOwnerNetWorth - results.summary.finalRenterNetWorth}
+            buyingPower={results.summary.finalOwnerNetWorth}
+            currencySymbol={countryConfig.currencySymbol}
           />
 
           {/* Desktop Sidebar Ad (300x600) - Sticky */}
