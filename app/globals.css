@@ -9,11 +9,16 @@
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
   }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+  }
 }
 
 @layer base {
   body {
-    @apply bg-white text-gray-900 antialiased font-sans;
+    @apply antialiased font-sans;
     font-family: 'Inter', system-ui, sans-serif;
   }
 }
@@ -24,4 +29,14 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+}
+
+.dark .glass {
+  background: rgba(30, 41, 59, 0.9);
+  border-bottom: 1px solid rgba(71, 85, 105, 0.5);
+}
+
+/* Dark mode grid background */
+body.dark {
+  background-image: radial-gradient(circle at center, rgb(15 23 42) 0%, rgba(15, 23, 42, 0.95) 40%, rgba(15, 23, 42, 0.9) 100%), radial-gradient(circle, #475569 1px, transparent 1px) !important;
 }

@@ -5,6 +5,7 @@
  * Clean line chart with axis labels (no gradients)
  */
 
+import { useEffect, useState } from 'react';
 import {
   LineChart,
   Line,
@@ -37,6 +38,27 @@ export default function NetWorthChart({
   themeColor = '#22c55e', // Default green
   labels,
 }: NetWorthChartProps) {
+  // Detect dark mode for grid color
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Check if dark mode is active
+    const checkDarkMode = () => {
+      setIsDarkMode(document.documentElement.classList.contains('dark'));
+    };
+
+    checkDarkMode();
+
+    // Listen for theme changes
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   // Format currency for display
   const formatCurrency = (value: number) => {
     const absValue = Math.abs(value);
@@ -55,15 +77,15 @@ export default function NetWorthChart({
 
     const data = payload[0].payload;
     return (
-      <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-lg">
-        <p className="text-sm font-semibold text-gray-900 mb-2">
+      <div className="rounded-lg border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-800 p-4 shadow-lg">
+        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
           Year {data.year}
         </p>
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <div className="h-3 w-3 rounded-full bg-blue-500" />
-            <span className="text-xs text-gray-600">Renter:</span>
-            <span className="text-xs font-semibold text-gray-900">
+            <span className="text-xs text-gray-600 dark:text-gray-400">Renter:</span>
+            <span className="text-xs font-semibold text-gray-900 dark:text-gray-100">
               {formatCurrency(data.renterNetWorth)}
             </span>
           </div>
@@ -72,14 +94,14 @@ export default function NetWorthChart({
               className="h-3 w-3 rounded-full"
               style={{ backgroundColor: themeColor }}
             />
-            <span className="text-xs text-gray-600">Owner:</span>
-            <span className="text-xs font-semibold text-gray-900">
+            <span className="text-xs text-gray-600 dark:text-gray-400">Owner:</span>
+            <span className="text-xs font-semibold text-gray-900 dark:text-gray-100">
               {formatCurrency(data.ownerNetWorth)}
             </span>
           </div>
         </div>
         {breakEvenYear && data.year === Math.floor(breakEvenYear) && (
-          <p className="text-xs text-blue-600 mt-2 font-semibold">
+          <p className="text-xs text-blue-600 dark:text-blue-400 mt-2 font-semibold">
             ⚡ Break-even point
           </p>
         )}
@@ -93,13 +115,13 @@ export default function NetWorthChart({
   const axisAmountLabel = labels?.chartAxisAmount || 'Net Worth';
 
   return (
-    <div className="w-full rounded-xl border border-slate-200/60 border-t-white/60 bg-white shadow-sm p-6">
+    <div className="w-full rounded-xl border border-slate-200/60 dark:border-slate-700 border-t-white/60 dark:border-t-slate-600/60 bg-white dark:bg-slate-800 shadow-sm p-6">
       <div className="mb-6">
-        <h3 className="text-xl font-bold tracking-tight text-slate-900">{chartTitle}</h3>
-        <p className="text-sm text-slate-600 mt-2 leading-relaxed">
-          {chartSubtitle}. The <span className="inline-flex items-center gap-1"><span className="inline-block w-3 h-3 rounded-full bg-blue-500"></span><span className="font-medium text-blue-700">Renter</span></span> invests their down payment savings, while the <span className="inline-flex items-center gap-1"><span className="inline-block w-3 h-3 rounded-full" style={{ backgroundColor: themeColor }}></span><span className="font-medium" style={{ color: themeColor }}>Owner</span></span> builds equity. The higher line is the financial winner.
+        <h3 className="text-xl font-bold tracking-tight text-slate-900 dark:text-gray-100">{chartTitle}</h3>
+        <p className="text-sm text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
+          {chartSubtitle}. The <span className="inline-flex items-center gap-1"><span className="inline-block w-3 h-3 rounded-full bg-blue-500"></span><span className="font-medium text-blue-700 dark:text-blue-400">Renter</span></span> invests their down payment savings, while the <span className="inline-flex items-center gap-1"><span className="inline-block w-3 h-3 rounded-full" style={{ backgroundColor: themeColor }}></span><span className="font-medium" style={{ color: themeColor }}>Owner</span></span> builds equity. The higher line is the financial winner.
           {breakEvenYear && (
-            <span className="block mt-1 text-blue-600 font-semibold">
+            <span className="block mt-1 text-blue-600 dark:text-blue-400 font-semibold">
               ⚡ Break-even point: Year {breakEvenYear}
             </span>
           )}
@@ -115,24 +137,24 @@ export default function NetWorthChart({
           >
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="#e5e7eb"
+              stroke={isDarkMode ? '#334155' : '#e5e7eb'}
               vertical={true}
             />
             <XAxis
               dataKey="year"
-              stroke="#9ca3af"
-              style={{ fontSize: '12px' }}
+              stroke={isDarkMode ? '#9ca3af' : '#9ca3af'}
+              style={{ fontSize: '12px', fill: isDarkMode ? '#d1d5db' : '#6b7280' }}
               interval="preserveStartEnd"
             >
-              <Label value={axisYearLabel} offset={-10} position="insideBottom" style={{ fontSize: '14px', fill: '#6b7280', fontWeight: 600 }} />
+              <Label value={axisYearLabel} offset={-10} position="insideBottom" style={{ fontSize: '14px', fill: isDarkMode ? '#d1d5db' : '#6b7280', fontWeight: 600 }} />
             </XAxis>
             <YAxis
               tickFormatter={formatCurrency}
-              stroke="#9ca3af"
-              style={{ fontSize: '12px' }}
+              stroke={isDarkMode ? '#9ca3af' : '#9ca3af'}
+              style={{ fontSize: '12px', fill: isDarkMode ? '#d1d5db' : '#6b7280' }}
               width={80}
             >
-              <Label value={`${axisAmountLabel} (${currencySymbol})`} angle={-90} position="insideLeft" style={{ fontSize: '14px', fill: '#6b7280', fontWeight: 600, textAnchor: 'middle' }} />
+              <Label value={`${axisAmountLabel} (${currencySymbol})`} angle={-90} position="insideLeft" style={{ fontSize: '14px', fill: isDarkMode ? '#d1d5db' : '#6b7280', fontWeight: 600, textAnchor: 'middle' }} />
             </YAxis>
             <Tooltip content={<CustomTooltip />} />
             <Line

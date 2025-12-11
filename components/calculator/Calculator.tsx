@@ -152,7 +152,7 @@ export default function Calculator({
   if (!results) {
     return (
       <div className="flex items-center justify-center p-12">
-        <div className="text-gray-500">Calculating...</div>
+        <div className="text-gray-500 dark:text-gray-400">Calculating...</div>
       </div>
     );
   }
@@ -222,11 +222,11 @@ export default function Calculator({
 
         {/* Input Section */}
         <div
-          className="bg-white rounded-xl shadow-lg p-6 space-y-6"
+          className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 space-y-6 border border-slate-200/60 dark:border-slate-700"
           style={themeColor ? { borderTopWidth: '6px', borderTopColor: themeColor, borderTopStyle: 'solid' } : undefined}
         >
           <h2
-            className="text-2xl font-bold text-gray-900 px-4 py-3 -mx-4 -mt-4 mb-4 rounded-t-lg"
+            className="text-2xl font-bold text-gray-900 dark:text-gray-100 px-4 py-3 -mx-4 -mt-4 mb-4 rounded-t-lg"
             style={themeColor ? { backgroundColor: `${themeColor}1A` } : undefined}
           >
             {labels.adjustScenario}
@@ -282,11 +282,11 @@ export default function Calculator({
 
         {/* Chart */}
         <div
-          className="bg-white rounded-xl shadow-lg p-6"
+          className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 border border-slate-200/60 dark:border-slate-700"
           style={themeColor ? { borderTopWidth: '6px', borderTopColor: themeColor, borderTopStyle: 'solid' } : undefined}
         >
           <h3
-            className="text-xl font-bold text-gray-900 mb-4 px-4 py-3 -mx-4 -mt-4 rounded-t-lg"
+            className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4 px-4 py-3 -mx-4 -mt-4 rounded-t-lg"
             style={themeColor ? { backgroundColor: `${themeColor}1A` } : undefined}
           >
             {labels.netWorthOverTime}
@@ -329,11 +329,11 @@ export default function Calculator({
         {/* LEFT COLUMN (40% = 2 of 5 columns) - Scrollable Inputs */}
         <div className="lg:col-span-2 space-y-6">
           <div
-            className="bg-white rounded-xl shadow-lg p-6 space-y-6 sticky top-6"
+            className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 space-y-6 sticky top-6 border border-slate-200/60 dark:border-slate-700"
             style={themeColor ? { borderTopWidth: '6px', borderTopColor: themeColor, borderTopStyle: 'solid' } : undefined}
           >
             <h2
-              className="text-2xl font-bold text-gray-900 px-4 py-3 -mx-4 -mt-4 mb-4 rounded-t-lg"
+              className="text-2xl font-bold text-gray-900 dark:text-gray-100 px-4 py-3 -mx-4 -mt-4 mb-4 rounded-t-lg"
               style={themeColor ? { backgroundColor: `${themeColor}1A` } : undefined}
             >
               {labels.adjustScenario}
@@ -439,11 +439,11 @@ export default function Calculator({
 
           {/* Chart */}
           <div
-            className="bg-white rounded-xl shadow-lg p-6"
+            className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 border border-slate-200/60 dark:border-slate-700"
             style={themeColor ? { borderTopWidth: '6px', borderTopColor: themeColor, borderTopStyle: 'solid' } : undefined}
           >
             <h3
-              className="text-xl font-bold text-gray-900 mb-4 px-4 py-3 -mx-4 -mt-4 rounded-t-lg"
+              className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4 px-4 py-3 -mx-4 -mt-4 rounded-t-lg"
               style={themeColor ? { backgroundColor: `${themeColor}1A` } : undefined}
             >
               {labels.netWorthOverTime}

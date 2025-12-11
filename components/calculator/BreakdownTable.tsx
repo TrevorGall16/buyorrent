@@ -57,9 +57,9 @@ export default function BreakdownTable({
   ];
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-      <div className="px-4 py-3 bg-gray-50 border-b border-gray-200">
-        <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide">
+    <div className="bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 overflow-hidden">
+      <div className="px-4 py-3 bg-gray-50 dark:bg-slate-700 border-b border-gray-200 dark:border-slate-600">
+        <h3 className="text-sm font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide">
           Detailed Breakdown (30 Years)
         </h3>
       </div>
@@ -67,43 +67,43 @@ export default function BreakdownTable({
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="bg-gray-50 border-b border-gray-200">
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <tr className="bg-gray-50 dark:bg-slate-700 border-b border-gray-200 dark:border-slate-600">
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                 Category
               </th>
-              <th className="px-4 py-3 text-right text-xs font-semibold text-red-600 uppercase tracking-wider">
+              <th className="px-4 py-3 text-right text-xs font-semibold text-red-600 dark:text-red-400 uppercase tracking-wider">
                 Renting
               </th>
-              <th className="px-4 py-3 text-right text-xs font-semibold text-green-600 uppercase tracking-wider">
+              <th className="px-4 py-3 text-right text-xs font-semibold text-green-600 dark:text-green-400 uppercase tracking-wider">
                 Buying
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-200 dark:divide-slate-700">
             {rows.map((row, index) => (
               <tr
                 key={index}
-                className={row.highlight ? 'bg-blue-50' : 'hover:bg-gray-50'}
+                className={row.highlight ? 'bg-blue-50 dark:bg-blue-900/20' : 'hover:bg-gray-50 dark:hover:bg-slate-700/50'}
               >
                 <td
                   className={`px-4 py-3 text-sm ${
                     row.highlight
-                      ? 'font-bold text-gray-900'
-                      : 'font-medium text-gray-700'
+                      ? 'font-bold text-gray-900 dark:text-gray-100'
+                      : 'font-medium text-gray-700 dark:text-gray-300'
                   }`}
                 >
                   {row.category}
                 </td>
                 <td
                   className={`px-4 py-3 text-sm text-right ${
-                    row.highlight ? 'font-bold text-red-700' : 'text-gray-600'
+                    row.highlight ? 'font-bold text-red-700 dark:text-red-400' : 'text-gray-600 dark:text-gray-400'
                   }`}
                 >
                   {row.renter}
                 </td>
                 <td
                   className={`px-4 py-3 text-sm text-right ${
-                    row.highlight ? 'font-bold text-green-700' : 'text-gray-600'
+                    row.highlight ? 'font-bold text-green-700 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'
                   }`}
                 >
                   {row.owner}
@@ -114,8 +114,8 @@ export default function BreakdownTable({
         </table>
       </div>
 
-      <div className="px-4 py-3 bg-gray-50 border-t border-gray-200">
-        <p className="text-xs text-gray-500 italic">
+      <div className="px-4 py-3 bg-gray-50 dark:bg-slate-700 border-t border-gray-200 dark:border-slate-600">
+        <p className="text-xs text-gray-500 dark:text-gray-400 italic">
           * Assumes home appreciation of 3% annually and investment return of 5%
           annually
         </p>

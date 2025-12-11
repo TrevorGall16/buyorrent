@@ -172,16 +172,16 @@ export default function ResultsDisplay({
   const verdict = getVerdictMessage();
   const colorClasses = {
     green: {
-      bg: 'bg-green-50',
-      border: 'border-green-200',
-      text: 'text-green-900',
-      badge: 'bg-green-600',
+      bg: 'bg-green-50 dark:bg-green-900/20',
+      border: 'border-green-200 dark:border-green-700',
+      text: 'text-green-900 dark:text-green-100',
+      badge: 'bg-green-600 dark:bg-green-700',
     },
     red: {
-      bg: 'bg-red-50',
-      border: 'border-red-200',
-      text: 'text-red-900',
-      badge: 'bg-red-600',
+      bg: 'bg-red-50 dark:bg-red-900/20',
+      border: 'border-red-200 dark:border-red-700',
+      text: 'text-red-900 dark:text-red-100',
+      badge: 'bg-red-600 dark:bg-red-700',
     },
   } as const;
 
@@ -202,7 +202,7 @@ export default function ResultsDisplay({
             href={dataSourceUrl || '#'}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/90 backdrop-blur border border-blue-200 rounded-full shadow-sm group relative hover:bg-blue-50 transition-colors"
+            className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/90 dark:bg-slate-800/90 backdrop-blur border border-blue-200 dark:border-blue-600 rounded-full shadow-sm group relative hover:bg-blue-50 dark:hover:bg-slate-700 transition-colors"
             title={`Sources: ${dataSourceName || 'Market data aggregated from local sources'}`}
           >
             <svg
@@ -216,16 +216,16 @@ export default function ResultsDisplay({
                 clipRule="evenodd"
               />
             </svg>
-            <span className="text-xs font-medium text-blue-700">
+            <span className="text-xs font-medium text-blue-700 dark:text-blue-400">
               {labels.marketData} {cityName} • {labels.updated} Jan 2025
             </span>
 
             {/* Tooltip */}
             <div className="absolute bottom-full right-0 mb-2 hidden group-hover:block z-10 w-64">
-              <div className="bg-gray-900 text-white text-xs rounded-lg py-2 px-3 shadow-lg">
+              <div className="bg-gray-900 dark:bg-slate-700 text-white text-xs rounded-lg py-2 px-3 shadow-lg">
                 Sources: {dataSourceName || 'Market data aggregated from local sources'}
                 <div className="absolute top-full right-4 -mt-1">
-                  <div className="border-4 border-transparent border-t-gray-900"></div>
+                  <div className="border-4 border-transparent border-t-gray-900 dark:border-t-slate-700"></div>
                 </div>
               </div>
             </div>
@@ -248,8 +248,8 @@ export default function ResultsDisplay({
             </h2>
 
             {/* Message - Styled Container */}
-            <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r mb-6">
-              <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
+            <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 dark:border-blue-600 p-4 rounded-r mb-6">
+              <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
                 {verdict.message}
               </p>
             </div>
