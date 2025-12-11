@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import GlobalDisclaimer from '@/components/GlobalDisclaimer';
+import AdUnit from '@/components/ads/AdUnit';
 
 export const metadata: Metadata = {
   title: 'How It Works - RentOrBuy-Pro',
@@ -10,9 +11,9 @@ export const metadata: Metadata = {
 
 export default function HowItWorksPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12">
+    <main className="min-h-screen py-12">
       <div className="max-w-4xl mx-auto px-4">
-        <div className="bg-white rounded-xl shadow-lg p-8 md:p-12">
+        <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm border border-white/50 dark:border-slate-800 rounded-xl shadow-lg shadow-slate-200/50 dark:shadow-slate-900/50 p-8 md:p-12">
           {/* Header */}
           <div className="mb-8">
             <Link
@@ -124,6 +125,11 @@ export default function HowItWorksPage() {
                 </ul>
               </div>
             </section>
+
+            {/* Ad Placement - After second section */}
+            <div className="my-8 flex justify-center">
+              <AdUnit format="banner" />
+            </div>
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Opportunity Cost: The Hidden Factor</h2>

@@ -83,8 +83,8 @@ function CalculatorPageContent() {
 
         {/* 2-Column Layout: Main Content + Sidebar */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Main Content - 8 columns on desktop */}
-          <div className="lg:col-span-8">
+          {/* Main Content - 9 columns on desktop */}
+          <div className="lg:col-span-9">
             {/* Calculator Component - key prop forces remount when region changes */}
             <Calculator
               key={selectedRegion}
@@ -105,8 +105,8 @@ function CalculatorPageContent() {
             </div>
           </div>
 
-          {/* Sidebar - 4 columns on desktop, hidden on mobile */}
-          <div className="lg:col-span-4">
+          {/* Sidebar - 3 columns on desktop, hidden on mobile */}
+          <div className="lg:col-span-3">
             <AdSidebar />
           </div>
         </div>

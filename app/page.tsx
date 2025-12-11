@@ -3,6 +3,7 @@
 import { Suspense } from 'react';
 import citiesData from '@/data/cities.json';
 import CityCard from '@/components/CityCard';
+import AdUnit from '@/components/ads/AdUnit';
 import { useSearchParams } from 'next/navigation';
 import { useRef } from 'react';
 
@@ -157,19 +158,24 @@ function HomePageContent() {
           </div>
         </div>
 
-        {/* Country Filter Pills - Horizontal Scroll */}
-        <div className="mb-12 overflow-x-auto scrollbar-hide">
-          <div className="flex gap-3 pb-4 min-w-max justify-center px-4">
+        {/* Country Filter Pills - Wrapped */}
+        <div className="mb-8">
+          <div className="flex flex-wrap justify-center gap-3 px-4">
             {Object.entries(citiesByCountry).map(([countryCode]) => (
               <button
                 key={countryCode}
                 onClick={() => scrollToCountry(countryCode)}
-                className="px-5 py-2.5 rounded-full bg-white border-2 border-slate-200/60 hover:border-blue-400 hover:bg-blue-50 transition-all duration-200 text-sm font-semibold text-gray-700 hover:text-blue-600 shadow-sm hover:shadow-md whitespace-nowrap"
+                className="px-5 py-2.5 rounded-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border border-white/50 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all duration-200 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 shadow-sm hover:shadow-md whitespace-nowrap active:scale-95"
               >
                 {countryNames[countryCode] || countryCode}
               </button>
             ))}
           </div>
+        </div>
+
+        {/* Banner Ad - Below Country Selector */}
+        <div className="mb-12 flex justify-center">
+          <AdUnit format="banner" />
         </div>
 
         {/* Cities by Country */}
@@ -182,8 +188,8 @@ function HomePageContent() {
               }}
             >
               {/* Country Header with Glassmorphism */}
-              <div className="rounded-xl bg-white/80 backdrop-blur-md border border-slate-200/60 p-4 mb-8 shadow-sm">
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+              <div className="rounded-xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm border border-white/50 dark:border-slate-800 p-4 mb-8 shadow-lg shadow-slate-200/50 dark:shadow-slate-900/50">
+                <h2 className="text-2xl md:text-3xl font-bold">
                   {countryNames[countryCode] || countryCode}
                 </h2>
               </div>

@@ -47,10 +47,19 @@
 
 /* Dark mode grid background - Deep Slate */
 .dark body {
-  background-image: radial-gradient(circle at center, rgb(15 23 42) 0%, rgba(15, 23, 42, 0.95) 40%, rgba(15, 23, 42, 0.9) 100%), radial-gradient(circle, #475569 1px, transparent 1px) !important;
+  background-image: radial-gradient(circle at center, rgb(2 6 23) 0%, rgba(2, 6, 23, 0.95) 40%, rgba(2, 6, 23, 0.9) 100%), radial-gradient(circle, #334155 1px, transparent 1px) !important;
 }
 
-/* Premium card styling */
+/* Premium Glassmorphism card styling */
+.card-glass {
+  @apply bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm border border-white/50 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-900/50;
+}
+
+.card-glass:hover {
+  @apply shadow-xl shadow-slate-200/60 dark:shadow-slate-900/60 transition-all duration-200;
+}
+
+/* Legacy card styling */
 .card-premium {
   @apply bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 shadow-sm;
 }

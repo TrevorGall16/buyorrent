@@ -60,8 +60,8 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.variable} antialiased bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-gray-100 transition-colors`} style={{
-        backgroundImage: `radial-gradient(circle at center, rgb(249 250 251) 0%, rgba(249, 250, 251, 0.95) 40%, rgba(249, 250, 251, 0.9) 100%), radial-gradient(circle, #cbd5e1 1px, transparent 1px)`,
+      <body className={`${inter.variable} antialiased bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-gray-100 transition-colors`} style={{
+        backgroundImage: `radial-gradient(circle at center, rgb(248 250 252) 0%, rgba(248, 250, 252, 0.95) 40%, rgba(248, 250, 252, 0.9) 100%), radial-gradient(circle, #cbd5e1 1px, transparent 1px)`,
         backgroundSize: '100% 100%, 40px 40px'
       }}>
         {/* AdSense Script */}
