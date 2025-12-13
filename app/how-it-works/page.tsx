@@ -1,4 +1,3 @@
-import React from 'react';
 import AdUnit from '@/components/ads/AdUnit';
 
 export const metadata = {
