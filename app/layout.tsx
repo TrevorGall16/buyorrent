@@ -39,7 +39,7 @@ export default function RootLayout({
   const labels = getHomePageLabels('en');
 
   return (
-    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable} scroll-smooth`}>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -60,10 +60,36 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.variable} antialiased bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-gray-100 transition-colors`} style={{
-        backgroundImage: `radial-gradient(circle at center, rgb(248 250 252) 0%, rgba(248, 250, 252, 0.95) 40%, rgba(248, 250, 252, 0.9) 100%), radial-gradient(circle, #cbd5e1 1px, transparent 1px)`,
-        backgroundSize: '100% 100%, 40px 40px'
-      }}>
+<body 
+        className={`
+          ${inter.variable} 
+          antialiased 
+          min-h-screen 
+          flex flex-col
+          overflow-x-hidden      /* <--- ADD THIS HERE */
+          bg-[#FAFAFA]           /* Light Mode: Paper White */
+          dark:bg-[#050505]      /* Dark Mode: Pure Deep Black */
+          text-slate-900 
+          dark:text-slate-50
+          transition-colors duration-300
+        `}
+      >
+        {/* --- BACKGROUND LAYER --- */}
+        <div className="fixed inset-0 z-[-1] pointer-events-none">
+          {/* Grid Pattern */}
+          <div className="absolute inset-0 bg-grid-pattern opacity-[1]" />
+          
+          {/* Fade Mask (Makes grid fade out at the bottom) */}
+          <div 
+            className="absolute inset-0"
+            style={{
+              background: 'linear-gradient(to bottom, transparent 0%, var(--bg-page) 100%)',
+              maskImage: 'linear-gradient(to bottom, black 40%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, black 40%, transparent 100%)'
+            }}
+          />
+        </div>
+
         {/* AdSense Script */}
         <Script
           async
@@ -73,7 +99,12 @@ export default function RootLayout({
         />
 
         <Header />
-        {children}
+        
+        {/* Main content wrapper with flex-grow to ensure footer stays at bottom */}
+        <main className="flex-grow">
+          {children}
+        </main>
+        
         <Footer labels={labels} />
         <CookieBanner />
       </body>

@@ -67,6 +67,8 @@ export default function InputField({
             {displayValue}
             {suffix}
           </span>
+          
+          {/* NUMBER INPUT: FORCE DARK BACKGROUND WITH HEX */}
           <input
             type="number"
             value={inputValue}
@@ -75,11 +77,13 @@ export default function InputField({
             min={min}
             max={max}
             step={step}
-            className="w-24 px-2 py-1 text-sm text-slate-900 dark:text-white bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-md opacity-100 focus:outline-none focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent"
+            className="w-24 px-2 py-1 text-sm text-slate-900 dark:text-white bg-white dark:bg-[#1a1a1a] border border-gray-300 dark:border-gray-600 rounded-md opacity-100 focus:outline-none focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent"
             aria-label={`${label} - exact value`}
           />
         </div>
       </div>
+      
+      {/* SLIDER INPUT */}
       <input
         type="range"
         min={min}
@@ -87,14 +91,16 @@ export default function InputField({
         step={step}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-2 bg-gray-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-green-600 dark:accent-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:ring-offset-2"
+        className="w-full h-2 bg-gray-200 dark:bg-[#333333] rounded-lg appearance-none cursor-pointer accent-green-600 dark:accent-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:ring-offset-2"
         aria-label={label}
         aria-valuemin={min}
         aria-valuemax={max}
         aria-valuenow={value}
         aria-valuetext={`${prefix}${displayValue}${suffix}`}
       />
-      <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+      
+      {/* MIN/MAX LABELS */}
+      <div className="flex justify-between text-xs text-gray-500 dark:text-gray-300">
         <span>
           {prefix}
           {min.toLocaleString()}

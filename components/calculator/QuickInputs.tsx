@@ -31,19 +31,18 @@ export default function QuickInputs({
 }: QuickInputsProps) {
   return (
     <div className="space-y-8 md:space-y-10">
-      {/* City Display */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+  {/* City Display - FIXED FOR DARK MODE */}
+      <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-lg p-4">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs text-blue-600 font-medium uppercase tracking-wide">
+            <p className="text-xs text-blue-600 dark:text-blue-400 font-medium uppercase tracking-wide">
               Analyzing
             </p>
-            <h3 className="text-xl font-bold text-blue-900">{cityName}</h3>
+            <h3 className="text-xl font-bold text-blue-900 dark:text-blue-100">{cityName}</h3>
           </div>
           <div className="text-3xl">📍</div>
         </div>
       </div>
-
       {/* Home Price Slider - With Card Wrapper */}
       <div className="bg-gray-50/50 rounded-xl p-5 border border-gray-100 hover:bg-gray-100 transition-colors">
         <InputField

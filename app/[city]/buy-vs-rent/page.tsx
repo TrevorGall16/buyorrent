@@ -119,7 +119,7 @@ export default async function CityBuyVsRentPage({ params, searchParams }: PagePr
 
       <main className="min-h-screen">
         {/* City Hero Section with Flag Watermark */}
-        <section className="bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 shadow-sm py-8 relative overflow-hidden">
+        <section className="w-full bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 shadow-sm py-8 relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-4">
             {/* Flag Watermark - HUGE, Very Subtle, Positioned Top-Right */}
             <span

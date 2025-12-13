@@ -142,11 +142,10 @@ function HomePageContent() {
         {/* Hero Section with Beams Vibe */}
         <div className="relative text-center space-y-6 mb-16">
           {/* Radial Gradient Background */}
-          <div className="absolute inset-0 -top-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-100 via-transparent to-transparent pointer-events-none" />
 
           {/* Content */}
           <div className="relative z-10">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-gray-900 mb-4">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-serif italic font-medium tracking-tight text-slate-900 dark:text-slate-50 mb-6">
               {t.title}
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto font-light mb-3">
@@ -158,18 +157,51 @@ function HomePageContent() {
           </div>
         </div>
 
-        {/* Country Filter Pills - Wrapped */}
+ {/* Country Filter Pills - Wrapped */}
         <div className="mb-8">
           <div className="flex flex-wrap justify-center gap-3 px-4">
-            {Object.entries(citiesByCountry).map(([countryCode]) => (
-              <button
-                key={countryCode}
-                onClick={() => scrollToCountry(countryCode)}
-                className="px-5 py-2.5 rounded-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border border-white/50 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all duration-200 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 shadow-sm hover:shadow-md whitespace-nowrap active:scale-95"
-              >
-                {countryNames[countryCode] || countryCode}
-              </button>
-            ))}
+            {Object.entries(citiesByCountry).map(([countryCode]) => {
+              // Get the specific color for this country
+              const color = countryColors[countryCode] || '#cbd5e1';
+              
+              return (
+                <button
+                  key={countryCode}
+                  onClick={() => scrollToCountry(countryCode)}
+                  // Dynamic style to apply the country's specific color to the border
+                  style={{ borderColor: color }}
+                  className={`
+                    group relative px-5 py-3 rounded-full 
+                    bg-white dark:bg-zinc-900 
+                    border-2 
+                    transition-all duration-300 ease-out
+                    flex items-center gap-3
+                    hover:shadow-lg hover:scale-105 active:scale-95
+                  `}
+                >
+                  {/* Flag Image */}
+                  <img 
+                    src={`/flags/${countryCode.toLowerCase()}.svg`} 
+                    alt={`${countryCode} flag`}
+                    className="w-6 h-6 rounded-full object-cover shadow-sm group-hover:rotate-12 transition-transform duration-300"
+                    onError={(e) => { e.currentTarget.style.display = 'none' }} 
+                  />
+
+                  {/* Country Name */}
+                  <span 
+                    className="text-sm font-bold text-slate-700 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-white"
+                  >
+                    {countryNames[countryCode] || countryCode}
+                  </span>
+                  
+                  {/* Tiny colored dot indicator on hover */}
+                  <span 
+                    className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                    style={{ backgroundColor: color }}
+                  />
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -189,7 +221,7 @@ function HomePageContent() {
             >
               {/* Country Header with Glassmorphism */}
               <div className="rounded-xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm border border-white/50 dark:border-slate-800 p-4 mb-8 shadow-lg shadow-slate-200/50 dark:shadow-slate-900/50">
-                <h2 className="text-2xl md:text-3xl font-bold">
+                <h2 className="text-2xl md:text-3xl font-bold font-serif italic text-slate-900 dark:text-slate-50">
                   {countryNames[countryCode] || countryCode}
                 </h2>
               </div>
