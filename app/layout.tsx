@@ -21,6 +21,8 @@ const playfair = Playfair_Display({
   style: ["normal", "italic"],
 });
 
+// app/layout.tsx
+
 export const metadata: Metadata = {
   title: "RentOrBuy-Pro - Buy vs Rent Calculator",
   description: "Compare buying vs renting with real market data for 500+ cities. Make informed financial decisions.",
@@ -29,6 +31,15 @@ export const metadata: Metadata = {
   verification: {
     google: "ngEI4shSwK612Qfhfo-EHwAua2nf376xPxU6ib9ta74",
   },
+  
+  // START OF THE FIX: Tell Next.js about your main icons
+  icons: {
+    icon: '/icon.svg',         // Your high-quality SVG (or favicon.ico)
+    shortcut: '/favicon.ico',  // Fallback for legacy
+    apple: '/apple-icon.png',  // For Apple devices
+  },
+  manifest: '/manifest.webmanifest',
+  // END OF THE FIX
 };
 
 export default function RootLayout({
