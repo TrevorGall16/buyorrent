@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-// CONFIG
-const BASE_URL = 'https://rentorbuy-pro.com';
+// CONFIG - UPDATED DOMAIN
+const BASE_URL = 'https://www.rentorbuyworld.com';
 const CITIES_PATH = path.join(__dirname, '../data/cities.json');
 const PUBLIC_PATH = path.join(__dirname, '../public/sitemap.xml');
 

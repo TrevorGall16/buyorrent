@@ -161,7 +161,7 @@ export default function PrivacyPage() {
               </p>
               <div className="bg-gray-50 p-4 rounded-lg">
                 <p className="text-gray-700 font-medium">RentOrBuy-Pro Privacy Team</p>
-                <p className="text-gray-700">Email: privacy@rentorbuy-pro.com</p>
+                <p className="text-gray-700">Email: efwfew1611@gmail.com</p>
               </div>
             </section>
 

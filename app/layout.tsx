@@ -24,7 +24,7 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "RentOrBuy-Pro - Buy vs Rent Calculator",
   description: "Compare buying vs renting with real market data for 500+ cities. Make informed financial decisions.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://www.rentorbuyworld.com'),
+  metadataBase: new URL('https://www.rentorbuyworld.com'),
   
   verification: {
     google: "ngEI4shSwK612Qfhfo-EHwAua2nf376xPxU6ib9ta74",
