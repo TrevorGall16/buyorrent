@@ -219,9 +219,28 @@ function HomePageContent() {
                 if (el) sectionRefs.current[countryCode] = el;
               }}
             >
-              {/* Country Header with Glassmorphism */}
-              <div className="rounded-xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm border border-white/50 dark:border-slate-800 p-4 mb-8 shadow-lg shadow-slate-200/50 dark:shadow-slate-900/50">
-                <h2 className="text-2xl md:text-3xl font-bold font-serif italic text-slate-900 dark:text-slate-50">
+    {/* Country Header - MATCHING THE PILLS STYLE */}
+              <div 
+                className="
+                  flex items-center gap-4 
+                  rounded-2xl p-6 mb-8 
+                  bg-white dark:bg-zinc-900/50 backdrop-blur-md
+                  border-2 
+                  shadow-sm
+                "
+                // This applies the same specific country color (Red for Canada, Blue for US)
+                style={{ borderColor: countryColors[countryCode] || '#cbd5e1' }}
+              >
+                {/* 1. Large Flag Image */}
+                <img 
+                  src={`/flags/${countryCode.toLowerCase()}.svg`} 
+                  alt={`${countryCode} flag`}
+                  className="w-10 h-10 rounded-full object-cover shadow-sm border border-white/20"
+                  onError={(e) => { e.currentTarget.style.display = 'none' }} 
+                />
+
+                {/* 2. Country Name */}
+                <h2 className="text-3xl md:text-4xl font-serif italic font-bold text-slate-900 dark:text-slate-50">
                   {countryNames[countryCode] || countryCode}
                 </h2>
               </div>

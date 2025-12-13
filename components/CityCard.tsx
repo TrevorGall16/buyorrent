@@ -1,69 +1,89 @@
-/**
- * CityCard Component - Modern Real Estate Look
- * Horizontal Card Layout with High-End FinTech Design
- */
+'use client';
 
 import Link from 'next/link';
+import { useState } from 'react';
 
-type Language = 'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 'pt';
+// 1. Updated Interface to match your ACTUAL JSON structure
+export interface City {
+  name: string;
+  slug: string;
+  country_code: string;
+  currency_symbol?: string; // Mapped from your JSON "currency_symbol"
+  
+  // Direct values (if flat)
+  price?: number;
+  rent?: number;
 
-interface CityCardProps {
-  city: {
-    slug: string;
-    name: string;
-    currency_symbol: string;
-    defaults: {
-      avg_home_price: number;
-      avg_rent: number;
-    };
+  // Nested values (from your "defaults" object)
+  defaults?: {
+    avg_home_price?: number;
+    avg_rent?: number;
   };
-  countryColor: string;
-  language?: Language;
 }
 
-const buttonText: Record<Language, string> = {
-  en: 'View Analysis →',
-  fr: 'Voir l\'analyse →',
-  de: 'Analyse anzeigen →',
-  es: 'Ver análisis →',
-  it: 'Visualizza analisi →',
-  nl: 'Bekijk analyse →',
-  sv: 'Visa analys →',
-  pt: 'Ver análise →',
-};
+interface CityCardProps {
+  city: City;
+  countryColor: string;
+  language: string;
+}
 
-export default function CityCard({ city, countryColor, language = 'en' }: CityCardProps) {
-  const btnText = buttonText[language] || buttonText.en;
+export default function CityCard({ city, countryColor, language }: CityCardProps) {
+  const [imageError, setImageError] = useState(false);
+  
+  // 2. THE LOGIC FIX: Drill down into 'defaults' if root values are missing
+  const currencySymbol = city.currency_symbol || '$';
+  
+  const realRent = 
+    city.rent || 
+    city.defaults?.avg_rent || 
+    0;
+
+  const realPrice = 
+    city.price || 
+    city.defaults?.avg_home_price || 
+    0;
 
   return (
-    <Link href={`/${city.slug}/buy-vs-rent${language !== 'en' ? `?lang=${language}` : ''}`}>
-      <div className="group flex flex-col sm:flex-row overflow-hidden rounded-2xl border border-gray-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 cursor-pointer">
-        {/* Left: Image (35%) */}
-        <div className="relative w-full sm:w-[35%] h-48 sm:h-auto overflow-hidden">
+    <Link 
+      href={`/${city.slug}/buy-vs-rent?lang=${language}`}
+      className="group relative overflow-hidden bg-white dark:bg-[#121212] border border-gray-100 dark:border-white/5 rounded-xl h-64 transition-all hover:border-gray-300 dark:hover:border-white/20 hover:shadow-xl hover:-translate-y-1 block"
+    >
+      {/* 1. THE IMAGE LAYER */}
+      {!imageError ? (
+        <div className="absolute inset-0 z-0">
           <img
-            src={`https://placehold.co/600x400/e2e8f0/1e293b?text=${encodeURIComponent(city.name)}`}
-            alt={city.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            src={`/images/cities/${city.slug}.jpg`}
+            alt={`${city.name} real estate`}
+            className="w-full h-full object-cover opacity-90 scale-110 group-hover:scale-125 transition-transform duration-[2000ms] ease-out"
+  onError={() => setImageError(true)}
           />
-          {/* Country Color Accent - Top Border */}
-          <div
-            className="absolute top-0 left-0 w-full h-1"
-            style={{ backgroundColor: countryColor }}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+        </div>
+      ) : (
+        /* 2. FALLBACK: WATERMARK LAYER */
+        <div className="absolute inset-0 z-0">
+          <div className="absolute -left-2 -top-4 text-[8rem] font-serif italic text-gray-50 dark:text-white/5 select-none pointer-events-none leading-none">
+            {city.name.substring(0, 2)}
+          </div>
+          <div 
+            className="absolute top-0 right-0 w-24 h-24 blur-[80px] opacity-20" 
+            style={{ backgroundColor: countryColor }} 
           />
         </div>
+      )}
 
-        {/* Right: Content (65%) */}
-        <div className="flex flex-col justify-center p-6 sm:p-8 flex-1">
-          {/* City Name */}
-          <h3 className="text-2xl font-bold mb-6">
-            {city.name}
-          </h3>
-
-          {/* Action Button - Pill Shape with Blue Gradient */}
-          <button className="w-fit px-6 py-3 rounded-full bg-gradient-to-r from-blue-600 to-blue-500 dark:from-blue-500 dark:to-blue-400 text-white font-semibold shadow-md hover:shadow-lg hover:from-blue-700 hover:to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-500 transition-all duration-200 active:scale-95">
-            {btnText}
-          </button>
-        </div>
+      {/* 3. CONTENT LAYER */}
+      <div className="relative z-10 h-full flex flex-col justify-end p-6">
+        <h3 className="text-2xl font-bold text-white mb-1 tracking-tight">
+          {city.name}
+        </h3>
+        <p className="text-gray-300 text-sm font-medium mb-4">
+           {realRent.toLocaleString()} {currencySymbol}/mo • {realPrice.toLocaleString()} {currencySymbol}
+        </p>
+        
+        <span className="inline-flex items-center text-sm font-semibold text-white/90 group-hover:text-white group-hover:translate-x-1 transition-all">
+          View Analysis <span className="ml-2">→</span>
+        </span>
       </div>
     </Link>
   );
