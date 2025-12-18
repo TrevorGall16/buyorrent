@@ -1,18 +1,18 @@
 const fs = require('fs');
 const path = require('path');
 
-// CONFIG - UPDATED DOMAIN
-const BASE_URL = 'https://www.rentorbuyworld.com';
+// CONFIG - UPDATED TO NON-WWW TO MATCH CANONICAL AND NETLIFY PRIMARY
+const BASE_URL = 'https://rentorbuyworld.com';
 const CITIES_PATH = path.join(__dirname, '../data/cities.json');
 const PUBLIC_PATH = path.join(__dirname, '../public/sitemap.xml');
 
-// 1. Static Pages (The main ones)
+// 1. Static Pages
 const staticPages = [
   '',
   '/calculator',
   '/how-it-works',
   '/data-and-sources',
-  '/privacy-policy' // Ensure you have this page!
+  '/privacy-policy' 
 ];
 
 // 2. Read Cities
@@ -39,4 +39,4 @@ const xml = `<?xml version="1.0" encoding="UTF-8"?>
 
 // 4. Write File
 fs.writeFileSync(PUBLIC_PATH, xml);
-console.log(`✅ Sitemap generated with ${staticPages.length + cities.length} URLs at ${PUBLIC_PATH}`);
+console.log(`✅ Sitemap generated with ${staticPages.length + cities.length} URLs using Primary Domain (non-www)`);
