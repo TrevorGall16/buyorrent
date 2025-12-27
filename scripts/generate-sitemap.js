@@ -12,7 +12,7 @@ const staticPages = [
   '/calculator',
   '/how-it-works',
   '/data-and-sources',
-  '/privacy-policy' 
+  '/privacy'
 ];
 
 // 2. Read Cities
