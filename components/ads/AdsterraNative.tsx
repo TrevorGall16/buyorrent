@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 
 export default function AdsterraNative() {
   const containerRef = useRef<HTMLDivElement>(null);
-  // This creates a unique ID for every single ad box on the page
+  // Generate a unique ID for every instance
   const uniqueId = useRef(`ad-${Math.random().toString(36).substring(2, 9)}`);
 
   useEffect(() => {
@@ -12,8 +12,8 @@ export default function AdsterraNative() {
       const adId = "2597a491661d74469343b74e567c377a";
       
       const adContainer = document.createElement('div');
-      // Adsterra's script looks for this specific ID format
-      adContainer.id = `container-${adId}`;
+      // ✅ Using the uniqueId here fixes the TypeScript error
+      adContainer.id = `container-${adId}-${uniqueId.current}`;
       
       const script = document.createElement('script');
       script.async = true;
