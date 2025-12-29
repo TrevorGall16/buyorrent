@@ -140,13 +140,6 @@ export default async function HomePage({
           </p>
         </TextExpander>
 
-        {/* 4. Banner Ad (After content) */}
-        <div className="my-10 flex justify-center">
-          <div className="w-full max-w-[728px] min-h-[90px]">
-            <AdUnit format="banner" />
-          </div>
-        </div>
-
 {/* 5. City Grid */}
 <div className="space-y-16">
   {Object.entries(citiesByCountry).map(([countryCode, cities], index) => (

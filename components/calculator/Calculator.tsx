@@ -564,7 +564,7 @@ export default function Calculator({
            {/* ✅ ADSTERRA PLACEMENT: After the results */}
            <div className="pt-8 border-t border-gray-100 dark:border-slate-800">
               <p className="text-center text-xs text-slate-400 mb-4 uppercase tracking-widest">Sponsored Insights</p>
-              <AdsterraNative />
+              <AdsterraNative id="2597a491661d74469343b74e567c377a" />
            </div>
         </div>
       </div>
