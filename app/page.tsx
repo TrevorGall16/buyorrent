@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import citiesData from '@/data/cities.json';
 import CityCard from '@/components/CityCard';
-import AdUnit from '@/components/ads/AdUnit';
 import Link from 'next/link';
 import TextExpander from '@/components/TextExpander'; // Import the new component
 import AdsterraNative from '../components/ads/AdsterraNative';
