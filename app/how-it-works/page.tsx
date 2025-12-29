@@ -1,4 +1,5 @@
-import AdUnit from '@/components/ads/AdUnit';
+import AdsterraBanner from '@/components/ads/AdsterraBanner';
+import AdsterraNative from '@/components/ads/AdsterraNative';
 
 export const metadata = {
   title: 'How It Works | Rent vs Buy Methodology',
@@ -9,6 +10,10 @@ export default function HowItWorksPage() {
   return (
     <main className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
+        {/* 💰 TOP AD: Catch them immediately */}
+<div className="mb-8">
+  <AdsterraBanner />
+</div>
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-slate-900 dark:text-slate-50 mb-4 tracking-tight">
@@ -84,10 +89,10 @@ export default function HowItWorksPage() {
             </ul>
           </section>
 
-          {/* ADVERTISEMENT BREAK */}
-          <div className="my-12 flex justify-center">
-            <AdUnit format="banner" slotId="content-middle" />
-          </div>
+{/* 💰 MIDDLE AD: High-CPM Native Unit */}
+<div className="my-12 flex justify-center">
+  <AdsterraNative id="2597a491661d74469343b74e567c377a" />
+</div>
 
           {/* Section 3: Renting */}
           <section className="mb-10">
