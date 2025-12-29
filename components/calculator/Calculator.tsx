@@ -28,6 +28,7 @@ import ResultsDisplay from './ResultsDisplay';
 import BreakdownTable from './BreakdownTable';
 import InsightEngine from './InsightEngine';
 import AdContainer from '@/components/ads/AdContainer';
+import AdsterraNative from '../../components/ads/AdsterraNative';
 
 interface CalculatorProps {
   cityName: string;
@@ -544,7 +545,7 @@ export default function Calculator({
           </div>
         </div>
         
-        <div className="lg:col-span-5 space-y-8 pt-8 border-t border-gray-200 dark:border-slate-700">
+<div className="lg:col-span-5 space-y-8 pt-8 border-t border-gray-200 dark:border-slate-700">
            <BreakdownTable 
              finalYearData={financialMetrics.finalYearData} 
              currencySymbol={countryConfig.currencySymbol} 
@@ -559,6 +560,12 @@ export default function Calculator({
              buyingPower={results.summary.finalOwnerNetWorth} 
              currencySymbol={countryConfig.currencySymbol} 
            />
+
+           {/* ✅ ADSTERRA PLACEMENT: After the results */}
+           <div className="pt-8 border-t border-gray-100 dark:border-slate-800">
+              <p className="text-center text-xs text-slate-400 mb-4 uppercase tracking-widest">Sponsored Insights</p>
+              <AdsterraNative />
+           </div>
         </div>
       </div>
     </>

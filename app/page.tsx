@@ -4,6 +4,9 @@ import CityCard from '@/components/CityCard';
 import AdUnit from '@/components/ads/AdUnit';
 import Link from 'next/link';
 import TextExpander from '@/components/TextExpander'; // Import the new component
+import AdsterraNative from '../components/ads/AdsterraNative';
+import React from 'react';
+
 
 type Language = 'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 'pt';
 
@@ -86,7 +89,10 @@ export default async function HomePage({
             {t.subtitle}
           </p>
         </div>
-
+{/* ✅ FIRST AD PLACEMENT */}
+<div className="my-6">
+  <AdsterraNative />
+</div>
         {/* 2. Quick Links (MOVED UP + FIXED FLAGS) */}
         <div className="mb-12">
           <div className="flex flex-wrap justify-center gap-3 px-2">
@@ -140,36 +146,49 @@ export default async function HomePage({
           </div>
         </div>
 
-        {/* 5. City Grid */}
-        <div className="space-y-16">
-          {Object.entries(citiesByCountry).map(([countryCode, cities]) => (
-            <section key={countryCode} id={countryCode.toLowerCase()}>
-              {/* Country Section Header */}
-              <div
-                className="flex items-center gap-4 rounded-xl p-4 mb-6 bg-white dark:bg-zinc-900/50 backdrop-blur-md border shadow-sm"
-                style={{ borderLeftWidth: '6px', borderLeftColor: countryColors[countryCode] || '#cbd5e1' }}
-              >
-                <span className="text-4xl">{flagEmojis[countryCode]}</span>
-                <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-50">
-                  {countryNames[countryCode] || countryCode}
-                </h2>
-              </div>
-
-              {/* Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {cities.map((city) => (
-                  <CityCard
-                    key={city.slug}
-                    city={city}
-                    countryColor={countryColors[countryCode] || '#3b82f6'}
-                    language={lang}
-                  />
-                ))}
-              </div>
-            </section>
-          ))}
+{/* 5. City Grid */}
+<div className="space-y-16">
+  {Object.entries(citiesByCountry).map(([countryCode, cities], index) => (
+    <React.Fragment key={countryCode}>
+      <section id={countryCode.toLowerCase()}>
+        {/* Country Section Header */}
+        <div
+          className="flex items-center gap-4 rounded-xl p-4 mb-6 bg-white dark:bg-zinc-900/50 backdrop-blur-md border shadow-sm"
+          style={{ borderLeftWidth: '6px', borderLeftColor: countryColors[countryCode] || '#cbd5e1' }}
+        >
+          <span className="text-4xl">{flagEmojis[countryCode]}</span>
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-50">
+            {countryNames[countryCode] || countryCode}
+          </h2>
         </div>
 
+        {/* Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {cities.map((city) => (
+            <CityCard
+              key={city.slug}
+              city={city}
+              countryColor={countryColors[countryCode] || '#3b82f6'}
+              language={lang}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* ✅ ADSTERRA PLACEMENT: Injects an ad after the 3rd country */}
+      {index === 2 && (
+        <div className="py-12 border-y border-slate-100 dark:border-slate-800">
+           <p className="text-center text-[10px] text-slate-400 mb-4 uppercase tracking-[0.2em]">Partner Content</p>
+           <AdsterraNative />
+        </div>
+      )}
+    </React.Fragment>
+  ))}
+</div>
+{/* ✅ THIRD AD PLACEMENT */}
+<div className="my-10">
+  <AdsterraNative />
+</div>
         {/* 6. FAQ (Bottom for SEO) */}
         <section className="mt-20 max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-8">{t.faqTitle}</h2>

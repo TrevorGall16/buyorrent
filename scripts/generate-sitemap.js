@@ -1,18 +1,18 @@
 const fs = require('fs');
 const path = require('path');
 
-// CONFIG - UPDATED TO NON-WWW TO MATCH CANONICAL AND NETLIFY PRIMARY
-const BASE_URL = 'https://rentorbuyworld.com';
+// CONFIG - UPDATED TO NON-WWW TO MATCH YOUR WEBSITE CANONICAL
+const BASE_URL = 'https://rentorbuyworld.com'; 
 const CITIES_PATH = path.join(__dirname, '../data/cities.json');
 const PUBLIC_PATH = path.join(__dirname, '../public/sitemap.xml');
 
-// 1. Static Pages
+// 1. Static Pages (Updated to match your actual /privacy path)
 const staticPages = [
   '',
   '/calculator',
   '/how-it-works',
   '/data-and-sources',
-  '/privacy'
+  '/privacy' // Changed from '/privacy-policy' to '/privacy'
 ];
 
 // 2. Read Cities
@@ -39,4 +39,4 @@ const xml = `<?xml version="1.0" encoding="UTF-8"?>
 
 // 4. Write File
 fs.writeFileSync(PUBLIC_PATH, xml);
-console.log(`✅ Sitemap generated with ${staticPages.length + cities.length} URLs using Primary Domain (non-www)`);
+console.log(`✅ Sitemap successfully regenerated at ${PUBLIC_PATH}`);
