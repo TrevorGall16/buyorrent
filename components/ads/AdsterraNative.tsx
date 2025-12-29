@@ -1,31 +1,31 @@
 'use client';
 import { useEffect, useRef } from 'react';
 
-export default function AdsterraNative() {
+// ✅ This interface tells TypeScript that "id" is a valid prop
+interface AdsterraNativeProps {
+  id?: string; // The "?" makes it optional so your old code doesn't break
+}
+
+export default function AdsterraNative({ id }: AdsterraNativeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  // We keep this to satisfy TypeScript 'unused variable' rules
-  const debugId = useRef(Math.random().toString(36).substring(7));
+  
+  // Default to your original ID if no ID is passed
+  const adId = id || "2597a491661d74469343b74e567c377a";
 
   useEffect(() => {
     if (containerRef.current && !containerRef.current.firstChild) {
-      // ✅ This MUST match your Adsterra dashboard ID exactly
-      const adId = "2597a491661d74469343b74e567c377a";
-      
       const adContainer = document.createElement('div');
-      adContainer.id = `container-${adId}`; // Fixed ID
+      adContainer.id = `container-${adId}`;
       
       const script = document.createElement('script');
       script.async = true;
       script.dataset.cfasync = "false";
       script.src = `https://pl28359708.effectivegatecpm.com/${adId}/invoke.js`;
 
-      // Use the variable so the build doesn't fail
-      console.log(`Adsterra initializing instance: ${debugId.current}`);
-
       containerRef.current.appendChild(adContainer);
       containerRef.current.appendChild(script);
     }
-  }, []);
+  }, [adId]); // ✅ Re-run if the ID changes
 
   return (
     <div 

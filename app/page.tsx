@@ -6,6 +6,7 @@ import Link from 'next/link';
 import TextExpander from '@/components/TextExpander'; // Import the new component
 import AdsterraNative from '../components/ads/AdsterraNative';
 import React from 'react';
+import AdsterraBanner from '@/components/ads/AdsterraBanner';
 
 
 type Language = 'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 'pt';
@@ -91,7 +92,7 @@ export default async function HomePage({
         </div>
 {/* ✅ FIRST AD PLACEMENT */}
 <div className="my-6">
-  <AdsterraNative />
+  <AdsterraBanner />
 </div>
         {/* 2. Quick Links (MOVED UP + FIXED FLAGS) */}
         <div className="mb-12">
@@ -186,8 +187,8 @@ export default async function HomePage({
   ))}
 </div>
 {/* ✅ THIRD AD PLACEMENT */}
-<div className="my-10">
-  <AdsterraNative />
+<div className="mt-20">
+   <AdsterraNative id="2597a491661d74469343b74e567c377a" />
 </div>
         {/* 6. FAQ (Bottom for SEO) */}
         <section className="mt-20 max-w-3xl mx-auto">
