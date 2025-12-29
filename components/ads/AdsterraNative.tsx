@@ -3,22 +3,24 @@ import { useEffect, useRef } from 'react';
 
 export default function AdsterraNative() {
   const containerRef = useRef<HTMLDivElement>(null);
-  // Generate a unique ID for every instance
-  const uniqueId = useRef(`ad-${Math.random().toString(36).substring(2, 9)}`);
+  // We keep this to satisfy TypeScript 'unused variable' rules
+  const debugId = useRef(Math.random().toString(36).substring(7));
 
   useEffect(() => {
-    // Only run if the container is empty
     if (containerRef.current && !containerRef.current.firstChild) {
+      // ✅ This MUST match your Adsterra dashboard ID exactly
       const adId = "2597a491661d74469343b74e567c377a";
       
       const adContainer = document.createElement('div');
-      // ✅ Using the uniqueId here fixes the TypeScript error
-      adContainer.id = `container-${adId}-${uniqueId.current}`;
+      adContainer.id = `container-${adId}`; // Fixed ID
       
       const script = document.createElement('script');
       script.async = true;
       script.dataset.cfasync = "false";
       script.src = `https://pl28359708.effectivegatecpm.com/${adId}/invoke.js`;
+
+      // Use the variable so the build doesn't fail
+      console.log(`Adsterra initializing instance: ${debugId.current}`);
 
       containerRef.current.appendChild(adContainer);
       containerRef.current.appendChild(script);

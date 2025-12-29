@@ -26,7 +26,7 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "RentOrBuy-Pro - Buy vs Rent Calculator",
   description: "Compare buying vs renting with real market data for 500+ cities. Make informed financial decisions.",
-  metadataBase: new URL('https://www.rentorbuyworld.com'),
+  metadataBase: new URL('https://rentorbuyworld.com'),
   
   verification: {
     google: "ngEI4shSwK612Qfhfo-EHwAua2nf376xPxU6ib9ta74",
@@ -101,13 +101,6 @@ export default function RootLayout({
           />
         </div>
 
-        {/* AdSense Script */}
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8732422930809097"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
 
         <Header />
         
