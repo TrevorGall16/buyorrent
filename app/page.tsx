@@ -141,7 +141,7 @@ export default async function HomePage({
 
 {/* 5. City Grid */}
 <div className="space-y-16">
-  {Object.entries(citiesByCountry).map(([countryCode, cities], index) => (
+ {Object.entries(citiesByCountry).map(([countryCode, cities]) => (
     <React.Fragment key={countryCode}>
       <section id={countryCode.toLowerCase()}>
         {/* Country Section Header */}
