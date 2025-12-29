@@ -178,11 +178,10 @@ export default async function HomePage({
 
       {/* ✅ ADSTERRA PLACEMENT: Injects an ad after the 3rd country */}
       {index === 2 && (
-        <div className="py-12 border-y border-slate-100 dark:border-slate-800">
-           <p className="text-center text-[10px] text-slate-400 mb-4 uppercase tracking-[0.2em]">Partner Content</p>
-           <AdsterraNative />
-        </div>
-      )}
+ <div className="py-12 border-y border-slate-100 dark:border-slate-800">
+     <AdsterraBanner /> 
+  </div>
+)}
     </React.Fragment>
   ))}
 </div>
