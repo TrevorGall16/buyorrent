@@ -168,12 +168,6 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* ✅ ADSTERRA PLACEMENT: Injects an ad after the 3rd country */}
-      {index === 2 && (
- <div className="py-12 border-y border-slate-100 dark:border-slate-800">
-     <AdsterraBanner /> 
-  </div>
-)}
     </React.Fragment>
   ))}
 </div>
