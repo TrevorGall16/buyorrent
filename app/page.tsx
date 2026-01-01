@@ -10,14 +10,31 @@ import AdsterraBanner from '@/components/ads/AdsterraBanner';
 
 type Language = 'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 'pt';
 
-// Metadata for SEO
-export const metadata: Metadata = {
-  title: 'Rent vs Buy Calculator - Compare 500+ Cities Worldwide | RentOrBuyWorld',
-  description: 'Make smarter real estate decisions with our comprehensive rent vs buy calculator. Analyze 500+ global cities with real market data.',
-  alternates: {
-    canonical: 'https://rentorbuyworld.com',
-  },
-};
+export async function generateMetadata({ searchParams }: { searchParams: Promise<{ lang?: string }> }): Promise<Metadata> {
+  const { lang: langParam } = await searchParams;
+  const lang = (langParam || 'en') as Language;
+  
+  // Use your existing translations object!
+  const t = translations[lang] || translations.en;
+
+  return {
+    title: `${t.title} - Compare 500+ Cities | RentOrBuyWorld`,
+    description: t.description,
+    alternates: {
+      canonical: 'https://rentorbuyworld.com',
+      languages: {
+        'en': 'https://rentorbuyworld.com',
+        'de': 'https://rentorbuyworld.com?lang=de',
+        'nl': 'https://rentorbuyworld.com?lang=nl',
+        'sv': 'https://rentorbuyworld.com?lang=sv',
+        'it': 'https://rentorbuyworld.com?lang=it',
+        'fr': 'https://rentorbuyworld.com?lang=fr',
+        'es': 'https://rentorbuyworld.com?lang=es',
+        'pt': 'https://rentorbuyworld.com?lang=pt',
+      },
+    },
+  };
+}
 
 // Translations
 const translations: Record<Language, any> = {
@@ -93,27 +110,28 @@ export default async function HomePage({
 <div className="my-6">
   <AdsterraBanner />
 </div>
-        {/* 2. Quick Links (MOVED UP + FIXED FLAGS) */}
-        <div className="mb-12">
-          <div className="flex flex-wrap justify-center gap-3 px-2">
-            {Object.entries(citiesByCountry).map(([countryCode]) => {
-              const color = countryColors[countryCode] || '#cbd5e1';
-              return (
-                <Link
-                  key={countryCode}
-                  href={`#${countryCode.toLowerCase()}`}
-                  className="group px-4 py-2 rounded-full bg-white dark:bg-zinc-900 border transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 flex items-center gap-2 no-underline"
-                  style={{ borderColor: color }}
-                >
-                  <span className="text-xl leading-none">{flagEmojis[countryCode]}</span>
-                  <span className="text-sm font-bold text-slate-700 dark:text-slate-200">
-                    {countryNames[countryCode] || countryCode}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
+{/* 2. Quick Links (MOVED UP + FIXED FLAGS) */}
+<div className="mb-12">
+  <div className="flex flex-wrap justify-center gap-3 px-2">
+    {Object.entries(citiesByCountry).map(([countryCode]) => {
+      const color = countryColors[countryCode] || '#cbd5e1';
+      return (
+        <Link
+          key={countryCode}
+          // ✅ FIX: This keeps the language active when clicking a country flag
+          href={`#${countryCode.toLowerCase()}${lang !== 'en' ? `?lang=${lang}` : ''}`}
+          className="group px-4 py-2 rounded-full bg-white dark:bg-zinc-900 border transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 flex items-center gap-2 no-underline"
+          style={{ borderColor: color }}
+        >
+          <span className="text-xl leading-none">{flagEmojis[countryCode]}</span>
+          <span className="text-sm font-bold text-slate-700 dark:text-slate-200">
+            {countryNames[countryCode] || countryCode}
+          </span>
+        </Link>
+      );
+    })}
+  </div>
+</div>
 
         {/* 3. Collapsible Educational Content (Clean Design, AdSense Safe) */}
         <TextExpander title={t.howToUseTitle}>

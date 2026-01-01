@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 
 export default function AdsterraBanner() {
   const containerRef = useRef<HTMLDivElement>(null);
-  // This unique ID tricks the Adsterra script into loading twice on one page
+  // ✅ This unique ID allows you to use the same ad unit twice on one page
   const uniqueId = useRef(`ad-banner-${Math.random().toString(36).substring(7)}`);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function AdsterraBanner() {
       const invokeScript = document.createElement('script');
       invokeScript.src = `https://www.highperformanceformat.com/${atOptions.key}/invoke.js`;
 
-      // Create a wrapper with the unique ID
+      // Assign the unique ID to the ad box
       const adBox = document.createElement('div');
       adBox.id = uniqueId.current;
       

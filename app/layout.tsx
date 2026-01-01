@@ -26,6 +26,18 @@ export const metadata: Metadata = {
   title: "RentOrBuy-Pro - Buy vs Rent Calculator",
   description: "Compare buying vs renting with real market data for 500+ cities. Make informed financial decisions.",
   metadataBase: new URL('https://rentorbuyworld.com'),
+  alternates: {
+    canonical: '/',
+    languages: {
+      'en-US': '/',
+      'de-DE': '/?lang=de',
+      'nl-NL': '/?lang=nl',
+      'sv-SE': '/?lang=sv',
+      'it-IT': '/?lang=it',
+      'fr-FR': '/?lang=fr',
+      'es-ES': '/?lang=es',
+    },
+  },
   
   verification: {
     google: "ngEI4shSwK612Qfhfo-EHwAua2nf376xPxU6ib9ta74",

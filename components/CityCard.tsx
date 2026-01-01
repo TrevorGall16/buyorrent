@@ -44,10 +44,11 @@ export default function CityCard({ city, countryColor, language }: CityCardProps
     0;
 
   return (
-    <Link 
-      href={`/${city.slug}/buy-vs-rent?lang=${language}`}
-      className="group relative overflow-hidden bg-white dark:bg-[#121212] border border-gray-100 dark:border-white/5 rounded-xl h-64 transition-all hover:border-gray-300 dark:hover:border-white/20 hover:shadow-xl hover:-translate-y-1 block"
-    >
+<Link 
+  // ✅ FIX: Only add the lang param if it is NOT English (cleaner SEO)
+  href={`/${city.slug}/buy-vs-rent${language !== 'en' ? `?lang=${language}` : ''}`}
+  className="group relative overflow-hidden bg-white dark:bg-[#121212] border border-gray-100 dark:border-white/5 rounded-xl h-64 transition-all hover:border-gray-300 dark:hover:border-white/20 hover:shadow-xl hover:-translate-y-1 block"
+>
       {/* 1. THE IMAGE LAYER */}
       {!imageError ? (
         <div className="absolute inset-0 z-0">
