@@ -273,8 +273,8 @@ export default function PrivacyPage() {
               <div className="space-y-2">
                 <p className="text-lg">
                   <strong>Email:</strong>{' '}
-                  <a href="mailto:privacy@rentorbuyworld.com" className="text-blue-600 dark:text-blue-400 hover:underline font-semibold">
-                    privacy@rentorbuyworld.com
+                  <a href="mailto:efwfew1611@gmail.com" className="text-blue-600 dark:text-blue-400 hover:underline font-semibold">
+                    efwfew1611@gmail.com
                   </a>
                 </p>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mt-4">

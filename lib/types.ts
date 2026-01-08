@@ -11,7 +11,7 @@ export interface CountryDefaults {
   closingCostRate: number; // As decimal (0.03 = 3%)
   propertyTaxRate: number; // As decimal (0.011 = 1.1%)
   brokerFeeMonths: number; // Number of months rent
-  marginaTaxRate: number; // Default marginal tax rate
+  marginalTaxRate: number; // Default marginal tax rate
   dataSourceName: string; // e.g., "Zillow, Redfin, Federal Reserve"
   dataSourceUrl: string; // URL to primary data source
   labels: {

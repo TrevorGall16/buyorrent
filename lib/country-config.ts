@@ -12,7 +12,7 @@ export const COUNTRY_CONFIGS = {
     closingCostRate: 0.03,
     propertyTaxRate: 0.011,
     brokerFeeMonths: 0,
-    marginaTaxRate: 0.25,
+    marginalTaxRate: 0.25,
     dataSourceName: 'Zillow, Redfin, Federal Reserve',
     dataSourceUrl: 'https://www.zillow.com/research/data/',
     labels: {
@@ -60,7 +60,7 @@ export const COUNTRY_CONFIGS = {
     closingCostRate: 0.075,
     propertyTaxRate: 0.008,
     brokerFeeMonths: 0,
-    marginaTaxRate: 0.30,
+    marginalTaxRate: 0.30,
     dataSourceName: 'SeLoger, Notaires de France, INSEE',
     dataSourceUrl: 'https://www.seloger.com/prix-de-l-immo/',
     labels: {
@@ -108,7 +108,7 @@ export const COUNTRY_CONFIGS = {
     closingCostRate: 0.12,
     propertyTaxRate: 0.0035,
     brokerFeeMonths: 1,
-    marginaTaxRate: 0.35,
+    marginalTaxRate: 0.35,
     dataSourceName: 'Immobilienscout24, Statistisches Bundesamt',
     dataSourceUrl: 'https://www.immobilienscout24.de/immobilienbewertung/',
     labels: {
@@ -156,7 +156,7 @@ export const COUNTRY_CONFIGS = {
     closingCostRate: 0.04,
     propertyTaxRate: 0.015,
     brokerFeeMonths: 0,
-    marginaTaxRate: 0.40,
+    marginalTaxRate: 0.40,
     dataSourceName: 'Rightmove, ONS, Land Registry',
     dataSourceUrl: 'https://www.rightmove.co.uk/house-prices.html',
     labels: {
@@ -204,7 +204,7 @@ export const COUNTRY_CONFIGS = {
     closingCostRate: 0.04,
     propertyTaxRate: 0.01,
     brokerFeeMonths: 0,
-    marginaTaxRate: 0.33,
+    marginalTaxRate: 0.33,
     dataSourceName: 'CREA, CMHC, Statistics Canada',
     dataSourceUrl: 'https://www.crea.ca/housing-market-stats/',
     labels: {
@@ -252,7 +252,7 @@ export const COUNTRY_CONFIGS = {
     closingCostRate: 0.05,
     propertyTaxRate: 0.006,
     brokerFeeMonths: 0,
-    marginaTaxRate: 0.37,
+    marginalTaxRate: 0.37,
     labels: {
       closingCosts: 'Stamp Duty & Conveyancing',
       propertyTax: 'Council Rates',
@@ -298,7 +298,7 @@ export const COUNTRY_CONFIGS = {
     closingCostRate: 0.10,
     propertyTaxRate: 0.004,
     brokerFeeMonths: 0,
-    marginaTaxRate: 0.30,
+    marginalTaxRate: 0.30,
     labels: {
       closingCosts: 'ITP/IVA y Gastos de Notaría',
       propertyTax: 'IBI (Impuesto de Bienes Inmuebles)',
@@ -344,7 +344,7 @@ export const COUNTRY_CONFIGS = {
     closingCostRate: 0.09,
     propertyTaxRate: 0.0076,
     brokerFeeMonths: 0,
-    marginaTaxRate: 0.35,
+    marginalTaxRate: 0.35,
     labels: {
       closingCosts: 'Imposta di Registro e Notaio',
       propertyTax: 'IMU (Imposta Municipale Unica)',
@@ -390,7 +390,7 @@ export const COUNTRY_CONFIGS = {
     closingCostRate: 0.06,
     propertyTaxRate: 0.003,
     brokerFeeMonths: 0,
-    marginaTaxRate: 0.49,
+    marginalTaxRate: 0.49,
     labels: {
       closingCosts: 'Overdrachtsbelasting en Notaris',
       propertyTax: 'OZB (Onroerendezaakbelasting)',
@@ -436,7 +436,7 @@ export const COUNTRY_CONFIGS = {
     closingCostRate: 0.02,
     propertyTaxRate: 0.0075,
     brokerFeeMonths: 0,
-    marginaTaxRate: 0.52,
+    marginalTaxRate: 0.52,
     labels: {
       closingCosts: 'Stämpelskatt och Juridiska Avgifter',
       propertyTax: 'Fastighetsskatt',
@@ -482,7 +482,7 @@ export const COUNTRY_CONFIGS = {
     closingCostRate: 0.035,
     propertyTaxRate: 0.002,
     brokerFeeMonths: 0,
-    marginaTaxRate: 0.30,
+    marginalTaxRate: 0.30,
     labels: {
       closingCosts: 'Transfer Tax & Notary',
       propertyTax: 'Property Tax',
@@ -523,7 +523,7 @@ export const COUNTRY_CONFIGS = {
     closingCostRate: 0.125,
     propertyTaxRate: 0.008,
     brokerFeeMonths: 0,
-    marginaTaxRate: 0.50,
+    marginalTaxRate: 0.50,
     labels: {
       closingCosts: 'Registration Fees & Notary',
       propertyTax: 'Property Tax',
@@ -564,7 +564,7 @@ export const COUNTRY_CONFIGS = {
     closingCostRate: 0.02,
     propertyTaxRate: 0.0018,
     brokerFeeMonths: 0,
-    marginaTaxRate: 0.40,
+    marginalTaxRate: 0.40,
     dataSourceName: 'Daft.ie, CSO, Property Price Register',
     dataSourceUrl: 'https://www.daft.ie/property-prices/',
     labels: {
@@ -612,7 +612,7 @@ export const COUNTRY_CONFIGS = {
     closingCostRate: 0.06,
     propertyTaxRate: 0.003,
     brokerFeeMonths: 0,
-    marginaTaxRate: 0.35,
+    marginalTaxRate: 0.35,
     dataSourceName: 'Idealista PT, INE, IMPIC',
     dataSourceUrl: 'https://www.idealista.pt/media/relatorios-preco-habitacao/',
     labels: {
@@ -1121,7 +1121,7 @@ export function getDefaultInputsForCountry(
     },
     financial: {
       investmentReturnRate: 0.05, // 5% opportunity cost
-      marginalTaxRate: config.marginaTaxRate,
+      marginalTaxRate: config.marginalTaxRate,
     },
     yearsToAnalyze: 30,
   };
