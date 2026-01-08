@@ -13,8 +13,7 @@ type Language = 'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 'pt';
 export async function generateMetadata({ searchParams }: { searchParams: Promise<{ lang?: string }> }): Promise<Metadata> {
   const { lang: langParam } = await searchParams;
   const lang = (langParam || 'en') as Language;
-  
-  // Use your existing translations object!
+
   const t = translations[lang] || translations.en;
 
   return {
@@ -23,6 +22,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
     alternates: {
       canonical: 'https://rentorbuyworld.com',
       languages: {
+        'x-default': 'https://rentorbuyworld.com',
         'en': 'https://rentorbuyworld.com',
         'de': 'https://rentorbuyworld.com?lang=de',
         'nl': 'https://rentorbuyworld.com?lang=nl',
@@ -32,6 +32,22 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
         'es': 'https://rentorbuyworld.com?lang=es',
         'pt': 'https://rentorbuyworld.com?lang=pt',
       },
+    },
+    openGraph: {
+      title: `${t.title} - Compare 500+ Cities | RentOrBuyWorld`,
+      description: t.description,
+      url: lang === 'en' ? 'https://rentorbuyworld.com' : `https://rentorbuyworld.com?lang=${lang}`,
+      siteName: 'RentOrBuyWorld',
+      locale: lang,
+      type: 'website',
+      images: [
+        {
+          url: '/og-image.png',
+          width: 1200,
+          height: 630,
+          alt: 'RentOrBuyWorld - Rent vs Buy Calculator',
+        },
+      ],
     },
   };
 }

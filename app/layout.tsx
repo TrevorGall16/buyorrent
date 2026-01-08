@@ -29,28 +29,52 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
     languages: {
-      'en-US': '/',
-      'de-DE': '/?lang=de',
-      'nl-NL': '/?lang=nl',
-      'sv-SE': '/?lang=sv',
-      'it-IT': '/?lang=it',
-      'fr-FR': '/?lang=fr',
-      'es-ES': '/?lang=es',
+      'x-default': '/',
+      'en': '/',
+      'de': '/?lang=de',
+      'nl': '/?lang=nl',
+      'sv': '/?lang=sv',
+      'it': '/?lang=it',
+      'fr': '/?lang=fr',
+      'es': '/?lang=es',
+      'pt': '/?lang=pt',
     },
   },
-  
+
+  openGraph: {
+    type: 'website',
+    locale: 'en',
+    url: 'https://rentorbuyworld.com',
+    title: 'RentOrBuy-Pro - Buy vs Rent Calculator',
+    description: 'Compare buying vs renting with real market data for 500+ cities worldwide. Make informed financial decisions.',
+    siteName: 'RentOrBuyWorld',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'RentOrBuyWorld Calculator - Compare Buying vs Renting in 500+ Cities',
+      },
+    ],
+  },
+
+  twitter: {
+    card: 'summary_large_image',
+    title: 'RentOrBuy-Pro - Buy vs Rent Calculator',
+    description: 'Compare buying vs renting with real market data for 500+ cities. Make informed financial decisions.',
+    images: ['/og-image.png'],
+  },
+
   verification: {
     google: "ngEI4shSwK612Qfhfo-EHwAua2nf376xPxU6ib9ta74",
   },
-  
-  // START OF THE FIX: Tell Next.js about your main icons
+
   icons: {
-    icon: '/icon.svg',         // Your high-quality SVG (or favicon.ico)
-    shortcut: '/favicon.ico',  // Fallback for legacy
-    apple: '/apple-icon.png',  // For Apple devices
+    icon: '/icon.svg',
+    shortcut: '/favicon.ico',
+    apple: '/apple-icon.png',
   },
   manifest: '/manifest.webmanifest',
-  // END OF THE FIX
 };
 
 export default function RootLayout({

@@ -4,7 +4,8 @@
       "Bash(node update_countries.js:*)",
       "Bash(npm run type-check:*)",
       "Bash(npm run lint)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(tree:*)"
     ]
   }
 }

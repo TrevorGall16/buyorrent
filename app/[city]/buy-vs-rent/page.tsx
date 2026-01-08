@@ -44,8 +44,10 @@ export async function generateStaticParams() {
 }
 
 // Generate metadata for SEO
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
   const { city } = await params;
+  const { lang } = await searchParams;
+
   const cityData = citiesData.find(
     (c) => c.slug === city
   ) as CityData | undefined;
@@ -58,10 +60,49 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const { name, state, currency_symbol, defaults } = cityData;
   const location = state ? `${name}, ${state}` : name;
+  const currentYear = new Date().getFullYear();
+  const baseUrl = 'https://rentorbuyworld.com';
+  const canonicalPath = `/${city}/buy-vs-rent`;
 
   return {
-    title: `Buy vs. Rent in ${location} (2024 Calculator & Market Data)`,
-    description: `In ${name}, the average home costs ${currency_symbol}${defaults.avg_home_price.toLocaleString()}. With rents averaging ${currency_symbol}${defaults.avg_rent.toLocaleString()}, find out if buying or renting makes financial sense for you.`,
+    title: `Buy vs. Rent in ${location} (${currentYear} Calculator & Market Data)`,
+    description: `In ${name}, the average home costs ${currency_symbol}${defaults.avg_home_price.toLocaleString()}. With rents averaging ${currency_symbol}${defaults.avg_rent.toLocaleString()}/month, find out if buying or renting makes financial sense for you.`,
+    alternates: {
+      canonical: `${baseUrl}${canonicalPath}`,
+      languages: {
+        'x-default': `${baseUrl}${canonicalPath}`,
+        'en': `${baseUrl}${canonicalPath}`,
+        'de': `${baseUrl}${canonicalPath}?lang=de`,
+        'nl': `${baseUrl}${canonicalPath}?lang=nl`,
+        'sv': `${baseUrl}${canonicalPath}?lang=sv`,
+        'it': `${baseUrl}${canonicalPath}?lang=it`,
+        'fr': `${baseUrl}${canonicalPath}?lang=fr`,
+        'es': `${baseUrl}${canonicalPath}?lang=es`,
+        'pt': `${baseUrl}${canonicalPath}?lang=pt`,
+      },
+    },
+    openGraph: {
+      title: `Buy vs. Rent in ${location} - ${currentYear} Calculator`,
+      description: `Compare buying vs renting in ${name}. Average home: ${currency_symbol}${defaults.avg_home_price.toLocaleString()} | Average rent: ${currency_symbol}${defaults.avg_rent.toLocaleString()}/month`,
+      url: lang && lang !== 'en' ? `${baseUrl}${canonicalPath}?lang=${lang}` : `${baseUrl}${canonicalPath}`,
+      siteName: 'RentOrBuyWorld',
+      locale: lang || 'en',
+      type: 'website',
+      images: [
+        {
+          url: '/og-image.png',
+          width: 1200,
+          height: 630,
+          alt: `${name} Rent vs Buy Calculator`,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `Buy vs. Rent in ${location}`,
+      description: `${currency_symbol}${defaults.avg_home_price.toLocaleString()} to buy | ${currency_symbol}${defaults.avg_rent.toLocaleString()}/mo to rent`,
+      images: ['/og-image.png'],
+    },
   };
 }
 
