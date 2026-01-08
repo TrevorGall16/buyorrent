@@ -23,7 +23,8 @@ export default function StructuredData({
   avgRent,
   language,
 }: StructuredDataProps) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://rentorbuy-pro.com';
+  // ✅ FIX 1: Updated to correct domain
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://rentorbuyworld.com';
   const pageUrl = `${baseUrl}/${citySlug}/buy-vs-rent`;
 
   // SoftwareApplication Schema for the Calculator
@@ -57,7 +58,7 @@ export default function StructuredData({
     url: pageUrl,
     provider: {
       '@type': 'Organization',
-      name: 'RentOrBuy-Pro',
+      name: 'RentOrBuyWorld', // ✅ FIX 2: Updated brand name
       url: baseUrl,
     },
     category: 'Real Estate Finance',
@@ -98,7 +99,7 @@ export default function StructuredData({
     inLanguage: language,
     isPartOf: {
       '@type': 'WebSite',
-      name: 'RentOrBuy-Pro',
+      name: 'RentOrBuyWorld', // ✅ FIX 2: Updated brand name
       url: baseUrl,
     },
     about: {
