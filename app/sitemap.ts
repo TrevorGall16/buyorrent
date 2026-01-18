@@ -17,25 +17,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
     return [
       {
         url: `${baseUrl}/${langParam}`,
-        lastModified: new Date('2026-01-08'), // Actual last update date
+        lastModified: new Date('2026-02-08'), // Actual last update date
         changeFrequency: 'weekly' as const, // Not daily (more realistic)
         priority: 1.0,
       },
       {
         url: `${baseUrl}/how-it-works${langParam}`,
-        lastModified: new Date('2026-01-08'),
+        lastModified: new Date('2026-02-08'),
         changeFrequency: 'monthly' as const,
         priority: 0.8,
       },
       {
         url: `${baseUrl}/data-and-sources${langParam}`,
-        lastModified: new Date('2026-01-08'),
+        lastModified: new Date('2026-02-08'),
         changeFrequency: 'monthly' as const,
         priority: 0.8,
       },
       {
         url: `${baseUrl}/privacy${langParam}`,
-        lastModified: new Date('2026-01-08'),
+        lastModified: new Date('2026-02-08'),
         changeFrequency: 'monthly' as const,
         priority: 0.5,
       },
