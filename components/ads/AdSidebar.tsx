@@ -31,7 +31,6 @@ export default function AdSidebar() {
 
     checkConsent();
 
-    // Listen for real-time consent updates (when user clicks "Accept All")
     const handleConsentUpdate = (event: Event) => {
       const customEvent = event as CustomEvent<ConsentPreferences>;
       if (customEvent.detail) {
@@ -49,10 +48,11 @@ export default function AdSidebar() {
     if (hasConsent && containerRef.current && !hasLoadedRef.current) {
       hasLoadedRef.current = true;
 
+      // ✅ NEW 160x300 AD CONFIGURATION
       const atOptions = {
-        'key': '2b850fb10270abf68a180fcdd833899b', // ✅ Your specific key
+        'key': '421e503eb36aac2e67c749454c80fbad', 
         'format': 'iframe',
-        'height': 600,
+        'height': 300, 
         'width': 160,
         'params': {}
       };
@@ -61,7 +61,7 @@ export default function AdSidebar() {
       configScript.innerHTML = `atOptions = ${JSON.stringify(atOptions)};`;
 
       const invokeScript = document.createElement('script');
-      // ✅ Your specific script domain
+      // ✅ Correct domain from your snippet
       invokeScript.src = `https://repelaffinityworlds.com/${atOptions.key}/invoke.js`; 
       invokeScript.async = true;
 
@@ -71,17 +71,15 @@ export default function AdSidebar() {
   }, [hasConsent]);
 
   // 3. Render States
-  
-  // Loading State
   if (isChecking) {
     return (
       <div className="sticky top-24 space-y-4">
-        <div className="w-[160px] h-[600px] bg-gray-100 dark:bg-gray-800 rounded-lg animate-pulse mx-auto" />
+        {/* Placeholder sized for 160x300 */}
+        <div className="w-[160px] h-[300px] bg-gray-100 dark:bg-gray-800 rounded-lg animate-pulse mx-auto" />
       </div>
     );
   }
 
-  // Blocked State (User declined cookies)
   if (!hasConsent) {
     return (
       <div className="sticky top-24">
@@ -98,11 +96,11 @@ export default function AdSidebar() {
     );
   }
 
-  // Active Ad State (Sticky!)
   return (
     <div className="sticky top-24 flex flex-col items-center">
       <div className="text-[10px] text-gray-400 mb-2 uppercase tracking-widest">Sponsored</div>
-      <div ref={containerRef} className="min-h-[600px] flex justify-center bg-white dark:bg-transparent rounded-lg overflow-hidden shadow-sm" />
+      {/* Container sized for 160x300 */}
+      <div ref={containerRef} className="min-h-[300px] flex justify-center bg-white dark:bg-transparent rounded-lg overflow-hidden shadow-sm" />
     </div>
   );
 }

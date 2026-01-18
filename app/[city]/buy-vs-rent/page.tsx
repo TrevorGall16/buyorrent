@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
+// import Link from 'next/link'; // Removed unused import to keep code clean
 import Calculator from '@/components/calculator/Calculator';
 import AdSidebar from '@/components/ads/AdSidebar';
 import AdUnit from '@/components/ads/AdUnit';
@@ -243,11 +243,12 @@ export default async function CityBuyVsRentPage({ params, searchParams }: PagePr
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {relatedCities.map((relatedCity) => (
-                <Link 
+                <a 
                   key={relatedCity.slug}
                   href={`/${relatedCity.slug}/buy-vs-rent${language !== 'en' ? `?lang=${language}` : ''}`}
                   className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 dark:bg-slate-900 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors border border-transparent hover:border-gray-200 dark:hover:border-slate-700"
                 >
+                  {/* Fixed: Added 'as CountryCode' to fix TypeScript error */}
                   <span className="text-2xl">{flagEmojis[relatedCity.country_code as CountryCode]}</span>
                   <div className="flex flex-col">
                     <span className="font-medium text-sm text-slate-900 dark:text-slate-100 truncate">
@@ -257,7 +258,7 @@ export default async function CityBuyVsRentPage({ params, searchParams }: PagePr
                       {relatedCity.defaults.avg_home_price > defaults.avg_home_price ? 'Higher Price' : 'Lower Price'}
                     </span>
                   </div>
-                </Link>
+                </a>
               ))}
             </div>
           </div>
