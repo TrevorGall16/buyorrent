@@ -14,12 +14,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // 1. Static Pages (High Priority)
   const staticPages = languages.flatMap((lang) => {
     const langParam = lang === 'en' ? '' : `?lang=${lang}`;
+    
     return [
       {
         url: `${baseUrl}/${langParam}`,
-        lastModified: new Date('2026-02-08'), // Actual last update date
-        changeFrequency: 'weekly' as const, // Not daily (more realistic)
+        lastModified: new Date(), // ✅ Set to NOW to force Google crawl
+        changeFrequency: 'weekly' as const,
         priority: 1.0,
+      },
+      // ✅ NEW: The Link Bait Hub (Added here to support all languages)
+      {
+        url: `${baseUrl}/rankings${langParam}`,
+        lastModified: new Date(), // ✅ Fresh content
+        changeFrequency: 'daily' as const, // tells Google "this changes often"
+        priority: 1.0, // Maximum priority
       },
       {
         url: `${baseUrl}/how-it-works${langParam}`,
@@ -55,14 +63,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
 
     // Parse the data_updated field from city data
-    // Format: "Dec 2024" or "Jan 2026"
     let lastModifiedDate: Date;
     try {
-      // Try to parse "Dec 2024" format
       const dataUpdated = city.data_updated || 'Dec 2024';
       lastModifiedDate = new Date(dataUpdated);
-
-      // Fallback if parsing fails
       if (isNaN(lastModifiedDate.getTime())) {
         lastModifiedDate = new Date('2024-12-01');
       }
@@ -73,7 +77,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     return languages.map((lang) => ({
       url: `${baseUrl}/${city.slug}/buy-vs-rent${lang === 'en' ? '' : `?lang=${lang}`}`,
       lastModified: lastModifiedDate,
-      changeFrequency: 'monthly' as const, // Realistic for market data
+      changeFrequency: 'monthly' as const,
       priority,
     }));
   });
