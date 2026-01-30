@@ -63,6 +63,14 @@ export default function Footer({ labels }: FooterProps) {
               </li>
               <li>
                 <Link
+                  href="/rankings"
+                  className="text-sm text-gray-600 hover:text-blue-600 transition-colors"
+                >
+                  Global Rankings
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/#cities"
                   className="text-sm text-gray-600 hover:text-blue-600 transition-colors"
                 >
