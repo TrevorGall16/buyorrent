@@ -2,17 +2,11 @@
 
 /**
  * Main Calculator Component
- * FIXED: URL synchronization errors + React state update warnings
- * 
- * ✅ URL synchronization for SEO (now properly debounced)
- * ✅ Input validation (prevents NaN/Infinity attacks)
- * ✅ Consolidated debouncing (reduces re-renders by 50%)
- * ✅ Memoized calculations (performance boost)
- * ✅ Improved ad spacing (AdSense compliance)
- * ✅ Better loading state
- * ✅ Fixed hook order
- * ✅ FIXED: "Operation is insecure" SecurityError
- * ✅ FIXED: "State update on unmounted component" warning
+ * FIXED: Infinite Re-render Loop & Language Persistence
+ * * ✅ URL Sync: Now preserves 'lang' and other existing params
+ * ✅ Loop Prevention: Checks if URL actually changed before replacing
+ * ✅ Input validation: Prevents NaN/Infinity attacks
+ * ✅ Performance: Consolidated debouncing and memoization
  */
 
 import { useState, useEffect, useMemo, useRef } from 'react';
@@ -56,9 +50,6 @@ function parseValidatedParam(
   const parsed = parseFloat(value);
 
   if (!isFinite(parsed) || isNaN(parsed)) {
-    if (process.env.NODE_ENV === 'development') {
-      console.warn(`[URL Validation] Invalid parameter: ${key}=${value}`);
-    }
     return defaultValue;
   }
 
@@ -81,7 +72,6 @@ export default function Calculator({
   const pathname = usePathname();
   const router = useRouter();
 
-  // FIX #1: Track if component is mounted (prevents state update warnings)
   const isMountedRef = useRef(false);
   const isInitialRenderRef = useRef(true);
 
@@ -123,7 +113,7 @@ export default function Calculator({
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
   const [results, setResults] = useState<CalculationResult | null>(null);
 
-  // FIX #2: Track mounted state
+  // Track mounted state
   useEffect(() => {
     isMountedRef.current = true;
     isInitialRenderRef.current = false;
@@ -153,7 +143,7 @@ export default function Calculator({
 
   // Calculate results
   useEffect(() => {
-    if (!isMountedRef.current) return; // Don't update if not mounted
+    if (!isMountedRef.current) return;
 
     const calculationInputs = {
       purchase: {
@@ -180,8 +170,7 @@ export default function Calculator({
     setResults(calculateRentVsBuy(calculationInputs));
   }, [debouncedInputs, loanTermYears, yearsToPlot, countryConfig]);
 
-  // FIX #3: DEBOUNCED URL synchronization with proper guards
-  // Create a debounced snapshot of all URL-relevant state
+  // Snapshot for URL syncing
   const urlStateSnapshot = useMemo(() => ({
     homePrice,
     monthlyRent,
@@ -200,68 +189,67 @@ export default function Calculator({
     marginalTaxRate, yearsToPlot
   ]);
 
-  // Debounce URL updates separately (longer delay to prevent spam)
-  const debouncedUrlState = useDebounce(urlStateSnapshot, 800); // 800ms delay
+  const debouncedUrlState = useDebounce(urlStateSnapshot, 800);
 
+  // ------------------------------------------------------------
+  // ✅ FIXED: URL Synchronization Logic (Prevents Loops)
+  // ------------------------------------------------------------
   useEffect(() => {
-    // FIX #4: Multiple guards to prevent SecurityError
-    if (isInitialRenderRef.current) return; // Skip on first render
-    if (!isMountedRef.current) return; // Skip if unmounted
-    if (typeof window === 'undefined') return; // Skip on server
+    if (isInitialRenderRef.current) return;
+    if (!isMountedRef.current) return;
 
-    // Build URL params
-    const params = new URLSearchParams();
+    // 1. Clone EXISTING params to preserve 'lang'
+    const params = new URLSearchParams(searchParams.toString());
+
+    // 2. Update specific calculator keys
+    const updateParam = (key: string, value: number, defaultVal: number, precision: number = 0, threshold: number = 0.001) => {
+      if (Math.abs(value - defaultVal) > threshold) {
+        params.set(key, precision === 0 ? Math.round(value).toString() : value.toFixed(precision));
+      } else {
+        params.delete(key); // Remove default values to keep URL clean
+      }
+    };
+
+    updateParam('price', debouncedUrlState.homePrice, defaultHomePrice, 0, 1000);
+    updateParam('rent', debouncedUrlState.monthlyRent, defaultMonthlyRent, 0, 50);
+    updateParam('down', debouncedUrlState.downPaymentPercent, defaultInputs.purchase.downPaymentPercent, 2, 0.01);
+    updateParam('rate', debouncedUrlState.interestRate, defaultInputs.purchase.interestRate, 4, 0.001);
     
-    if (Math.abs(debouncedUrlState.homePrice - defaultHomePrice) > 1000) {
-      params.set('price', Math.round(debouncedUrlState.homePrice).toString());
-    }
-    if (Math.abs(debouncedUrlState.monthlyRent - defaultMonthlyRent) > 50) {
-      params.set('rent', Math.round(debouncedUrlState.monthlyRent).toString());
-    }
-    if (Math.abs(debouncedUrlState.downPaymentPercent - defaultInputs.purchase.downPaymentPercent) > 0.01) {
-      params.set('down', debouncedUrlState.downPaymentPercent.toFixed(2));
-    }
-    if (Math.abs(debouncedUrlState.interestRate - defaultInputs.purchase.interestRate) > 0.001) {
-      params.set('rate', debouncedUrlState.interestRate.toFixed(4));
-    }
     if (debouncedUrlState.loanTermYears !== defaultInputs.purchase.loanTermYears) {
       params.set('term', debouncedUrlState.loanTermYears.toString());
+    } else {
+      params.delete('term');
     }
-    if (Math.abs(debouncedUrlState.propertyTaxRate - defaultInputs.purchase.propertyTaxRate) > 0.001) {
-      params.set('tax', debouncedUrlState.propertyTaxRate.toFixed(4));
-    }
-    if (Math.abs(debouncedUrlState.maintenanceRate - defaultInputs.purchase.maintenanceRate) > 0.001) {
-      params.set('maint', debouncedUrlState.maintenanceRate.toFixed(4));
-    }
-    if (Math.abs(debouncedUrlState.rentInflationRate - defaultInputs.rental.rentInflationRate) > 0.001) {
-      params.set('rinfl', debouncedUrlState.rentInflationRate.toFixed(4));
-    }
-    if (Math.abs(debouncedUrlState.investmentReturnRate - defaultInputs.financial.investmentReturnRate) > 0.001) {
-      params.set('invest', debouncedUrlState.investmentReturnRate.toFixed(4));
-    }
-    if (Math.abs(debouncedUrlState.marginalTaxRate - defaultInputs.financial.marginalTaxRate) > 0.001) {
-      params.set('mtax', debouncedUrlState.marginalTaxRate.toFixed(4));
-    }
+
+    updateParam('tax', debouncedUrlState.propertyTaxRate, defaultInputs.purchase.propertyTaxRate, 4, 0.001);
+    updateParam('maint', debouncedUrlState.maintenanceRate, defaultInputs.purchase.maintenanceRate, 4, 0.001);
+    updateParam('rinfl', debouncedUrlState.rentInflationRate, defaultInputs.rental.rentInflationRate, 4, 0.001);
+    updateParam('invest', debouncedUrlState.investmentReturnRate, defaultInputs.financial.investmentReturnRate, 4, 0.001);
+    updateParam('mtax', debouncedUrlState.marginalTaxRate, defaultInputs.financial.marginalTaxRate, 4, 0.001);
+
     if (debouncedUrlState.yearsToPlot !== 30) {
       params.set('years', debouncedUrlState.yearsToPlot.toString());
+    } else {
+      params.delete('years');
     }
 
-    const newUrl = params.toString() ? `${pathname}?${params}` : pathname;
+    // 3. STOP THE LOOP: Only replace if the URL *actually* changes
+    if (params.toString() === searchParams.toString()) {
+      return;
+    }
+
+    const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
     
-    // FIX #5: Use try-catch to handle SecurityError gracefully
     try {
-      // Use Next.js router for better SSR compatibility
       router.replace(newUrl, { scroll: false });
     } catch (error) {
-      // Silently fail if browser blocks the operation
-      // This prevents the SecurityError from crashing the app
       if (process.env.NODE_ENV === 'development') {
-        console.warn('[URL Sync] Browser blocked URL update:', error);
+        console.warn('https://www.sync.com/ Browser blocked URL update:', error);
       }
     }
-  }, [debouncedUrlState, pathname, router, defaultHomePrice, defaultMonthlyRent, defaultInputs]);
+  }, [debouncedUrlState, pathname, router, defaultHomePrice, defaultMonthlyRent, defaultInputs, searchParams]);
 
-  // Memoized financial calculations (guard with null check)
+  // Memoized financial calculations
   const financialMetrics = useMemo(() => {
     if (!results) return null;
     
@@ -280,7 +268,6 @@ export default function Calculator({
     };
   }, [homePrice, downPaymentPercent, interestRate, loanTermYears, countryConfig.closingCostRate, results]);
 
-  // Memoized advanced settings props
   const advancedSettingsProps = useMemo(() => ({
     downPaymentPercent: downPaymentPercent * 100,
     interestRate: interestRate * 100,
@@ -319,7 +306,6 @@ export default function Calculator({
     yearsToPlot, labels
   ]);
 
-  // Loading state
   if (!results || !financialMetrics) {
     return (
       <div className="space-y-6">
@@ -335,13 +321,6 @@ export default function Calculator({
             {Math.round(homePrice).toLocaleString()} home price and {countryConfig.currencySymbol}
             {Math.round(monthlyRent).toLocaleString()}/month rent.
           </p>
-        </div>
-        <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-6 border border-gray-100 dark:border-slate-800">
-          <div className="h-8 bg-gray-200 dark:bg-slate-700 rounded w-1/3 mb-6 animate-pulse"></div>
-          <div className="space-y-4">
-            <div className="h-20 bg-gray-100 dark:bg-slate-700 rounded animate-pulse"></div>
-            <div className="h-20 bg-gray-100 dark:bg-slate-700 rounded animate-pulse"></div>
-          </div>
         </div>
       </div>
     );
@@ -545,7 +524,7 @@ export default function Calculator({
           </div>
         </div>
         
-<div className="lg:col-span-5 space-y-8 pt-8 border-t border-gray-200 dark:border-slate-700">
+        <div className="lg:col-span-5 space-y-8 pt-8 border-t border-gray-200 dark:border-slate-700">
            <BreakdownTable 
              finalYearData={financialMetrics.finalYearData} 
              currencySymbol={countryConfig.currencySymbol} 
