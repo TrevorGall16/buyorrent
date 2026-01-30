@@ -113,6 +113,10 @@ export default function Calculator({
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
   const [results, setResults] = useState<CalculationResult | null>(null);
 
+  // Save/Load Scenario State
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saved' | 'loaded'>('idle');
+  const hasLoadedFromStorage = useRef(false);
+
   // Track mounted state
   useEffect(() => {
     isMountedRef.current = true;
@@ -121,6 +125,91 @@ export default function Calculator({
       isMountedRef.current = false;
     };
   }, []);
+
+  // ---------------------------------------------------------
+  // SAVE & LOAD SCENARIO (localStorage)
+  // ---------------------------------------------------------
+  const storageKey = `rentorbuy_data_${cityName.toLowerCase().replace(/[^a-z0-9]/g, '_')}`;
+
+  // Load saved scenario on mount (after hydration to avoid mismatch)
+  useEffect(() => {
+    if (hasLoadedFromStorage.current) return;
+    hasLoadedFromStorage.current = true;
+
+    try {
+      const savedData = localStorage.getItem(storageKey);
+      if (!savedData) return;
+
+      const parsed = JSON.parse(savedData);
+
+      // Validate and apply saved values with bounds checking
+      if (typeof parsed.homePrice === 'number' && parsed.homePrice >= 10000 && parsed.homePrice <= 100000000) {
+        setHomePrice(parsed.homePrice);
+      }
+      if (typeof parsed.monthlyRent === 'number' && parsed.monthlyRent >= 100 && parsed.monthlyRent <= 100000) {
+        setMonthlyRent(parsed.monthlyRent);
+      }
+      if (typeof parsed.downPaymentPercent === 'number' && parsed.downPaymentPercent >= 0 && parsed.downPaymentPercent <= 1) {
+        setDownPaymentPercent(parsed.downPaymentPercent);
+      }
+      if (typeof parsed.interestRate === 'number' && parsed.interestRate >= 0 && parsed.interestRate <= 0.25) {
+        setInterestRate(parsed.interestRate);
+      }
+      if (typeof parsed.loanTermYears === 'number' && parsed.loanTermYears >= 1 && parsed.loanTermYears <= 50) {
+        setLoanTermYears(parsed.loanTermYears);
+      }
+      if (typeof parsed.propertyTaxRate === 'number' && parsed.propertyTaxRate >= 0 && parsed.propertyTaxRate <= 0.1) {
+        setPropertyTaxRate(parsed.propertyTaxRate);
+      }
+      if (typeof parsed.maintenanceRate === 'number' && parsed.maintenanceRate >= 0 && parsed.maintenanceRate <= 0.1) {
+        setMaintenanceRate(parsed.maintenanceRate);
+      }
+      if (typeof parsed.rentInflationRate === 'number' && parsed.rentInflationRate >= -0.1 && parsed.rentInflationRate <= 0.3) {
+        setRentInflationRate(parsed.rentInflationRate);
+      }
+      if (typeof parsed.investmentReturnRate === 'number' && parsed.investmentReturnRate >= -0.5 && parsed.investmentReturnRate <= 0.5) {
+        setInvestmentReturnRate(parsed.investmentReturnRate);
+      }
+      if (typeof parsed.marginalTaxRate === 'number' && parsed.marginalTaxRate >= 0 && parsed.marginalTaxRate <= 0.7) {
+        setMarginalTaxRate(parsed.marginalTaxRate);
+      }
+      if (typeof parsed.yearsToPlot === 'number' && parsed.yearsToPlot >= 1 && parsed.yearsToPlot <= 50) {
+        setYearsToPlot(parsed.yearsToPlot);
+      }
+
+      // Show "loaded" feedback briefly
+      setSaveStatus('loaded');
+      setTimeout(() => setSaveStatus('idle'), 2500);
+    } catch {
+      // Silently fail if localStorage is unavailable or data is corrupted
+      console.warn('Could not load saved scenario from localStorage');
+    }
+  }, [storageKey]);
+
+  // Save scenario handler
+  const handleSaveScenario = () => {
+    try {
+      const dataToSave = {
+        homePrice,
+        monthlyRent,
+        downPaymentPercent,
+        interestRate,
+        loanTermYears,
+        propertyTaxRate,
+        maintenanceRate,
+        rentInflationRate,
+        investmentReturnRate,
+        marginalTaxRate,
+        yearsToPlot,
+        savedAt: new Date().toISOString(),
+      };
+      localStorage.setItem(storageKey, JSON.stringify(dataToSave));
+      setSaveStatus('saved');
+      setTimeout(() => setSaveStatus('idle'), 2500);
+    } catch {
+      console.warn('Could not save scenario to localStorage');
+    }
+  };
 
   // Consolidated debouncing
   const inputsSnapshot = useMemo(() => ({
@@ -380,7 +469,7 @@ export default function Calculator({
             labels={{ homePrice: labels.homePrice, monthlyRent: labels.monthlyRent }}
           />
           <div className="border border-gray-100 dark:border-slate-800 rounded-lg p-4 mt-4">
-            <button 
+            <button
               onClick={() => setIsAdvancedOpen(!isAdvancedOpen)}
               className="flex justify-between items-center w-full font-bold text-lg text-slate-900 dark:text-slate-50 py-1"
             >
@@ -393,6 +482,28 @@ export default function Calculator({
               <div className="pt-4">
                 <AdvancedSettings {...advancedSettingsProps} />
               </div>
+            )}
+          </div>
+
+          {/* Save Scenario Button */}
+          <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-slate-700">
+            <button
+              onClick={handleSaveScenario}
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg transition-all duration-200 active:scale-95"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+              </svg>
+              Save Scenario
+            </button>
+            {saveStatus !== 'idle' && (
+              <span className={`text-sm font-medium px-3 py-1 rounded-full transition-all duration-300 ${
+                saveStatus === 'saved'
+                  ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                  : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+              }`}>
+                {saveStatus === 'saved' ? 'Saved!' : 'Loaded from last visit'}
+              </span>
             )}
           </div>
         </div>
@@ -462,6 +573,28 @@ export default function Calculator({
             />
             <div className="pt-4 border-t border-gray-100 dark:border-slate-700">
               <AdvancedSettings {...advancedSettingsProps} />
+            </div>
+
+            {/* Save Scenario Button */}
+            <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-slate-700">
+              <button
+                onClick={handleSaveScenario}
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg transition-all duration-200 active:scale-95"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                </svg>
+                Save Scenario
+              </button>
+              {saveStatus !== 'idle' && (
+                <span className={`text-sm font-medium px-3 py-1 rounded-full transition-all duration-300 ${
+                  saveStatus === 'saved'
+                    ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                    : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                }`}>
+                  {saveStatus === 'saved' ? 'Saved!' : 'Loaded from last visit'}
+                </span>
+              )}
             </div>
           </div>
         </div>
