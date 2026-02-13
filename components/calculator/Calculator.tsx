@@ -73,7 +73,6 @@ export default function Calculator({
   const router = useRouter();
 
   const isMountedRef = useRef(false);
-  const isInitialRenderRef = useRef(true);
 
   // Parse with validation and realistic bounds
   const [homePrice, setHomePrice] = useState(() => 
@@ -106,8 +105,14 @@ export default function Calculator({
   const [marginalTaxRate, setMarginalTaxRate] = useState(() => 
     parseValidatedParam(searchParams, 'mtax', defaultInputs.financial.marginalTaxRate, 0, 0.7)
   );
-  const [yearsToPlot, setYearsToPlot] = useState(() => 
+  const [yearsToPlot, setYearsToPlot] = useState(() =>
     parseValidatedParam(searchParams, 'years', 30, 1, 50)
+  );
+  const [homeAppreciationRate, setHomeAppreciationRate] = useState(() =>
+    parseValidatedParam(searchParams, 'apprc', 0.03, 0, 0.08)
+  );
+  const [capitalGainsTaxRate, setCapitalGainsTaxRate] = useState(() =>
+    parseValidatedParam(searchParams, 'cgtax', 0.15, 0, 0.5)
   );
 
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
@@ -120,7 +125,6 @@ export default function Calculator({
   // Track mounted state
   useEffect(() => {
     isMountedRef.current = true;
-    isInitialRenderRef.current = false;
     return () => {
       isMountedRef.current = false;
     };
@@ -132,9 +136,15 @@ export default function Calculator({
   const storageKey = `rentorbuy_data_${cityName.toLowerCase().replace(/[^a-z0-9]/g, '_')}`;
 
   // Load saved scenario on mount (after hydration to avoid mismatch)
+  // IMPORTANT: If URL has calculator params, those take priority over localStorage.
   useEffect(() => {
     if (hasLoadedFromStorage.current) return;
     hasLoadedFromStorage.current = true;
+
+    // Count calculator-specific params (exclude 'lang' and other non-calculator params)
+    const calcParamKeys = ['price', 'rent', 'down', 'rate', 'term', 'tax', 'maint', 'rinfl', 'invest', 'mtax', 'years', 'apprc', 'cgtax'];
+    const hasUrlCalcParams = calcParamKeys.some(key => searchParams.has(key));
+    if (hasUrlCalcParams) return; // URL params win — do not load from localStorage
 
     try {
       const savedData = localStorage.getItem(storageKey);
@@ -176,6 +186,12 @@ export default function Calculator({
       if (typeof parsed.yearsToPlot === 'number' && parsed.yearsToPlot >= 1 && parsed.yearsToPlot <= 50) {
         setYearsToPlot(parsed.yearsToPlot);
       }
+      if (typeof parsed.homeAppreciationRate === 'number' && parsed.homeAppreciationRate >= 0 && parsed.homeAppreciationRate <= 0.08) {
+        setHomeAppreciationRate(parsed.homeAppreciationRate);
+      }
+      if (typeof parsed.capitalGainsTaxRate === 'number' && parsed.capitalGainsTaxRate >= 0 && parsed.capitalGainsTaxRate <= 0.5) {
+        setCapitalGainsTaxRate(parsed.capitalGainsTaxRate);
+      }
 
       // Show "loaded" feedback briefly
       setSaveStatus('loaded');
@@ -184,7 +200,7 @@ export default function Calculator({
       // Silently fail if localStorage is unavailable or data is corrupted
       console.warn('Could not load saved scenario from localStorage');
     }
-  }, [storageKey]);
+  }, [storageKey, searchParams]);
 
   // Save scenario handler
   const handleSaveScenario = () => {
@@ -201,6 +217,8 @@ export default function Calculator({
         investmentReturnRate,
         marginalTaxRate,
         yearsToPlot,
+        homeAppreciationRate,
+        capitalGainsTaxRate,
         savedAt: new Date().toISOString(),
       };
       localStorage.setItem(storageKey, JSON.stringify(dataToSave));
@@ -222,10 +240,13 @@ export default function Calculator({
     rentInflationRate,
     investmentReturnRate,
     marginalTaxRate,
+    homeAppreciationRate,
+    capitalGainsTaxRate,
   }), [
     homePrice, monthlyRent, downPaymentPercent, interestRate,
     propertyTaxRate, maintenanceRate, rentInflationRate,
-    investmentReturnRate, marginalTaxRate
+    investmentReturnRate, marginalTaxRate,
+    homeAppreciationRate, capitalGainsTaxRate,
   ]);
 
   const debouncedInputs = useDebounce(inputsSnapshot, 300);
@@ -253,11 +274,13 @@ export default function Calculator({
       financial: {
         investmentReturnRate: debouncedInputs.investmentReturnRate,
         marginalTaxRate: debouncedInputs.marginalTaxRate,
+        capitalGainsTaxRate: debouncedInputs.capitalGainsTaxRate,
       },
       yearsToAnalyze: yearsToPlot,
+      countryCode,
     };
-    setResults(calculateRentVsBuy(calculationInputs));
-  }, [debouncedInputs, loanTermYears, yearsToPlot, countryConfig]);
+    setResults(calculateRentVsBuy(calculationInputs, debouncedInputs.homeAppreciationRate));
+  }, [debouncedInputs, loanTermYears, yearsToPlot, countryConfig, countryCode]);
 
   // Snapshot for URL syncing
   const urlStateSnapshot = useMemo(() => ({
@@ -272,10 +295,12 @@ export default function Calculator({
     investmentReturnRate,
     marginalTaxRate,
     yearsToPlot,
+    homeAppreciationRate,
+    capitalGainsTaxRate,
   }), [
     homePrice, monthlyRent, downPaymentPercent, interestRate, loanTermYears,
     propertyTaxRate, maintenanceRate, rentInflationRate, investmentReturnRate,
-    marginalTaxRate, yearsToPlot
+    marginalTaxRate, yearsToPlot, homeAppreciationRate, capitalGainsTaxRate,
   ]);
 
   const debouncedUrlState = useDebounce(urlStateSnapshot, 800);
@@ -284,7 +309,6 @@ export default function Calculator({
   // ✅ FIXED: URL Synchronization Logic (Prevents Loops)
   // ------------------------------------------------------------
   useEffect(() => {
-    if (isInitialRenderRef.current) return;
     if (!isMountedRef.current) return;
 
     // 1. Clone EXISTING params to preserve 'lang'
@@ -303,7 +327,7 @@ export default function Calculator({
     updateParam('rent', debouncedUrlState.monthlyRent, defaultMonthlyRent, 0, 50);
     updateParam('down', debouncedUrlState.downPaymentPercent, defaultInputs.purchase.downPaymentPercent, 2, 0.01);
     updateParam('rate', debouncedUrlState.interestRate, defaultInputs.purchase.interestRate, 4, 0.001);
-    
+
     if (debouncedUrlState.loanTermYears !== defaultInputs.purchase.loanTermYears) {
       params.set('term', debouncedUrlState.loanTermYears.toString());
     } else {
@@ -315,6 +339,8 @@ export default function Calculator({
     updateParam('rinfl', debouncedUrlState.rentInflationRate, defaultInputs.rental.rentInflationRate, 4, 0.001);
     updateParam('invest', debouncedUrlState.investmentReturnRate, defaultInputs.financial.investmentReturnRate, 4, 0.001);
     updateParam('mtax', debouncedUrlState.marginalTaxRate, defaultInputs.financial.marginalTaxRate, 4, 0.001);
+    updateParam('apprc', debouncedUrlState.homeAppreciationRate, 0.03, 4, 0.001);
+    updateParam('cgtax', debouncedUrlState.capitalGainsTaxRate, 0.15, 4, 0.001);
 
     if (debouncedUrlState.yearsToPlot !== 30) {
       params.set('years', debouncedUrlState.yearsToPlot.toString());
@@ -366,6 +392,8 @@ export default function Calculator({
     rentInflationRate: rentInflationRate * 100,
     investmentReturnRate: investmentReturnRate * 100,
     marginalTaxRate: marginalTaxRate * 100,
+    homeAppreciationRate: homeAppreciationRate * 100,
+    capitalGainsTaxRate: capitalGainsTaxRate * 100,
     yearsToPlot,
     onDownPaymentChange: setDownPaymentPercent,
     onInterestRateChange: setInterestRate,
@@ -375,6 +403,8 @@ export default function Calculator({
     onRentInflationChange: setRentInflationRate,
     onInvestmentReturnChange: setInvestmentReturnRate,
     onMarginalTaxChange: setMarginalTaxRate,
+    onHomeAppreciationChange: setHomeAppreciationRate,
+    onCapitalGainsTaxChange: setCapitalGainsTaxRate,
     onYearsToPlotChange: setYearsToPlot,
     propertyTaxLabel: labels.propertyTax,
     labels: {
@@ -392,6 +422,7 @@ export default function Calculator({
   }), [
     downPaymentPercent, interestRate, loanTermYears, propertyTaxRate,
     maintenanceRate, rentInflationRate, investmentReturnRate, marginalTaxRate,
+    homeAppreciationRate, capitalGainsTaxRate,
     yearsToPlot, labels
   ]);
 

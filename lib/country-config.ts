@@ -1122,6 +1122,7 @@ export function getDefaultInputsForCountry(
     financial: {
       investmentReturnRate: 0.05, // 5% opportunity cost
       marginalTaxRate: config.marginalTaxRate,
+      capitalGainsTaxRate: 0.15, // 15% default capital gains on investments
     },
     yearsToAnalyze: 30,
   };

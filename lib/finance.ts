@@ -1,6 +1,13 @@
 /**
  * RentOrBuy-Pro Finance Engine
  * Comprehensive financial calculations with international support
+ *
+ * NET WORTH DEFINITIONS (corrected):
+ *   Owner Net Worth  = Home Value − Mortgage Balance − Selling Costs
+ *   Renter Net Worth = Investment Portfolio Balance (after capital-gains tax on gains)
+ *
+ * Cumulative costs are tracked for display but are NOT subtracted from net worth.
+ * They are cash-flow items, not liabilities.
  */
 
 import {
@@ -124,7 +131,7 @@ export function calculateInterestPaid(
 export function calculateHomeValue(
   initialPrice: number,
   years: number,
-  annualAppreciationRate: number = 0.03 // Default 3% appreciation
+  annualAppreciationRate: number = 0.03
 ): number {
   return initialPrice * Math.pow(1 + annualAppreciationRate, years);
 }
@@ -142,6 +149,9 @@ export function calculateInvestmentGrowth(
 
 /**
  * Calculate renter scenario over time
+ *
+ * Renter Net Worth = Investment Portfolio Balance (after cap-gains tax on gains)
+ * Cumulative costs tracked separately for display only.
  */
 function calculateRenterScenario(
   inputs: CalculatorInputs
@@ -149,26 +159,28 @@ function calculateRenterScenario(
   const { rental, financial, yearsToAnalyze, purchase } = inputs;
   const dataPoints: YearlyDataPoint[] = [];
 
-  // Initial costs for renter
+  // Initial costs for renter (security deposit + broker fee)
   const initialRenterCosts =
     rental.monthlyRent *
     (rental.securityDepositMonths + rental.brokerFeeMonths);
 
-  // Track investment account (down payment + monthly savings)
+  // Renter invests the down payment equivalent instead of buying
   const downPaymentAmount = purchase.homePrice * purchase.downPaymentPercent;
-  let investmentBalance = downPaymentAmount; // Renter invests down payment equivalent
+  let investmentBalance = downPaymentAmount;
+  // Track the cost basis for capital gains calculation
+  let investmentCostBasis = downPaymentAmount;
 
   let cumulativeCost = initialRenterCosts;
   let currentMonthlyRent = rental.monthlyRent;
 
   for (let year = 0; year <= yearsToAnalyze; year++) {
-    // Calculate annual rent (increases each year due to inflation)
+    // Rent increases each year due to inflation
     if (year > 0) {
       currentMonthlyRent *= 1 + rental.rentInflationRate;
     }
     const annualRent = currentMonthlyRent * 12;
 
-    // Calculate hypothetical mortgage payment for comparison
+    // Calculate hypothetical ownership cost for savings comparison
     const loanAmount = purchase.homePrice - downPaymentAmount;
     const monthlyMortgage = calculateMonthlyMortgagePayment(
       loanAmount,
@@ -176,32 +188,36 @@ function calculateRenterScenario(
       purchase.loanTermYears
     );
     const annualMortgage = monthlyMortgage * 12;
-
-    // Monthly savings: difference between mortgage+expenses and rent
     const annualPropertyTax = purchase.homePrice * purchase.propertyTaxRate;
     const annualMaintenance = purchase.homePrice * purchase.maintenanceRate;
     const totalAnnualOwnershipCost =
       annualMortgage + annualPropertyTax + annualMaintenance;
 
-    // Renter saves the difference if rent is lower
+    // Renter saves the difference if rent is lower than ownership costs
     const monthlySavings = Math.max(
       (totalAnnualOwnershipCost - annualRent) / 12,
       0
     );
 
-    // Add savings to investment account monthly (compound monthly)
+    // Grow investment account monthly (compound monthly)
     if (year > 0) {
       const monthlyRate = financial.investmentReturnRate / 12;
       for (let month = 0; month < 12; month++) {
         investmentBalance *= 1 + monthlyRate;
         investmentBalance += monthlySavings;
+        investmentCostBasis += monthlySavings;
       }
     }
 
-    cumulativeCost += annualRent;
+    cumulativeCost += year > 0 ? annualRent : 0;
 
-    // Renter net worth = investments - cumulative costs
-    const renterNetWorth = investmentBalance - cumulativeCost;
+    // Apply capital gains tax to unrealized gains for net worth calculation
+    const unrealizedGains = Math.max(investmentBalance - investmentCostBasis, 0);
+    const capitalGainsTax = unrealizedGains * financial.capitalGainsTaxRate;
+    const afterTaxInvestmentValue = investmentBalance - capitalGainsTax;
+
+    // Renter Net Worth = after-tax investment portfolio value
+    const renterNetWorth = afterTaxInvestmentValue;
 
     dataPoints.push({
       year,
@@ -221,35 +237,37 @@ function calculateRenterScenario(
 
 /**
  * Calculate owner scenario over time
+ *
+ * Owner Net Worth = Home Value − Mortgage Balance − Selling Costs
+ * Cumulative costs tracked separately for display only.
+ * Mortgage interest tax deduction applied ONLY for US.
  */
 function calculateOwnerScenario(
   inputs: CalculatorInputs,
   homeAppreciationRate: number = 0.03,
-  sellingCostRate: number = 0.06 // 6% typical selling costs (agent fees)
+  sellingCostRate: number = 0.06
 ): YearlyDataPoint[] {
-  const { purchase, financial, yearsToAnalyze } = inputs;
+  const { purchase, yearsToAnalyze, countryCode } = inputs;
   const dataPoints: YearlyDataPoint[] = [];
 
-  // Initial costs for owner
   const downPaymentAmount = purchase.homePrice * purchase.downPaymentPercent;
   const closingCosts = purchase.homePrice * purchase.closingCostRate;
-  const initialOwnerCosts = downPaymentAmount + closingCosts;
-
   const loanAmount = purchase.homePrice - downPaymentAmount;
 
-  let cumulativeCost = initialOwnerCosts;
+  // Track cumulative costs for display (NOT used in net worth)
+  let cumulativeCost = downPaymentAmount + closingCosts;
 
   for (let year = 0; year <= yearsToAnalyze; year++) {
     const monthsIntoLoan = year * 12;
 
-    // Calculate current home value with appreciation
+    // Current home value with appreciation
     const currentHomeValue = calculateHomeValue(
       purchase.homePrice,
       year,
       homeAppreciationRate
     );
 
-    // Calculate remaining mortgage balance
+    // Remaining mortgage balance
     const mortgageBalance =
       year === 0
         ? loanAmount
@@ -260,10 +278,10 @@ function calculateOwnerScenario(
             monthsIntoLoan
           );
 
-    // Calculate equity
+    // Home equity
     const homeEquity = currentHomeValue - mortgageBalance;
 
-    // Calculate annual costs
+    // Track annual costs (for display)
     if (year > 0) {
       const monthlyMortgage = calculateMonthlyMortgagePayment(
         loanAmount,
@@ -278,30 +296,33 @@ function calculateOwnerScenario(
       // Maintenance based on current home value
       const annualMaintenance = currentHomeValue * purchase.maintenanceRate;
 
-      // Tax deduction on mortgage interest (if applicable)
-      const interestPaid = calculateInterestPaid(
-        loanAmount,
-        purchase.interestRate,
-        purchase.loanTermYears,
-        monthsIntoLoan
-      );
-      const previousInterestPaid = calculateInterestPaid(
-        loanAmount,
-        purchase.interestRate,
-        purchase.loanTermYears,
-        monthsIntoLoan - 12
-      );
-      const annualInterest = interestPaid - previousInterestPaid;
-      const taxSavings = annualInterest * financial.marginalTaxRate;
+      // Tax deduction on mortgage interest — US ONLY
+      let taxSavings = 0;
+      if (countryCode === 'US') {
+        const interestPaid = calculateInterestPaid(
+          loanAmount,
+          purchase.interestRate,
+          purchase.loanTermYears,
+          monthsIntoLoan
+        );
+        const previousInterestPaid = calculateInterestPaid(
+          loanAmount,
+          purchase.interestRate,
+          purchase.loanTermYears,
+          monthsIntoLoan - 12
+        );
+        const annualInterest = interestPaid - previousInterestPaid;
+        taxSavings = annualInterest * inputs.financial.marginalTaxRate;
+      }
 
       cumulativeCost +=
         annualMortgage + annualPropertyTax + annualMaintenance - taxSavings;
     }
 
-    // Owner net worth = home equity - cumulative costs
-    // If owner sells, subtract selling costs
-    const netProceeds = homeEquity - currentHomeValue * sellingCostRate;
-    const ownerNetWorth = netProceeds - cumulativeCost;
+    // Owner Net Worth = Home Value − Mortgage Balance − Selling Costs
+    // Selling costs are based on current home value (agent fees, transfer tax)
+    const sellingCosts = currentHomeValue * sellingCostRate;
+    const ownerNetWorth = currentHomeValue - mortgageBalance - sellingCosts;
 
     dataPoints.push({
       year,
@@ -327,24 +348,22 @@ function findBreakEvenPoint(dataPoints: YearlyDataPoint[]): BreakEvenResult {
     const current = dataPoints[i];
     const previous = dataPoints[i - 1];
 
-    // Check if crossover happened
+    // Check if crossover happened (owner overtakes renter)
     if (
       previous.ownerNetWorth <= previous.renterNetWorth &&
       current.ownerNetWorth > current.renterNetWorth
     ) {
       // Linear interpolation for more precise estimate
-      const delta =
-        (current.renterNetWorth - current.ownerNetWorth) /
-        (current.renterNetWorth -
-          current.ownerNetWorth -
-          (previous.renterNetWorth - previous.ownerNetWorth));
+      const prevGap = previous.renterNetWorth - previous.ownerNetWorth; // positive (renter ahead)
+      const currGap = current.ownerNetWorth - current.renterNetWorth;   // positive (owner ahead)
+      const fraction = prevGap / (prevGap + currGap);
 
-      const exactPoint = current.year - 1 + delta;
-      const month = Math.floor((exactPoint % 1) * 12);
+      const exactPoint = (i - 1) + fraction;
+      const month = Math.floor(fraction * 12);
 
       return {
-        year: current.year,
-        month,
+        year: i,
+        month: Math.min(month, 11),
         exactPoint,
       };
     }

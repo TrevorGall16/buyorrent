@@ -23,7 +23,7 @@ console.log('Configuration:', {
   propertyTax: `${(usInputs.purchase.propertyTaxRate * 100).toFixed(2)}%`,
 });
 
-const usResult = calculateRentVsBuy(usInputs);
+const usResult = calculateRentVsBuy({ ...usInputs, countryCode: 'US' });
 console.log('Results:', {
   breakEvenYear: usResult.breakEven.year,
   breakEvenExact: usResult.breakEven.exactPoint?.toFixed(2),
@@ -46,7 +46,7 @@ console.log('Configuration:', {
   brokerFee: `${deInputs.rental.brokerFeeMonths} month(s) rent`,
 });
 
-const deResult = calculateRentVsBuy(deInputs);
+const deResult = calculateRentVsBuy({ ...deInputs, countryCode: 'DE' });
 console.log('Results:', {
   breakEvenYear: deResult.breakEven.year,
   breakEvenExact: deResult.breakEven.exactPoint?.toFixed(2),
@@ -71,7 +71,7 @@ console.log('Configuration:', {
   propertyTax: `${(frInputs.purchase.propertyTaxRate * 100).toFixed(2)}%`,
 });
 
-const frResult = calculateRentVsBuy(frInputs);
+const frResult = calculateRentVsBuy({ ...frInputs, countryCode: 'FR' });
 console.log('Results:', {
   breakEvenYear: frResult.breakEven.year,
   breakEvenExact: frResult.breakEven.exactPoint?.toFixed(2),
@@ -93,7 +93,7 @@ console.log('Configuration:', {
   propertyTax: `${(gbInputs.purchase.propertyTaxRate * 100).toFixed(2)}%`,
 });
 
-const gbResult = calculateRentVsBuy(gbInputs);
+const gbResult = calculateRentVsBuy({ ...gbInputs, countryCode: 'GB' });
 console.log('Results:', {
   breakEvenYear: gbResult.breakEven.year,
   breakEvenExact: gbResult.breakEven.exactPoint?.toFixed(2),

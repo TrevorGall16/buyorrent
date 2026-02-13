@@ -16,6 +16,8 @@ interface AdvancedSettingsProps {
   rentInflationRate: number;
   investmentReturnRate: number;
   marginalTaxRate: number;
+  homeAppreciationRate: number;
+  capitalGainsTaxRate: number;
   yearsToPlot: number;
   onDownPaymentChange: (value: number) => void;
   onInterestRateChange: (value: number) => void;
@@ -25,6 +27,8 @@ interface AdvancedSettingsProps {
   onRentInflationChange: (value: number) => void;
   onInvestmentReturnChange: (value: number) => void;
   onMarginalTaxChange: (value: number) => void;
+  onHomeAppreciationChange: (value: number) => void;
+  onCapitalGainsTaxChange: (value: number) => void;
   onYearsToPlotChange: (value: number) => void;
   propertyTaxLabel?: string;
   labels?: {
@@ -50,6 +54,8 @@ export default function AdvancedSettings({
   rentInflationRate,
   investmentReturnRate,
   marginalTaxRate,
+  homeAppreciationRate,
+  capitalGainsTaxRate,
   yearsToPlot,
   onDownPaymentChange,
   onInterestRateChange,
@@ -59,6 +65,8 @@ export default function AdvancedSettings({
   onRentInflationChange,
   onInvestmentReturnChange,
   onMarginalTaxChange,
+  onHomeAppreciationChange,
+  onCapitalGainsTaxChange,
   onYearsToPlotChange,
   propertyTaxLabel = 'Property Tax Rate',
   labels,
@@ -201,6 +209,18 @@ export default function AdvancedSettings({
               formatValue={(val) => val.toFixed(1)}
               tooltip={tooltips.maintenance}
             />
+
+            <InputField
+              label="Home Appreciation Rate"
+              value={homeAppreciationRate}
+              onChange={(val) => onHomeAppreciationChange(val / 100)}
+              min={0}
+              max={8}
+              step={0.5}
+              suffix="% per year"
+              formatValue={(val) => val.toFixed(1)}
+              tooltip="Expected annual increase in your home's value. Historical US average is ~3%. This is the single most impactful variable in the buy calculation."
+            />
           </div>
 
           {/* Rental Settings */}
@@ -249,6 +269,18 @@ export default function AdvancedSettings({
               step={1}
               suffix="%"
               formatValue={(val) => val.toString()}
+            />
+
+            <InputField
+              label="Capital Gains Tax"
+              value={capitalGainsTaxRate}
+              onChange={(val) => onCapitalGainsTaxChange(val / 100)}
+              min={0}
+              max={40}
+              step={1}
+              suffix="% on investment gains"
+              formatValue={(val) => val.toString()}
+              tooltip="Tax rate applied to the renter's investment gains when liquidating. US long-term rate is 15-20%. Some countries charge 25-30%."
             />
           </div>
 

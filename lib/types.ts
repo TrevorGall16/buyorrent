@@ -74,6 +74,7 @@ export interface RentalInputs {
 export interface FinancialInputs {
   investmentReturnRate: number; // Annual rate as decimal (0.05 = 5%)
   marginalTaxRate: number; // As decimal (0.25 = 25%)
+  capitalGainsTaxRate: number; // Tax on investment gains for renter (0.15 = 15%)
 }
 
 export interface CalculatorInputs {
@@ -81,6 +82,7 @@ export interface CalculatorInputs {
   rental: RentalInputs;
   financial: FinancialInputs;
   yearsToAnalyze: number;
+  countryCode: CountryCode;
 }
 
 export interface YearlyDataPoint {
