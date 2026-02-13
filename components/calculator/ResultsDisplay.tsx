@@ -54,6 +54,7 @@ export default function ResultsDisplay({
   breakEven,
   recommendation,
   cityName,
+  dataUpdated,
   themeColor,
   currentState,
   defaultInputs,
@@ -134,11 +135,10 @@ export default function ResultsDisplay({
     icon: string;
     color: 'green' | 'red';
   } => {
-    // Use label for scenario prefix - fallback to old logic if not provided
-    const scenarioPrefix = labels.resultScenarioPrefix || (cityName === 'Global Calculator' ? 'In this scenario' : `In ${cityName}`);
-
-    // For non-global calculators, use city name instead of generic prefix
-    const cityPrefix = cityName === 'Global Calculator' ? scenarioPrefix : `In ${cityName}`;
+    // Use i18n label for scenario prefix, falling back to city name
+    const cityPrefix = labels.resultScenarioPrefix
+      ? `${labels.resultScenarioPrefix} (${cityName})`
+      : `In ${cityName}`;
 
     if (breakEven.year === null) {
       return {
@@ -217,7 +217,7 @@ export default function ResultsDisplay({
               />
             </svg>
             <span className="text-xs font-medium text-blue-700 dark:text-blue-400">
-              {labels.marketData} {cityName} • {labels.updated} Jan 2025
+              {labels.marketData} {cityName} • {labels.updated} {dataUpdated}
             </span>
 
             {/* Tooltip */}

@@ -389,8 +389,8 @@ export default async function CityBuyVsRentPage({ params, searchParams }: PagePr
             <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
               📊 {name} Market Analysis
             </h2>
-            <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed" 
-               dangerouslySetInnerHTML={{ __html: getNarrative(cityData, language) }} 
+            <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed"
+               dangerouslySetInnerHTML={{ __html: getNarrative(cityData, language).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }}
             />
           </div>
 

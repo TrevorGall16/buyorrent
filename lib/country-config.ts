@@ -253,6 +253,8 @@ export const COUNTRY_CONFIGS = {
     propertyTaxRate: 0.006,
     brokerFeeMonths: 0,
     marginalTaxRate: 0.37,
+    dataSourceName: 'CoreLogic, ABS, Domain',
+    dataSourceUrl: 'https://www.corelogic.com.au/',
     labels: {
       closingCosts: 'Stamp Duty & Conveyancing',
       propertyTax: 'Council Rates',
@@ -299,6 +301,8 @@ export const COUNTRY_CONFIGS = {
     propertyTaxRate: 0.004,
     brokerFeeMonths: 0,
     marginalTaxRate: 0.30,
+    dataSourceName: 'Idealista, INE, Banco de España',
+    dataSourceUrl: 'https://www.idealista.com/sala-de-prensa/informes-precio-vivienda/',
     labels: {
       closingCosts: 'ITP/IVA y Gastos de Notaría',
       propertyTax: 'IBI (Impuesto de Bienes Inmuebles)',
@@ -345,6 +349,8 @@ export const COUNTRY_CONFIGS = {
     propertyTaxRate: 0.0076,
     brokerFeeMonths: 0,
     marginalTaxRate: 0.35,
+    dataSourceName: 'Immobiliare.it, ISTAT, Agenzia delle Entrate',
+    dataSourceUrl: 'https://www.immobiliare.it/mercato-immobiliare/',
     labels: {
       closingCosts: 'Imposta di Registro e Notaio',
       propertyTax: 'IMU (Imposta Municipale Unica)',
@@ -391,6 +397,8 @@ export const COUNTRY_CONFIGS = {
     propertyTaxRate: 0.003,
     brokerFeeMonths: 0,
     marginalTaxRate: 0.49,
+    dataSourceName: 'Funda, CBS, Kadaster',
+    dataSourceUrl: 'https://www.funda.nl/',
     labels: {
       closingCosts: 'Overdrachtsbelasting en Notaris',
       propertyTax: 'OZB (Onroerendezaakbelasting)',
@@ -437,6 +445,8 @@ export const COUNTRY_CONFIGS = {
     propertyTaxRate: 0.0075,
     brokerFeeMonths: 0,
     marginalTaxRate: 0.52,
+    dataSourceName: 'Hemnet, SCB, Booli',
+    dataSourceUrl: 'https://www.hemnet.se/',
     labels: {
       closingCosts: 'Stämpelskatt och Juridiska Avgifter',
       propertyTax: 'Fastighetsskatt',
@@ -483,6 +493,8 @@ export const COUNTRY_CONFIGS = {
     propertyTaxRate: 0.002,
     brokerFeeMonths: 0,
     marginalTaxRate: 0.30,
+    dataSourceName: 'Homegate, BFS, Wüest Partner',
+    dataSourceUrl: 'https://www.homegate.ch/',
     labels: {
       closingCosts: 'Transfer Tax & Notary',
       propertyTax: 'Property Tax',
@@ -515,6 +527,11 @@ export const COUNTRY_CONFIGS = {
       forBuyingToMakeSense: 'for buying to make financial sense',
       and: 'and',
       months: 'months',
+      resultScenarioPrefix: 'In this scenario',
+      chartTitle: 'Net Worth Over Time',
+      chartSubtitle: 'Accumulated wealth comparison',
+      chartAxisYear: 'Years',
+      chartAxisAmount: 'Net Worth',
     },
   },
   BE: {
@@ -524,6 +541,8 @@ export const COUNTRY_CONFIGS = {
     propertyTaxRate: 0.008,
     brokerFeeMonths: 0,
     marginalTaxRate: 0.50,
+    dataSourceName: 'Immoweb, StatBel, BNB',
+    dataSourceUrl: 'https://www.immoweb.be/',
     labels: {
       closingCosts: 'Registration Fees & Notary',
       propertyTax: 'Property Tax',
@@ -556,6 +575,11 @@ export const COUNTRY_CONFIGS = {
       forBuyingToMakeSense: 'for buying to make financial sense',
       and: 'and',
       months: 'months',
+      resultScenarioPrefix: 'In this scenario',
+      chartTitle: 'Net Worth Over Time',
+      chartSubtitle: 'Accumulated wealth comparison',
+      chartAxisYear: 'Years',
+      chartAxisAmount: 'Net Worth',
     },
   },
   IE: {
@@ -684,29 +708,6 @@ export function getCountryName(code: string): string {
     'PT': 'Portugal 🇵🇹'
   };
   return map[code] || 'Other';
-}
-
-/**
- * Get theme color for each country
- */
-export function getCountryThemeColor(code: string): string {
-  const colorMap: Record<string, string> = {
-    'US': '#2563EB',  // Blue
-    'FR': '#002654',  // Navy
-    'DE': '#DD0000',  // Red
-    'GB': '#C8102E',  // Crimson
-    'CA': '#FF0000',  // Red
-    'AU': '#00843D',  // Green
-    'ES': '#C60B1E',  // Spanish Red
-    'IT': '#009246',  // Italian Green
-    'NL': '#FF9B00',  // Dutch Orange
-    'SE': '#006AA7',  // Swedish Blue
-    'CH': '#FF0000',  // Swiss Red
-    'BE': '#FDDA24',  // Belgian Yellow
-    'IE': '#169B62',  // Irish Green
-    'PT': '#006600',  // Portuguese Green
-  };
-  return colorMap[code] || '#3b82f6'; // Default blue
 }
 
 /**
