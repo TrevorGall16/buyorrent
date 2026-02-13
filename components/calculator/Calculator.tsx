@@ -563,20 +563,20 @@ export default function Calculator({
           <AdContainer slot="mobile-secondary" />
         </div>
 
-        <BreakdownTable 
-          finalYearData={financialMetrics.finalYearData} 
-          currencySymbol={countryConfig.currencySymbol} 
-          downPayment={financialMetrics.downPayment} 
-          closingCosts={financialMetrics.closingCosts} 
-          monthlyMortgage={financialMetrics.monthlyMortgage} 
-          monthlyRent={monthlyRent} 
+        <BreakdownTable
+          finalYearData={financialMetrics.finalYearData}
+          currencySymbol={countryConfig.currencySymbol}
+          downPayment={financialMetrics.downPayment}
+          closingCosts={financialMetrics.closingCosts}
+          monthlyMortgage={financialMetrics.monthlyMortgage}
+          monthlyRent={monthlyRent}
+          yearsToPlot={yearsToPlot}
+          homeAppreciationRate={homeAppreciationRate}
+          investmentReturnRate={investmentReturnRate}
         />
 
-        <InsightEngine 
-          breakEvenYear={results.breakEven.year ?? 30} 
-          totalSavings={results.summary.finalOwnerNetWorth - results.summary.finalRenterNetWorth} 
-          buyingPower={results.summary.finalOwnerNetWorth} 
-          currencySymbol={countryConfig.currencySymbol} 
+        <InsightEngine
+          breakEvenYear={results.breakEven.year ?? 30}
         />
 
         <div className="my-12 min-h-[280px] flex items-center justify-center">
@@ -689,19 +689,19 @@ export default function Calculator({
         </div>
         
         <div className="lg:col-span-5 space-y-8 pt-8 border-t border-gray-200 dark:border-slate-700">
-           <BreakdownTable 
-             finalYearData={financialMetrics.finalYearData} 
-             currencySymbol={countryConfig.currencySymbol} 
-             downPayment={financialMetrics.downPayment} 
-             closingCosts={financialMetrics.closingCosts} 
-             monthlyMortgage={financialMetrics.monthlyMortgage} 
-             monthlyRent={monthlyRent} 
+           <BreakdownTable
+             finalYearData={financialMetrics.finalYearData}
+             currencySymbol={countryConfig.currencySymbol}
+             downPayment={financialMetrics.downPayment}
+             closingCosts={financialMetrics.closingCosts}
+             monthlyMortgage={financialMetrics.monthlyMortgage}
+             monthlyRent={monthlyRent}
+             yearsToPlot={yearsToPlot}
+             homeAppreciationRate={homeAppreciationRate}
+             investmentReturnRate={investmentReturnRate}
            />
-           <InsightEngine 
-             breakEvenYear={results.breakEven.year ?? 30} 
-             totalSavings={results.summary.finalOwnerNetWorth - results.summary.finalRenterNetWorth} 
-             buyingPower={results.summary.finalOwnerNetWorth} 
-             currencySymbol={countryConfig.currencySymbol} 
+           <InsightEngine
+             breakEvenYear={results.breakEven.year ?? 30}
            />
 
            {/* ✅ ADSTERRA PLACEMENT: After the results */}

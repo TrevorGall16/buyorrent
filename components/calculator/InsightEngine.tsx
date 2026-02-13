@@ -11,9 +11,6 @@ import Link from 'next/link';
 
 interface InsightEngineProps {
   breakEvenYear: number;
-  totalSavings: number;
-  buyingPower: number;
-  currencySymbol: string;
 }
 
 export default function InsightEngine({

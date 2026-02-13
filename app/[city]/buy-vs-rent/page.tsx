@@ -39,123 +39,92 @@ interface PageProps {
 
 // ---------------------------------------------------------
 // 1. DYNAMIC NARRATIVE ENGINE (SEO CONTENT GENERATOR)
+// 3 templates rotated by slug.length % 3 to avoid duplicate content.
+//   Template 0: Price-to-Rent ratio & investment opportunity
+//   Template 1: Hidden costs, maintenance/tax, nomad flexibility
+//   Template 2: 30-year wealth projection & break-even focus
 // ---------------------------------------------------------
 const getNarrative = (city: CityData, lang: string) => {
   const { avg_home_price, avg_rent, closing_cost_rate, property_tax_rate } = city.defaults;
   const ratio = avg_home_price / (avg_rent * 12);
   const ratioFormatted = ratio.toFixed(1);
   const currency = city.currency_symbol;
-
-  // Logic: Low Ratio (< 15) = Buy, High Ratio (> 20) = Rent, Middle = Neutral
   const isBuyFavorable = ratio < 18;
+  const variant = city.slug.length % 3;
 
   // Break-Even Heuristic
-  const getBreakEvenYears = (r: number): string => {
-    if (r < 15) return '~4 years';
-    if (r > 25) return '20+ years';
-    return '7-15 years';
-  };
-  const breakEvenYears = getBreakEvenYears(ratio);
+  const breakEvenYears = ratio < 15 ? '~4' : ratio > 25 ? '20+' : '7–15';
 
-  // --- DIGITAL NOMAD MATH FIX ---
-  // 1. Loan Assumptions (consistent with Calculator defaults)
+  // Nomad math
   const downPayment = 0.20;
-  const interestRate = 0.065; // 6.5% standard
+  const interestRate = 0.065;
   const loanAmount = avg_home_price * (1 - downPayment);
-  
-  // 2. Costs
-  const annualInterest = loanAmount * interestRate; // Money paid to bank (unrecoverable)
-  const entryCost = avg_home_price * closing_cost_rate; // Initial closing costs
-  const exitCost = avg_home_price * 0.06; // Agent fees when selling (6%)
-  const totalFriction = entryCost + exitCost; // Total cost to buy AND sell
-  
-  // 3. True Annual Unrecoverable Cost (Amortized over 3 years)
-  // Formula: (Friction / 3) + Tax + Maintenance + Interest
+  const annualInterest = loanAmount * interestRate;
+  const entryCost = avg_home_price * closing_cost_rate;
+  const exitCost = avg_home_price * 0.06;
+  const totalFriction = entryCost + exitCost;
   const annualUnrecoverableCosts = Math.round(
-    (totalFriction / 3) +                      // Amortized transaction costs
-    (avg_home_price * property_tax_rate) +     // Property Tax
-    (avg_home_price * 0.01) +                  // 1% Maintenance
-    annualInterest                             // Mortgage Interest (Crucial!)
+    (totalFriction / 3) + (avg_home_price * property_tax_rate) + (avg_home_price * 0.01) + annualInterest
   );
-  
-  const formattedUnrecoverable = annualUnrecoverableCosts.toLocaleString();
+  const fmtUnrecov = annualUnrecoverableCosts.toLocaleString();
 
-  // Multilingual Templates
-  const templates: Record<string, any> = {
-    en: {
-      intro: `In ${city.name}, the real estate market currently shows a Price-to-Rent ratio of **${ratioFormatted}**.`,
-      stats: `With an average home price of ${currency}${avg_home_price.toLocaleString()} and monthly rents averaging ${currency}${avg_rent.toLocaleString()},`,
-      conclusion: isBuyFavorable
-        ? "market conditions suggest that **buying** may build wealth faster than renting over a 5-year period."
-        : "market conditions suggest that **renting** and investing the difference is likely the mathematically superior choice right now.",
-      breakeven: `Financial modeling suggests buying only breaks even after **${breakEvenYears}**.`,
-      nomad: `For expats and digital nomads staying less than 3 years, renting saves approximately **${currency}${formattedUnrecoverable}** annually in unrecoverable costs (interest, taxes, and transaction fees).`,
-      action: "Use the calculator below to input your exact scenario."
-    },
-    fr: {
-      intro: `À ${city.name}, le marché immobilier affiche actuellement un ratio Prix/Loyer de **${ratioFormatted}**.`,
-      stats: `Avec un prix moyen de l'immobilier à ${currency}${avg_home_price.toLocaleString()} et des loyers mensuels moyens à ${currency}${avg_rent.toLocaleString()},`,
-      conclusion: isBuyFavorable
-        ? "les conditions suggèrent que **l'achat** pourrait générer du patrimoine plus rapidement que la location."
-        : "les conditions suggèrent que **la location** est probablement le choix financièrement supérieur en ce moment.",
-      breakeven: `L'analyse financière suggère que l'achat n'est rentable qu'après **${breakEvenYears}**.`,
-      nomad: `Pour les expatriés restant moins de 3 ans, la location économise environ **${currency}${formattedUnrecoverable}** par an en coûts irrécupérables (intérêts, taxes, frais).`,
-      action: "Utilisez le calculateur ci-dessous pour analyser votre situation."
-    },
-    de: {
-      intro: `In ${city.name} weist der Immobilienmarkt derzeit ein Preis-Miet-Verhältnis von **${ratioFormatted}**.`,
-      stats: `Bei einem durchschnittlichen Hauspreis von ${currency}${avg_home_price.toLocaleString()} und einer monatlichen Miete von ${currency}${avg_rent.toLocaleString()}`,
-      conclusion: isBuyFavorable
-        ? "deuten die Marktbedingungen darauf hin, dass **Kaufen** langfristig vorteilhafter sein könnte."
-        : "deuten die Marktbedingungen darauf hin, dass **Mieten** derzeit die finanziell klügere Wahl ist.",
-      breakeven: `Finanzmodelle zeigen, dass sich der Kauf erst nach **${breakEvenYears}** amortisiert.`,
-      nomad: `Für Expats, die weniger als 3 Jahre bleiben, spart Mieten etwa **${currency}${formattedUnrecoverable}** jährlich an unwiederbringlichen Kosten.`,
-      action: "Nutzen Sie den Rechner unten für Ihre genaue Analyse."
-    },
-    es: {
-      intro: `En ${city.name}, el ratio Precio/Alquiler es de **${ratioFormatted}**.`,
-      stats: `Con un precio medio de ${currency}${avg_home_price.toLocaleString()} y alquileres de ${currency}${avg_rent.toLocaleString()},`,
-      conclusion: isBuyFavorable ? "**comprar** parece ser la mejor opción financiera." : "**alquilar** parece ser la opción más inteligente hoy.",
-      breakeven: `El análisis financiero sugiere que comprar solo es rentable después de **${breakEvenYears}**.`,
-      nomad: `Para expatriados que se quedan menos de 3 años, alquilar ahorra aproximadamente **${currency}${formattedUnrecoverable}** anuales en costos irrecuperables.`,
-      action: "Usa la calculadora abajo."
-    },
-    it: {
-      intro: `A ${city.name}, il rapporto Prezzo/Affitto è **${ratioFormatted}**.`,
-      stats: `Con un prezzo medio di ${currency}${avg_home_price.toLocaleString()} e affitti di ${currency}${avg_rent.toLocaleString()},`,
-      conclusion: isBuyFavorable ? "**comprare** potrebbe essere più vantaggioso." : "**affittare** è probabilmente la scelta migliore.",
-      breakeven: `L'analisi finanziaria suggerisce che l'acquisto diventa conveniente solo dopo **${breakEvenYears}**.`,
-      nomad: `Per chi resta meno di 3 anni, affittare fa risparmiare circa **${currency}${formattedUnrecoverable}** all'anno in costi irrecuperabili.`,
-      action: "Usa il calcolatore qui sotto."
-    },
-    pt: {
-      intro: `Em ${city.name}, o mercado imobiliário apresenta um rácio Preço/Arrendamento de **${ratioFormatted}**.`,
-      stats: `Com um preço médio de ${currency}${avg_home_price.toLocaleString()} e rendas mensais de ${currency}${avg_rent.toLocaleString()},`,
-      conclusion: isBuyFavorable ? "**comprar** pode ser a melhor opção financeira." : "**arrendar** é provavelmente a escolha mais inteligente.",
-      breakeven: `A análise financeira sugere que a compra só é rentável após **${breakEvenYears}**.`,
-      nomad: `Para expatriados que ficam menos de 3 anos, arrendar poupa aproximadamente **${currency}${formattedUnrecoverable}** anuais em custos irrecuperáveis.`,
-      action: "Use a calculadora abaixo."
-    },
-    nl: {
-      intro: `In ${city.name} toont de vastgoedmarkt een Prijs-Huur ratio van **${ratioFormatted}**.`,
-      stats: `Met een gemiddelde woningprijs van ${currency}${avg_home_price.toLocaleString()} en maandelijkse huur van ${currency}${avg_rent.toLocaleString()},`,
-      conclusion: isBuyFavorable ? "wijzen de omstandigheden erop dat **kopen** voordeliger kan zijn." : "wijzen de omstandigheden erop dat **huren** nu de slimmere keuze is.",
-      breakeven: `Financiële modellen tonen dat kopen pas rendabel is na **${breakEvenYears}**.`,
-      nomad: `Voor expats die minder dan 3 jaar blijven, bespaart huren ongeveer **${currency}${formattedUnrecoverable}** per jaar aan onherstelbare kosten.`,
-      action: "Gebruik de rekenmachine hieronder."
-    },
-    sv: {
-      intro: `I ${city.name} visar fastighetsmarknaden ett Pris-Hyra förhållande på **${ratioFormatted}**.`,
-      stats: `Med ett genomsnittligt bostadspris på ${currency}${avg_home_price.toLocaleString()} och månadshyror på ${currency}${avg_rent.toLocaleString()},`,
-      conclusion: isBuyFavorable ? "tyder marknadsförhållandena på att **köpa** kan vara fördelaktigare." : "tyder marknadsförhållandena på att **hyra** är det klokare valet just nu.",
-      breakeven: `Finansiell modellering visar att köp endast lönar sig efter **${breakEvenYears}**.`,
-      nomad: `För expats som stannar mindre än 3 år sparar hyra cirka **${currency}${formattedUnrecoverable}** årligen i oåterkalleliga kostnader.`,
-      action: "Använd kalkylatorn nedan."
-    },
+  // Derived display values
+  const fmtPrice = `${currency}${avg_home_price.toLocaleString()}`;
+  const fmtRent = `${currency}${avg_rent.toLocaleString()}`;
+  const fmtTax = `${(property_tax_rate * 100).toFixed(2)}%`;
+  const fmtClosing = `${(closing_cost_rate * 100).toFixed(1)}%`;
+  const fmtDown = `${currency}${Math.round(avg_home_price * downPayment).toLocaleString()}`;
+  const thirtyYearHomeValue = `${currency}${Math.round(avg_home_price * Math.pow(1.03, 30)).toLocaleString()}`;
+
+  // 8-language × 3-template matrix
+  const narratives: Record<string, string[]> = {
+    en: [
+      // Template 0: Price-to-Rent ratio & investment
+      `The ${city.name} housing market shows a Price-to-Rent ratio of **${ratioFormatted}**, calculated from an average home price of ${fmtPrice} against monthly rents of ${fmtRent}. ${isBuyFavorable ? `A ratio below 18 signals that **buying** may outperform renting as a wealth-building strategy.` : `A ratio above 18 suggests that **renting** and investing the savings into a diversified portfolio is likely the sharper financial play.`} With a ${fmtDown} down payment, the alternative is investing that capital at a 5% annual return — a key factor our calculator models over 30 years. Adjust the sliders below to test your personal scenario.`,
+      // Template 1: Hidden costs & nomad flexibility
+      `Buying a home in ${city.name} comes with costs that never appear in the listing price. Closing costs run **${fmtClosing}** of the purchase price (${currency}${Math.round(entryCost).toLocaleString()}), annual property taxes are **${fmtTax}**, and maintenance averages 1% per year. For someone staying less than 3 years, these unrecoverable costs add up to approximately **${currency}${fmtUnrecov} per year** — before you even account for selling fees of 6%. ${isBuyFavorable ? `Despite these costs, ${city.name}'s favorable price-to-rent ratio of ${ratioFormatted} means buying still wins long-term.` : `In ${city.name}, these friction costs tilt the math firmly toward **renting** for anyone without a 10+ year horizon.`} The calculator below lets you see exactly when buying overtakes renting for your situation.`,
+      // Template 2: 30-year wealth projection & break-even
+      `Over a 30-year horizon, the rent-vs-buy question in ${city.name} comes down to one number: the break-even year. Our financial model — which tracks mortgage amortization, home appreciation at 3%, rent inflation, investment opportunity costs, and capital gains tax — places the break-even point at approximately **${breakEvenYears} years**. At today's average price of ${fmtPrice}, a home appreciating at 3% annually would be worth approximately **${thirtyYearHomeValue}** after 30 years. ${isBuyFavorable ? `That growth, combined with monthly rents of ${fmtRent}, makes **buying a strong wealth-building vehicle** in this market.` : `However, a renter investing the difference could accumulate comparable or greater wealth through market returns, making **renting the mathematically superior choice** here.`} Use the calculator to model your exact numbers.`,
+    ],
+    fr: [
+      `Le marché immobilier de ${city.name} affiche un ratio Prix/Loyer de **${ratioFormatted}**, calculé à partir d'un prix moyen de ${fmtPrice} et de loyers mensuels de ${fmtRent}. ${isBuyFavorable ? `Un ratio inférieur à 18 indique que **l'achat** pourrait surpasser la location comme stratégie patrimoniale.` : `Un ratio supérieur à 18 suggère que **la location** et l'investissement de la différence restent plus rentables.`} Avec un apport de ${fmtDown}, l'alternative est de placer ce capital à 5% par an — un facteur clé modélisé sur 30 ans. Ajustez les curseurs ci-dessous pour tester votre situation.`,
+      `Acheter à ${city.name} implique des coûts invisibles. Les frais de notaire représentent **${fmtClosing}** du prix d'achat (${currency}${Math.round(entryCost).toLocaleString()}), la taxe foncière annuelle est de **${fmtTax}**, et l'entretien coûte environ 1% par an. Pour un séjour de moins de 3 ans, ces coûts irrécupérables totalisent environ **${currency}${fmtUnrecov} par an** — sans compter les frais d'agence de 6% à la revente. ${isBuyFavorable ? `Malgré cela, le ratio favorable de ${city.name} (${ratioFormatted}) rend l'achat gagnant à long terme.` : `À ${city.name}, ces frictions orientent clairement le calcul vers **la location**.`} Le calculateur ci-dessous montre quand l'achat devient rentable pour vous.`,
+      `Sur 30 ans, la question louer-ou-acheter à ${city.name} se résume au point d'équilibre. Notre modèle — intégrant amortissement hypothécaire, appréciation à 3%, inflation des loyers et coûts d'opportunité — situe le seuil de rentabilité à environ **${breakEvenYears} ans**. Au prix moyen actuel de ${fmtPrice}, un bien s'appréciant à 3% vaudrait environ **${thirtyYearHomeValue}** après 30 ans. ${isBuyFavorable ? `Cette croissance fait de **l'achat un puissant levier patrimonial** ici.` : `Cependant, un locataire investissant la différence pourrait accumuler un patrimoine comparable, faisant de **la location le choix mathématiquement supérieur**.`} Utilisez le calculateur pour modéliser vos chiffres.`,
+    ],
+    de: [
+      `Der Immobilienmarkt in ${city.name} zeigt ein Preis-Miet-Verhältnis von **${ratioFormatted}**, berechnet aus einem Durchschnittspreis von ${fmtPrice} und Monatsmieten von ${fmtRent}. ${isBuyFavorable ? `Ein Verhältnis unter 18 signalisiert, dass **Kaufen** als Vermögensaufbau-Strategie die Miete übertreffen kann.` : `Ein Verhältnis über 18 deutet darauf hin, dass **Mieten** und die Investition der Ersparnisse die klügere Wahl ist.`} Mit einem Eigenkapital von ${fmtDown} besteht die Alternative darin, dieses Kapital zu 5% jährlich anzulegen — ein Schlüsselfaktor über 30 Jahre. Passen Sie die Regler unten an.`,
+      `Ein Immobilienkauf in ${city.name} bringt versteckte Kosten mit sich. Die Kaufnebenkosten betragen **${fmtClosing}** des Kaufpreises (${currency}${Math.round(entryCost).toLocaleString()}), die jährliche Grundsteuer liegt bei **${fmtTax}**, und Instandhaltung kostet ca. 1% pro Jahr. Für einen Aufenthalt unter 3 Jahren summieren sich diese unwiederbringlichen Kosten auf etwa **${currency}${fmtUnrecov} jährlich** — ohne die 6% Maklergebühren beim Verkauf. ${isBuyFavorable ? `Trotzdem macht das günstige Verhältnis von ${ratioFormatted} den Kauf langfristig lohnend.` : `In ${city.name} sprechen diese Kosten klar für das **Mieten**.`} Der Rechner zeigt, ab wann sich der Kauf für Sie lohnt.`,
+      `Über 30 Jahre betrachtet hängt die Mieten-oder-Kaufen-Frage in ${city.name} vom Break-even-Punkt ab. Unser Modell — mit Tilgungsplan, 3% Wertsteigerung, Mietinflation und Opportunitätskosten — setzt den Schwellenwert bei etwa **${breakEvenYears} Jahren** an. Beim aktuellen Durchschnittspreis von ${fmtPrice} wäre eine Immobilie mit 3% Wertzuwachs nach 30 Jahren circa **${thirtyYearHomeValue}** wert. ${isBuyFavorable ? `Dieses Wachstum macht **Kaufen zu einer starken Vermögensanlage** hier.` : `Ein Mieter, der die Differenz investiert, könnte vergleichbares Vermögen aufbauen — **Mieten ist hier rechnerisch überlegen**.`} Nutzen Sie den Rechner für Ihre persönliche Analyse.`,
+    ],
+    es: [
+      `El mercado inmobiliario de ${city.name} muestra un ratio Precio/Alquiler de **${ratioFormatted}**, calculado a partir de un precio medio de ${fmtPrice} y alquileres mensuales de ${fmtRent}. ${isBuyFavorable ? `Un ratio inferior a 18 indica que **comprar** puede superar al alquiler como estrategia patrimonial.` : `Un ratio superior a 18 sugiere que **alquilar** e invertir la diferencia es la opción financieramente más inteligente.`} Con una entrada de ${fmtDown}, la alternativa es invertir ese capital al 5% anual — factor clave modelado a 30 años. Ajusta los controles abajo para probar tu escenario.`,
+      `Comprar en ${city.name} conlleva costos que no aparecen en el precio de venta. Los gastos de cierre suponen **${fmtClosing}** del precio (${currency}${Math.round(entryCost).toLocaleString()}), el IBI anual es del **${fmtTax}**, y el mantenimiento ronda el 1% anual. Para estancias menores a 3 años, estos costos irrecuperables suman aproximadamente **${currency}${fmtUnrecov} anuales** — sin contar los honorarios de agencia del 6%. ${isBuyFavorable ? `A pesar de ello, el ratio favorable de ${city.name} (${ratioFormatted}) hace que comprar gane a largo plazo.` : `En ${city.name}, estos costos inclinan claramente la balanza hacia el **alquiler**.`} La calculadora muestra cuándo comprar supera al alquiler en tu caso.`,
+      `A 30 años vista, la pregunta alquilar-o-comprar en ${city.name} se reduce al punto de equilibrio. Nuestro modelo — que integra amortización hipotecaria, revalorización del 3%, inflación del alquiler y costes de oportunidad — sitúa el umbral en aproximadamente **${breakEvenYears} años**. Al precio medio actual de ${fmtPrice}, una vivienda revalorizándose al 3% valdría aproximadamente **${thirtyYearHomeValue}** tras 30 años. ${isBuyFavorable ? `Ese crecimiento hace de **comprar una potente herramienta patrimonial** aquí.` : `Sin embargo, un inquilino invirtiendo la diferencia podría acumular un patrimonio comparable — **alquilar es la opción superior** aquí.`} Usa la calculadora para modelar tus números.`,
+    ],
+    it: [
+      `Il mercato immobiliare di ${city.name} presenta un rapporto Prezzo/Affitto di **${ratioFormatted}**, calcolato da un prezzo medio di ${fmtPrice} e affitti mensili di ${fmtRent}. ${isBuyFavorable ? `Un rapporto inferiore a 18 indica che **comprare** può essere più vantaggioso dell'affitto come strategia patrimoniale.` : `Un rapporto superiore a 18 suggerisce che **affittare** e investire il risparmio è probabilmente la scelta finanziaria migliore.`} Con un acconto di ${fmtDown}, l'alternativa è investire quel capitale al 5% annuo — fattore chiave del nostro modello a 30 anni. Regola i cursori qui sotto per testare il tuo scenario.`,
+      `Comprare casa a ${city.name} comporta costi nascosti. Le spese notarili ammontano al **${fmtClosing}** del prezzo (${currency}${Math.round(entryCost).toLocaleString()}), l'IMU annuale è del **${fmtTax}**, e la manutenzione costa circa l'1% annuo. Per chi resta meno di 3 anni, questi costi irrecuperabili totalizzano circa **${currency}${fmtUnrecov} all'anno** — senza contare le commissioni d'agenzia del 6%. ${isBuyFavorable ? `Nonostante ciò, il rapporto favorevole di ${city.name} (${ratioFormatted}) rende l'acquisto vincente nel lungo periodo.` : `A ${city.name}, questi costi spostano nettamente il calcolo verso l'**affitto**.`} Il calcolatore mostra quando l'acquisto supera l'affitto per te.`,
+      `In un orizzonte di 30 anni, la questione affitto-o-acquisto a ${city.name} si riduce al punto di pareggio. Il nostro modello — che integra ammortamento mutuo, rivalutazione al 3%, inflazione degli affitti e costi opportunità — colloca la soglia a circa **${breakEvenYears} anni**. Al prezzo medio attuale di ${fmtPrice}, un immobile con rivalutazione al 3% varrebbe circa **${thirtyYearHomeValue}** dopo 30 anni. ${isBuyFavorable ? `Questa crescita rende **l'acquisto un potente strumento patrimoniale** qui.` : `Tuttavia, un inquilino che investe la differenza potrebbe accumulare un patrimonio comparabile — **affittare è matematicamente superiore** qui.`} Usa il calcolatore per i tuoi numeri.`,
+    ],
+    pt: [
+      `O mercado imobiliário de ${city.name} apresenta um rácio Preço/Arrendamento de **${ratioFormatted}**, calculado a partir de um preço médio de ${fmtPrice} e rendas mensais de ${fmtRent}. ${isBuyFavorable ? `Um rácio inferior a 18 indica que **comprar** pode superar o arrendamento como estratégia patrimonial.` : `Um rácio superior a 18 sugere que **arrendar** e investir a diferença é provavelmente a escolha mais inteligente.`} Com uma entrada de ${fmtDown}, a alternativa é investir esse capital a 5% ao ano — fator chave modelado ao longo de 30 anos. Ajuste os controlos abaixo para testar o seu cenário.`,
+      `Comprar casa em ${city.name} implica custos ocultos. O IMT e escrituras representam **${fmtClosing}** do preço (${currency}${Math.round(entryCost).toLocaleString()}), o IMI anual é de **${fmtTax}**, e a manutenção ronda 1% ao ano. Para estadias inferiores a 3 anos, estes custos irrecuperáveis totalizam cerca de **${currency}${fmtUnrecov} por ano** — sem contar a comissão imobiliária de 6%. ${isBuyFavorable ? `Apesar disso, o rácio favorável de ${city.name} (${ratioFormatted}) torna a compra vantajosa a longo prazo.` : `Em ${city.name}, estes custos inclinam claramente a balança para o **arrendamento**.`} A calculadora mostra quando comprar supera arrendar no seu caso.`,
+      `Num horizonte de 30 anos, a questão arrendar-ou-comprar em ${city.name} resume-se ao ponto de equilíbrio. O nosso modelo — que integra amortização hipotecária, valorização de 3%, inflação das rendas e custos de oportunidade — situa o limiar em aproximadamente **${breakEvenYears} anos**. Ao preço médio atual de ${fmtPrice}, um imóvel a valorizar 3% ao ano valeria cerca de **${thirtyYearHomeValue}** após 30 anos. ${isBuyFavorable ? `Este crescimento faz da **compra um poderoso veículo patrimonial** aqui.` : `Contudo, um arrendatário que invista a diferença poderá acumular património comparável — **arrendar é a escolha superior** aqui.`} Use a calculadora para modelar os seus números.`,
+    ],
+    nl: [
+      `De woningmarkt in ${city.name} toont een Prijs-Huur ratio van **${ratioFormatted}**, berekend op basis van een gemiddelde woningprijs van ${fmtPrice} en maandelijkse huur van ${fmtRent}. ${isBuyFavorable ? `Een ratio onder 18 wijst erop dat **kopen** als vermogensopbouw beter kan presteren dan huren.` : `Een ratio boven 18 suggereert dat **huren** en het verschil investeren de slimmere keuze is.`} Met een aanbetaling van ${fmtDown} is het alternatief dat kapitaal tegen 5% per jaar te beleggen — een sleutelfactor in ons 30-jarig model. Pas de schuifregelaars hieronder aan.`,
+      `Een woning kopen in ${city.name} brengt verborgen kosten met zich mee. De overdrachtsbelasting bedraagt **${fmtClosing}** van de koopprijs (${currency}${Math.round(entryCost).toLocaleString()}), de jaarlijkse OZB is **${fmtTax}**, en onderhoud kost circa 1% per jaar. Voor een verblijf korter dan 3 jaar tellen deze onherstelbare kosten op tot circa **${currency}${fmtUnrecov} per jaar** — exclusief 6% makelaarskosten bij verkoop. ${isBuyFavorable ? `Desondanks maakt de gunstige ratio van ${city.name} (${ratioFormatted}) kopen op lange termijn winstgevend.` : `In ${city.name} wijzen deze kosten duidelijk richting **huren**.`} De rekenmachine toont wanneer kopen huren overtreft voor jouw situatie.`,
+      `Over 30 jaar komt de huur-of-koop-vraag in ${city.name} neer op het omslagpunt. Ons model — met aflossingsschema, 3% waardestijging, huurinflatie en opportuniteitskosten — plaatst de drempel op circa **${breakEvenYears} jaar**. Bij de huidige gemiddelde prijs van ${fmtPrice} zou een woning met 3% waardestijging na 30 jaar circa **${thirtyYearHomeValue}** waard zijn. ${isBuyFavorable ? `Die groei maakt **kopen een krachtig vermogensinstrument** hier.` : `Een huurder die het verschil belegt, zou vergelijkbaar vermogen kunnen opbouwen — **huren is hier rekenkundig superieur**.`} Gebruik de rekenmachine voor jouw persoonlijke berekening.`,
+    ],
+    sv: [
+      `Bostadsmarknaden i ${city.name} visar ett Pris-Hyra förhållande på **${ratioFormatted}**, beräknat utifrån ett genomsnittligt bostadspris på ${fmtPrice} och månadshyror på ${fmtRent}. ${isBuyFavorable ? `Ett förhållande under 18 tyder på att **köpa** kan vara en bättre förmögenhetsbyggande strategi än att hyra.` : `Ett förhållande över 18 tyder på att **hyra** och investera mellanskillnaden är det ekonomiskt klokare valet.`} Med en handpenning på ${fmtDown} är alternativet att investera det kapitalet till 5% årligen — en nyckelfaktor i vår 30-årsmodell. Justera reglagen nedan för att testa ditt scenario.`,
+      `Att köpa bostad i ${city.name} medför dolda kostnader. Stämpelskatten uppgår till **${fmtClosing}** av köpeskillingen (${currency}${Math.round(entryCost).toLocaleString()}), den årliga fastighetsskatten är **${fmtTax}**, och underhåll kostar cirka 1% per år. För den som stannar kortare än 3 år summeras dessa oåterkalleliga kostnader till cirka **${currency}${fmtUnrecov} per år** — utan att räkna mäklararvoden på 6%. ${isBuyFavorable ? `Trots detta gör ${city.name}s gynnsamma förhållande (${ratioFormatted}) att köp lönar sig på sikt.` : `I ${city.name} pekar dessa kostnader tydligt mot att **hyra**.`} Kalkylatorn visar när köp blir lönsamt för dig.`,
+      `Över 30 år kokar hyra-eller-köpa-frågan i ${city.name} ner till brytpunkten. Vår modell — som inkluderar amorteringsplan, 3% värdestegring, hyresinflation och alternativkostnader — placerar tröskeln vid ungefär **${breakEvenYears} år**. Vid dagens genomsnittspris på ${fmtPrice} skulle en bostad med 3% årlig värdestegring vara värd ungefär **${thirtyYearHomeValue}** efter 30 år. ${isBuyFavorable ? `Den tillväxten gör **köp till ett kraftfullt förmögenhetsverktyg** här.` : `En hyresgäst som investerar mellanskillnaden kan bygga jämförbar förmögenhet — **hyra är det matematiskt överlägsna valet** här.`} Använd kalkylatorn för dina egna siffror.`,
+    ],
   };
 
-  const t = templates[lang] || templates.en;
-  return `${t.intro} ${t.stats} ${t.conclusion} ${t.breakeven} ${t.nomad} ${t.action}`;
+  const langTemplates = narratives[lang] || narratives.en;
+  return langTemplates[variant];
 };
 
 

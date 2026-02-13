@@ -5,7 +5,7 @@
     "state": "Texas",
     "country_code": "US",
     "currency_symbol": "$",
-    "data_updated": "Dec 2024",
+    "data_updated": "2024-12-01",
     "theme_color": "#f97316",
     "defaults": {
       "avg_home_price": 450000,
@@ -20,7 +20,7 @@
     "state": "New York",
     "country_code": "US",
     "currency_symbol": "$",
-    "data_updated": "Dec 2024",
+    "data_updated": "2024-12-01",
     "theme_color": "#3b82f6",
     "defaults": {
       "avg_home_price": 750000,
@@ -35,7 +35,7 @@
     "state": "California",
     "country_code": "US",
     "currency_symbol": "$",
-    "data_updated": "Dec 2024",
+    "data_updated": "2024-12-01",
     "theme_color": "#dc2626",
     "defaults": {
       "avg_home_price": 1200000,
@@ -50,7 +50,7 @@
     "state": "Texas",
     "country_code": "US",
     "currency_symbol": "$",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#8b5cf6",
     "defaults": {
       "avg_home_price": 380000,
@@ -65,7 +65,7 @@
     "state": "California",
     "country_code": "US",
     "currency_symbol": "$",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#ec4899",
     "defaults": {
       "avg_home_price": 950000,
@@ -80,7 +80,7 @@
     "state": "Illinois",
     "country_code": "US",
     "currency_symbol": "$",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#0ea5e9",
     "defaults": {
       "avg_home_price": 320000,
@@ -95,7 +95,7 @@
     "state": "Florida",
     "country_code": "US",
     "currency_symbol": "$",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#06b6d4",
     "defaults": {
       "avg_home_price": 550000,
@@ -110,7 +110,7 @@
     "state": null,
     "country_code": "FR",
     "currency_symbol": "€",
-    "data_updated": "Dec 2024",
+    "data_updated": "2024-12-01",
     "theme_color": "#6366f1",
     "defaults": {
       "avg_home_price": 500000,
@@ -125,7 +125,7 @@
     "state": null,
     "country_code": "FR",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#a855f7",
     "defaults": {
       "avg_home_price": 350000,
@@ -140,7 +140,7 @@
     "state": null,
     "country_code": "FR",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#14b8a6",
     "defaults": {
       "avg_home_price": 280000,
@@ -155,7 +155,7 @@
     "state": null,
     "country_code": "DE",
     "currency_symbol": "€",
-    "data_updated": "Dec 2024",
+    "data_updated": "2024-12-01",
     "theme_color": "#eab308",
     "defaults": {
       "avg_home_price": 450000,
@@ -170,7 +170,7 @@
     "state": null,
     "country_code": "DE",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#22c55e",
     "defaults": {
       "avg_home_price": 750000,
@@ -185,7 +185,7 @@
     "state": null,
     "country_code": "DE",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#f59e0b",
     "defaults": {
       "avg_home_price": 480000,
@@ -200,7 +200,7 @@
     "state": null,
     "country_code": "GB",
     "currency_symbol": "£",
-    "data_updated": "Dec 2024",
+    "data_updated": "2024-12-01",
     "theme_color": "#7c3aed",
     "defaults": {
       "avg_home_price": 600000,
@@ -215,7 +215,7 @@
     "state": null,
     "country_code": "GB",
     "currency_symbol": "£",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#ef4444",
     "defaults": {
       "avg_home_price": 280000,
@@ -230,7 +230,7 @@
     "state": null,
     "country_code": "GB",
     "currency_symbol": "£",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#14b8a6",
     "defaults": {
       "avg_home_price": 250000,
@@ -245,7 +245,7 @@
     "state": "Ontario",
     "country_code": "CA",
     "currency_symbol": "$",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#dc2626",
     "defaults": {
       "avg_home_price": 1100000,
@@ -260,7 +260,7 @@
     "state": "British Columbia",
     "country_code": "CA",
     "currency_symbol": "$",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#10b981",
     "defaults": {
       "avg_home_price": 1250000,
@@ -275,7 +275,7 @@
     "state": "Quebec",
     "country_code": "CA",
     "currency_symbol": "$",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#3b82f6",
     "defaults": {
       "avg_home_price": 550000,
@@ -290,7 +290,7 @@
     "state": "New South Wales",
     "country_code": "AU",
     "currency_symbol": "$",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#0ea5e9",
     "defaults": {
       "avg_home_price": 1300000,
@@ -305,7 +305,7 @@
     "state": "Victoria",
     "country_code": "AU",
     "currency_symbol": "$",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#8b5cf6",
     "defaults": {
       "avg_home_price": 950000,
@@ -320,7 +320,7 @@
     "state": "Queensland",
     "country_code": "AU",
     "currency_symbol": "$",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#f59e0b",
     "defaults": {
       "avg_home_price": 750000,
@@ -335,7 +335,7 @@
     "state": null,
     "country_code": "ES",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#eab308",
     "defaults": {
       "avg_home_price": 400000,
@@ -350,7 +350,7 @@
     "state": null,
     "country_code": "ES",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#f97316",
     "defaults": {
       "avg_home_price": 450000,
@@ -365,7 +365,7 @@
     "state": null,
     "country_code": "ES",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#ec4899",
     "defaults": {
       "avg_home_price": 280000,
@@ -380,7 +380,7 @@
     "state": null,
     "country_code": "IT",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#10b981",
     "defaults": {
       "avg_home_price": 480000,
@@ -395,7 +395,7 @@
     "state": null,
     "country_code": "IT",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#6366f1",
     "defaults": {
       "avg_home_price": 550000,
@@ -410,7 +410,7 @@
     "state": null,
     "country_code": "IT",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#ef4444",
     "defaults": {
       "avg_home_price": 280000,
@@ -425,7 +425,7 @@
     "state": null,
     "country_code": "NL",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#f97316",
     "defaults": {
       "avg_home_price": 550000,
@@ -440,7 +440,7 @@
     "state": null,
     "country_code": "NL",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#3b82f6",
     "defaults": {
       "avg_home_price": 380000,
@@ -455,7 +455,7 @@
     "state": null,
     "country_code": "NL",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#22c55e",
     "defaults": {
       "avg_home_price": 420000,
@@ -470,7 +470,7 @@
     "state": null,
     "country_code": "SE",
     "currency_symbol": "kr",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#3b82f6",
     "defaults": {
       "avg_home_price": 6500000,
@@ -485,7 +485,7 @@
     "state": null,
     "country_code": "SE",
     "currency_symbol": "kr",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#eab308",
     "defaults": {
       "avg_home_price": 4500000,
@@ -500,7 +500,7 @@
     "state": null,
     "country_code": "SE",
     "currency_symbol": "kr",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#06b6d4",
     "defaults": {
       "avg_home_price": 3800000,
@@ -515,7 +515,7 @@
     "state": null,
     "country_code": "CH",
     "currency_symbol": "CHF",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#dc2626",
     "defaults": {
       "avg_home_price": 1800000,
@@ -530,7 +530,7 @@
     "state": null,
     "country_code": "CH",
     "currency_symbol": "CHF",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#0ea5e9",
     "defaults": {
       "avg_home_price": 1650000,
@@ -545,7 +545,7 @@
     "state": null,
     "country_code": "CH",
     "currency_symbol": "CHF",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#8b5cf6",
     "defaults": {
       "avg_home_price": 1350000,
@@ -560,7 +560,7 @@
     "state": null,
     "country_code": "BE",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#eab308",
     "defaults": {
       "avg_home_price": 380000,
@@ -575,7 +575,7 @@
     "state": null,
     "country_code": "BE",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#f97316",
     "defaults": {
       "avg_home_price": 320000,
@@ -590,7 +590,7 @@
     "state": null,
     "country_code": "BE",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#10b981",
     "defaults": {
       "avg_home_price": 280000,
@@ -605,7 +605,7 @@
     "state": null,
     "country_code": "IE",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#22c55e",
     "defaults": {
       "avg_home_price": 450000,
@@ -620,7 +620,7 @@
     "state": null,
     "country_code": "IE",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#f97316",
     "defaults": {
       "avg_home_price": 320000,
@@ -635,7 +635,7 @@
     "state": null,
     "country_code": "IE",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#3b82f6",
     "defaults": {
       "avg_home_price": 280000,
@@ -650,7 +650,7 @@
     "state": null,
     "country_code": "PT",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#f97316",
     "defaults": {
       "avg_home_price": 450000,
@@ -665,7 +665,7 @@
     "state": null,
     "country_code": "PT",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#3b82f6",
     "defaults": {
       "avg_home_price": 320000,
@@ -680,7 +680,7 @@
     "state": null,
     "country_code": "PT",
     "currency_symbol": "€",
-    "data_updated": "Jan 2025",
+    "data_updated": "2025-01-01",
     "theme_color": "#dc2626",
     "defaults": {
       "avg_home_price": 220000,

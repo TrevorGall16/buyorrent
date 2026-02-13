@@ -62,17 +62,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority = 0.4; // Smaller cities
     }
 
-    // Parse the data_updated field from city data
-    let lastModifiedDate: Date;
-    try {
-      const dataUpdated = city.data_updated || 'Dec 2024';
-      lastModifiedDate = new Date(dataUpdated);
-      if (isNaN(lastModifiedDate.getTime())) {
-        lastModifiedDate = new Date('2024-12-01');
-      }
-    } catch {
-      lastModifiedDate = new Date('2024-12-01');
-    }
+    // Parse the ISO data_updated field from city data (e.g. "2024-12-01")
+    const lastModifiedDate = new Date(city.data_updated || '2024-12-01');
 
     return languages.map((lang) => ({
       url: `${baseUrl}/${city.slug}/buy-vs-rent${lang === 'en' ? '' : `?lang=${lang}`}`,

@@ -14,6 +14,9 @@ interface BreakdownTableProps {
   closingCosts: number;
   monthlyMortgage: number;
   monthlyRent: number;
+  yearsToPlot: number;
+  homeAppreciationRate: number;
+  investmentReturnRate: number;
 }
 
 export default function BreakdownTable({
@@ -23,6 +26,9 @@ export default function BreakdownTable({
   closingCosts,
   monthlyMortgage,
   monthlyRent,
+  yearsToPlot,
+  homeAppreciationRate,
+  investmentReturnRate,
 }: BreakdownTableProps) {
   const formatCurrency = (value: number) =>
     `${currencySymbol}${Math.abs(value).toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
@@ -39,7 +45,7 @@ export default function BreakdownTable({
       owner: formatCurrency(monthlyMortgage),
     },
     {
-      category: 'Total Costs (30 Years)',
+      category: `Total Costs (${yearsToPlot} Years)`,
       renter: formatCurrency(finalYearData.renterCumulativeCost),
       owner: formatCurrency(finalYearData.ownerCumulativeCost),
     },
@@ -60,7 +66,7 @@ export default function BreakdownTable({
     <div className="bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 overflow-hidden">
       <div className="px-4 py-3 bg-gray-50 dark:bg-slate-700 border-b border-gray-200 dark:border-slate-600">
         <h3 className="text-sm font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide">
-          Detailed Breakdown (30 Years)
+          Detailed Breakdown ({yearsToPlot} Years)
         </h3>
       </div>
 
@@ -116,7 +122,7 @@ export default function BreakdownTable({
 
       <div className="px-4 py-3 bg-gray-50 dark:bg-slate-700 border-t border-gray-200 dark:border-slate-600">
         <p className="text-xs text-gray-500 dark:text-gray-400 italic">
-          * Assumes home appreciation of 3% annually and investment return of 5%
+          * Assumes home appreciation of {(homeAppreciationRate * 100).toFixed(1)}% annually and investment return of {(investmentReturnRate * 100).toFixed(1)}%
           annually
         </p>
       </div>
