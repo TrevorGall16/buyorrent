@@ -74,7 +74,6 @@ export default function Calculator({
 
   const isMountedRef = useRef(false);
   const lastInternalUrlRef = useRef<string | null>(null);
-  const isUpdatingFromUrlRef = useRef(false);
 
   // Parse with validation and realistic bounds
   const [homePrice, setHomePrice] = useState(() => 
@@ -308,26 +307,38 @@ export default function Calculator({
     const nextHomeAppreciationRate = parseValidatedParam(searchParams, 'apprc', 0.03, 0, 0.08);
     const nextCapitalGainsTaxRate = parseValidatedParam(searchParams, 'cgtax', 0.15, 0, 0.5);
 
-    isUpdatingFromUrlRef.current = true;
-
-    setHomePrice((prev) => (prev !== nextHomePrice ? nextHomePrice : prev));
-    setMonthlyRent((prev) => (prev !== nextMonthlyRent ? nextMonthlyRent : prev));
-    setDownPaymentPercent((prev) => (Math.abs(prev - nextDownPaymentPercent) > 0.00001 ? nextDownPaymentPercent : prev));
-    setInterestRate((prev) => (Math.abs(prev - nextInterestRate) > 0.00001 ? nextInterestRate : prev));
-    setLoanTermYears((prev) => (prev !== nextLoanTermYears ? nextLoanTermYears : prev));
-    setPropertyTaxRate((prev) => (Math.abs(prev - nextPropertyTaxRate) > 0.00001 ? nextPropertyTaxRate : prev));
-    setMaintenanceRate((prev) => (Math.abs(prev - nextMaintenanceRate) > 0.00001 ? nextMaintenanceRate : prev));
-    setRentInflationRate((prev) => (Math.abs(prev - nextRentInflationRate) > 0.00001 ? nextRentInflationRate : prev));
-    setInvestmentReturnRate((prev) => (Math.abs(prev - nextInvestmentReturnRate) > 0.00001 ? nextInvestmentReturnRate : prev));
-    setMarginalTaxRate((prev) => (Math.abs(prev - nextMarginalTaxRate) > 0.00001 ? nextMarginalTaxRate : prev));
-    setYearsToPlot((prev) => (prev !== nextYearsToPlot ? nextYearsToPlot : prev));
-    setHomeAppreciationRate((prev) => (Math.abs(prev - nextHomeAppreciationRate) > 0.00001 ? nextHomeAppreciationRate : prev));
-    setCapitalGainsTaxRate((prev) => (Math.abs(prev - nextCapitalGainsTaxRate) > 0.00001 ? nextCapitalGainsTaxRate : prev));
-
-    queueMicrotask(() => {
-      isUpdatingFromUrlRef.current = false;
-    });
-  }, [searchParams, defaultHomePrice, defaultMonthlyRent, defaultInputs]);
+    if (homePrice !== nextHomePrice) setHomePrice(nextHomePrice);
+    if (monthlyRent !== nextMonthlyRent) setMonthlyRent(nextMonthlyRent);
+    if (Math.abs(downPaymentPercent - nextDownPaymentPercent) > 0.00001) setDownPaymentPercent(nextDownPaymentPercent);
+    if (Math.abs(interestRate - nextInterestRate) > 0.00001) setInterestRate(nextInterestRate);
+    if (loanTermYears !== nextLoanTermYears) setLoanTermYears(nextLoanTermYears);
+    if (Math.abs(propertyTaxRate - nextPropertyTaxRate) > 0.00001) setPropertyTaxRate(nextPropertyTaxRate);
+    if (Math.abs(maintenanceRate - nextMaintenanceRate) > 0.00001) setMaintenanceRate(nextMaintenanceRate);
+    if (Math.abs(rentInflationRate - nextRentInflationRate) > 0.00001) setRentInflationRate(nextRentInflationRate);
+    if (Math.abs(investmentReturnRate - nextInvestmentReturnRate) > 0.00001) setInvestmentReturnRate(nextInvestmentReturnRate);
+    if (Math.abs(marginalTaxRate - nextMarginalTaxRate) > 0.00001) setMarginalTaxRate(nextMarginalTaxRate);
+    if (yearsToPlot !== nextYearsToPlot) setYearsToPlot(nextYearsToPlot);
+    if (Math.abs(homeAppreciationRate - nextHomeAppreciationRate) > 0.00001) setHomeAppreciationRate(nextHomeAppreciationRate);
+    if (Math.abs(capitalGainsTaxRate - nextCapitalGainsTaxRate) > 0.00001) setCapitalGainsTaxRate(nextCapitalGainsTaxRate);
+  }, [
+    searchParams,
+    defaultHomePrice,
+    defaultMonthlyRent,
+    defaultInputs,
+    homePrice,
+    monthlyRent,
+    downPaymentPercent,
+    interestRate,
+    loanTermYears,
+    propertyTaxRate,
+    maintenanceRate,
+    rentInflationRate,
+    investmentReturnRate,
+    marginalTaxRate,
+    yearsToPlot,
+    homeAppreciationRate,
+    capitalGainsTaxRate,
+  ]);
 
   // Snapshot for URL syncing
   const urlStateSnapshot = useMemo(() => ({
@@ -356,7 +367,7 @@ export default function Calculator({
   // ✅ FIXED: URL Synchronization Logic (Prevents Loops)
   // ------------------------------------------------------------
   useEffect(() => {
-    if (!isMountedRef.current || isUpdatingFromUrlRef.current) return;
+    if (!isMountedRef.current) return;
 
     // 1. Clone EXISTING params to preserve 'lang'
     const params = new URLSearchParams(searchParams.toString());
