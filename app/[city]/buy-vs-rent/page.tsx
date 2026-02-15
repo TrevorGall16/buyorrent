@@ -37,6 +37,8 @@ interface PageProps {
   }>;
 }
 
+const validLanguages = ['en', 'fr', 'de', 'es', 'it', 'nl', 'sv', 'pt'] as const;
+
 // ---------------------------------------------------------
 // 1. DYNAMIC NARRATIVE ENGINE (SEO CONTENT GENERATOR)
 // 3 templates rotated by slug.length % 3 to avoid duplicate content.
@@ -255,7 +257,7 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
   const currentYear = new Date().getFullYear();
   const baseUrl = 'https://rentorbuyworld.com';
   const canonicalPath = `/${city}/buy-vs-rent`;
-  const language = lang || 'en';
+  const language = (validLanguages.includes(lang as any) ? lang : 'en') as typeof validLanguages[number];
 
   // Deterministic title rotation based on slug length
   const { title, description } = getTitleVariation(city, location, currentYear, language);
@@ -280,7 +282,7 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
     openGraph: {
       title,
       description: `Compare buying vs renting in ${name}. Average home: ${currency_symbol}${defaults.avg_home_price.toLocaleString()} | Average rent: ${currency_symbol}${defaults.avg_rent.toLocaleString()}/month`,
-      url: lang && lang !== 'en' ? `${baseUrl}${canonicalPath}?lang=${lang}` : `${baseUrl}${canonicalPath}`,
+      url: language !== 'en' ? `${baseUrl}${canonicalPath}?lang=${language}` : `${baseUrl}${canonicalPath}`,
       siteName: 'RentOrBuyWorld',
       locale: language,
       type: 'website',
@@ -299,7 +301,6 @@ export default async function CityBuyVsRentPage({ params, searchParams }: PagePr
   const { city } = await params;
   const { lang } = await searchParams;
 
-  const validLanguages = ['en', 'fr', 'de', 'es', 'it', 'nl', 'sv', 'pt'] as const;
   const language = (validLanguages.includes(lang as any) ? lang : 'en') as typeof validLanguages[number];
 
   const cityData = citiesData.find((c) => c.slug === city) as CityData | undefined;

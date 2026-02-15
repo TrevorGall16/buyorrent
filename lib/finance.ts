@@ -108,17 +108,20 @@ export function calculateInterestPaid(
   loanTermYears: number,
   monthsPaid: number
 ): number {
+  const totalLoanMonths = loanTermYears * 12;
+  const normalizedMonthsPaid = Math.max(0, Math.min(monthsPaid, totalLoanMonths));
+
   const monthlyPayment = calculateMonthlyMortgagePayment(
     principal,
     annualInterestRate,
     loanTermYears
   );
-  const totalPaid = monthlyPayment * monthsPaid;
+  const totalPaid = monthlyPayment * normalizedMonthsPaid;
   const remainingBalance = calculateMortgageBalance(
     principal,
     annualInterestRate,
     loanTermYears,
-    monthsPaid
+    normalizedMonthsPaid
   );
   const principalPaid = principal - remainingBalance;
 
@@ -173,6 +176,14 @@ function calculateRenterScenario(
   let cumulativeCost = initialRenterCosts;
   let currentMonthlyRent = rental.monthlyRent;
 
+  const loanAmount = purchase.homePrice - downPaymentAmount;
+  const monthlyMortgage = calculateMonthlyMortgagePayment(
+    loanAmount,
+    purchase.interestRate,
+    purchase.loanTermYears
+  );
+  const annualMortgage = monthlyMortgage * 12;
+
   for (let year = 0; year <= yearsToAnalyze; year++) {
     // Rent increases each year due to inflation
     if (year > 0) {
@@ -181,17 +192,11 @@ function calculateRenterScenario(
     const annualRent = currentMonthlyRent * 12;
 
     // Calculate hypothetical ownership cost for savings comparison
-    const loanAmount = purchase.homePrice - downPaymentAmount;
-    const monthlyMortgage = calculateMonthlyMortgagePayment(
-      loanAmount,
-      purchase.interestRate,
-      purchase.loanTermYears
-    );
-    const annualMortgage = monthlyMortgage * 12;
+    const ownershipHasMortgage = year <= purchase.loanTermYears;
     const annualPropertyTax = purchase.homePrice * purchase.propertyTaxRate;
     const annualMaintenance = purchase.homePrice * purchase.maintenanceRate;
     const totalAnnualOwnershipCost =
-      annualMortgage + annualPropertyTax + annualMaintenance;
+      (ownershipHasMortgage ? annualMortgage : 0) + annualPropertyTax + annualMaintenance;
 
     // Renter saves the difference if rent is lower than ownership costs
     const monthlySavings = Math.max(
@@ -253,6 +258,11 @@ function calculateOwnerScenario(
   const downPaymentAmount = purchase.homePrice * purchase.downPaymentPercent;
   const closingCosts = purchase.homePrice * purchase.closingCostRate;
   const loanAmount = purchase.homePrice - downPaymentAmount;
+  const monthlyMortgage = calculateMonthlyMortgagePayment(
+    loanAmount,
+    purchase.interestRate,
+    purchase.loanTermYears
+  );
 
   // Track cumulative costs for display (NOT used in net worth)
   let cumulativeCost = downPaymentAmount + closingCosts;
@@ -283,12 +293,7 @@ function calculateOwnerScenario(
 
     // Track annual costs (for display)
     if (year > 0) {
-      const monthlyMortgage = calculateMonthlyMortgagePayment(
-        loanAmount,
-        purchase.interestRate,
-        purchase.loanTermYears
-      );
-      const annualMortgage = monthlyMortgage * 12;
+      const annualMortgage = year <= purchase.loanTermYears ? monthlyMortgage * 12 : 0;
 
       // Property tax based on current home value
       const annualPropertyTax = currentHomeValue * purchase.propertyTaxRate;
