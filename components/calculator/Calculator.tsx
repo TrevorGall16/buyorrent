@@ -73,6 +73,8 @@ export default function Calculator({
   const router = useRouter();
 
   const isMountedRef = useRef(false);
+  const lastInternalUrlRef = useRef<string | null>(null);
+  const isUpdatingFromUrlRef = useRef(false);
 
   // Parse with validation and realistic bounds
   const [homePrice, setHomePrice] = useState(() => 
@@ -282,6 +284,51 @@ export default function Calculator({
     setResults(calculateRentVsBuy(calculationInputs, debouncedInputs.homeAppreciationRate));
   }, [debouncedInputs, loanTermYears, yearsToPlot, countryConfig, countryCode]);
 
+  // Keep component state in sync when URL changes externally (e.g., back/forward navigation)
+  useEffect(() => {
+    if (!isMountedRef.current) return;
+
+    const currentQuery = searchParams.toString();
+    if (lastInternalUrlRef.current === currentQuery) {
+      lastInternalUrlRef.current = null;
+      return;
+    }
+
+    const nextHomePrice = parseValidatedParam(searchParams, 'price', defaultHomePrice, 10000, 100000000);
+    const nextMonthlyRent = parseValidatedParam(searchParams, 'rent', defaultMonthlyRent, 100, 100000);
+    const nextDownPaymentPercent = parseValidatedParam(searchParams, 'down', defaultInputs.purchase.downPaymentPercent, 0, 1);
+    const nextInterestRate = parseValidatedParam(searchParams, 'rate', defaultInputs.purchase.interestRate, 0, 0.25);
+    const nextLoanTermYears = parseValidatedParam(searchParams, 'term', defaultInputs.purchase.loanTermYears, 1, 50);
+    const nextPropertyTaxRate = parseValidatedParam(searchParams, 'tax', defaultInputs.purchase.propertyTaxRate, 0, 0.1);
+    const nextMaintenanceRate = parseValidatedParam(searchParams, 'maint', defaultInputs.purchase.maintenanceRate, 0, 0.1);
+    const nextRentInflationRate = parseValidatedParam(searchParams, 'rinfl', defaultInputs.rental.rentInflationRate, -0.1, 0.3);
+    const nextInvestmentReturnRate = parseValidatedParam(searchParams, 'invest', defaultInputs.financial.investmentReturnRate, -0.5, 0.5);
+    const nextMarginalTaxRate = parseValidatedParam(searchParams, 'mtax', defaultInputs.financial.marginalTaxRate, 0, 0.7);
+    const nextYearsToPlot = parseValidatedParam(searchParams, 'years', 30, 1, 50);
+    const nextHomeAppreciationRate = parseValidatedParam(searchParams, 'apprc', 0.03, 0, 0.08);
+    const nextCapitalGainsTaxRate = parseValidatedParam(searchParams, 'cgtax', 0.15, 0, 0.5);
+
+    isUpdatingFromUrlRef.current = true;
+
+    setHomePrice((prev) => (prev !== nextHomePrice ? nextHomePrice : prev));
+    setMonthlyRent((prev) => (prev !== nextMonthlyRent ? nextMonthlyRent : prev));
+    setDownPaymentPercent((prev) => (Math.abs(prev - nextDownPaymentPercent) > 0.00001 ? nextDownPaymentPercent : prev));
+    setInterestRate((prev) => (Math.abs(prev - nextInterestRate) > 0.00001 ? nextInterestRate : prev));
+    setLoanTermYears((prev) => (prev !== nextLoanTermYears ? nextLoanTermYears : prev));
+    setPropertyTaxRate((prev) => (Math.abs(prev - nextPropertyTaxRate) > 0.00001 ? nextPropertyTaxRate : prev));
+    setMaintenanceRate((prev) => (Math.abs(prev - nextMaintenanceRate) > 0.00001 ? nextMaintenanceRate : prev));
+    setRentInflationRate((prev) => (Math.abs(prev - nextRentInflationRate) > 0.00001 ? nextRentInflationRate : prev));
+    setInvestmentReturnRate((prev) => (Math.abs(prev - nextInvestmentReturnRate) > 0.00001 ? nextInvestmentReturnRate : prev));
+    setMarginalTaxRate((prev) => (Math.abs(prev - nextMarginalTaxRate) > 0.00001 ? nextMarginalTaxRate : prev));
+    setYearsToPlot((prev) => (prev !== nextYearsToPlot ? nextYearsToPlot : prev));
+    setHomeAppreciationRate((prev) => (Math.abs(prev - nextHomeAppreciationRate) > 0.00001 ? nextHomeAppreciationRate : prev));
+    setCapitalGainsTaxRate((prev) => (Math.abs(prev - nextCapitalGainsTaxRate) > 0.00001 ? nextCapitalGainsTaxRate : prev));
+
+    queueMicrotask(() => {
+      isUpdatingFromUrlRef.current = false;
+    });
+  }, [searchParams, defaultHomePrice, defaultMonthlyRent, defaultInputs]);
+
   // Snapshot for URL syncing
   const urlStateSnapshot = useMemo(() => ({
     homePrice,
@@ -309,7 +356,7 @@ export default function Calculator({
   // ✅ FIXED: URL Synchronization Logic (Prevents Loops)
   // ------------------------------------------------------------
   useEffect(() => {
-    if (!isMountedRef.current) return;
+    if (!isMountedRef.current || isUpdatingFromUrlRef.current) return;
 
     // 1. Clone EXISTING params to preserve 'lang'
     const params = new URLSearchParams(searchParams.toString());
@@ -356,6 +403,7 @@ export default function Calculator({
     const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
     
     try {
+      lastInternalUrlRef.current = params.toString();
       router.replace(newUrl, { scroll: false });
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
