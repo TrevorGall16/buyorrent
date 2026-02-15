@@ -192,9 +192,13 @@ function calculateRenterScenario(
     const annualRent = currentMonthlyRent * 12;
 
     // Calculate hypothetical ownership cost for savings comparison
-    const ownershipHasMortgage = year <= purchase.loanTermYears;
-    const annualPropertyTax = purchase.homePrice * purchase.propertyTaxRate;
-    const annualMaintenance = purchase.homePrice * purchase.maintenanceRate;
+    // Use appreciated home value for tax/maintenance (matches owner scenario)
+    const currentHomeValue = calculateHomeValue(purchase.homePrice, year);
+    const ownershipHasMortgage = year < purchase.loanTermYears;
+    const annualPropertyTax = currentHomeValue * purchase.propertyTaxRate;
+    const annualMaintenance = currentHomeValue * purchase.maintenanceRate;
+
+    // After mortgage payoff, owner only pays tax + maintenance
     const totalAnnualOwnershipCost =
       (ownershipHasMortgage ? annualMortgage : 0) + annualPropertyTax + annualMaintenance;
 
@@ -293,7 +297,8 @@ function calculateOwnerScenario(
 
     // Track annual costs (for display)
     if (year > 0) {
-      const annualMortgage = year <= purchase.loanTermYears ? monthlyMortgage * 12 : 0;
+      // Mortgage payments stop after the loan term
+      const annualMortgage = year < purchase.loanTermYears ? monthlyMortgage * 12 : 0;
 
       // Property tax based on current home value
       const annualPropertyTax = currentHomeValue * purchase.propertyTaxRate;
@@ -301,9 +306,9 @@ function calculateOwnerScenario(
       // Maintenance based on current home value
       const annualMaintenance = currentHomeValue * purchase.maintenanceRate;
 
-      // Tax deduction on mortgage interest — US ONLY
+      // Tax deduction on mortgage interest — US ONLY, only during loan term
       let taxSavings = 0;
-      if (countryCode === 'US') {
+      if (countryCode === 'US' && year < purchase.loanTermYears) {
         const interestPaid = calculateInterestPaid(
           loanAmount,
           purchase.interestRate,

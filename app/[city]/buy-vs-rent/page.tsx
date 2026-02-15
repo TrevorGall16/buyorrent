@@ -257,7 +257,8 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
   const currentYear = new Date().getFullYear();
   const baseUrl = 'https://rentorbuyworld.com';
   const canonicalPath = `/${city}/buy-vs-rent`;
-  const language = (validLanguages.includes(lang as any) ? lang : 'en') as typeof validLanguages[number];
+  const isValidLang = !lang || validLanguages.includes(lang as typeof validLanguages[number]);
+  const language = (isValidLang && lang ? lang : 'en') as typeof validLanguages[number];
 
   // Deterministic title rotation based on slug length
   const { title, description } = getTitleVariation(city, location, currentYear, language);
@@ -265,6 +266,8 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
   return {
     title,
     description,
+    // Block indexing of pages with invalid lang params to prevent SEO bloat
+    ...(!isValidLang && { robots: { index: false, follow: true } }),
     alternates: {
       canonical: `${baseUrl}${canonicalPath}`,
       languages: {

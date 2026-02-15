@@ -73,7 +73,8 @@ export default function Calculator({
   const router = useRouter();
 
   const isMountedRef = useRef(false);
-  const lastInternalUrlRef = useRef<string | null>(null);
+  // When true, the next searchParams change was caused by us → skip re-hydration
+  const isInternalUpdateRef = useRef(false);
 
   // Parse with validation and realistic bounds
   const [homePrice, setHomePrice] = useState(() => 
@@ -283,62 +284,34 @@ export default function Calculator({
     setResults(calculateRentVsBuy(calculationInputs, debouncedInputs.homeAppreciationRate));
   }, [debouncedInputs, loanTermYears, yearsToPlot, countryConfig, countryCode]);
 
-  // Keep component state in sync when URL changes externally (e.g., back/forward navigation)
+  // Hydrate state from URL on external navigation (Back/Forward only).
+  // CRITICAL: depends ONLY on searchParams — never on component state.
+  // This prevents the "slider freeze" loop where state → URL → state fought each other.
   useEffect(() => {
     if (!isMountedRef.current) return;
 
-    const currentQuery = searchParams.toString();
-    if (lastInternalUrlRef.current === currentQuery) {
-      lastInternalUrlRef.current = null;
+    // If we caused this URL change ourselves, skip re-hydration
+    if (isInternalUpdateRef.current) {
+      isInternalUpdateRef.current = false;
       return;
     }
 
-    const nextHomePrice = parseValidatedParam(searchParams, 'price', defaultHomePrice, 10000, 100000000);
-    const nextMonthlyRent = parseValidatedParam(searchParams, 'rent', defaultMonthlyRent, 100, 100000);
-    const nextDownPaymentPercent = parseValidatedParam(searchParams, 'down', defaultInputs.purchase.downPaymentPercent, 0, 1);
-    const nextInterestRate = parseValidatedParam(searchParams, 'rate', defaultInputs.purchase.interestRate, 0, 0.25);
-    const nextLoanTermYears = parseValidatedParam(searchParams, 'term', defaultInputs.purchase.loanTermYears, 1, 50);
-    const nextPropertyTaxRate = parseValidatedParam(searchParams, 'tax', defaultInputs.purchase.propertyTaxRate, 0, 0.1);
-    const nextMaintenanceRate = parseValidatedParam(searchParams, 'maint', defaultInputs.purchase.maintenanceRate, 0, 0.1);
-    const nextRentInflationRate = parseValidatedParam(searchParams, 'rinfl', defaultInputs.rental.rentInflationRate, -0.1, 0.3);
-    const nextInvestmentReturnRate = parseValidatedParam(searchParams, 'invest', defaultInputs.financial.investmentReturnRate, -0.5, 0.5);
-    const nextMarginalTaxRate = parseValidatedParam(searchParams, 'mtax', defaultInputs.financial.marginalTaxRate, 0, 0.7);
-    const nextYearsToPlot = parseValidatedParam(searchParams, 'years', 30, 1, 50);
-    const nextHomeAppreciationRate = parseValidatedParam(searchParams, 'apprc', 0.03, 0, 0.08);
-    const nextCapitalGainsTaxRate = parseValidatedParam(searchParams, 'cgtax', 0.15, 0, 0.5);
-
-    if (homePrice !== nextHomePrice) setHomePrice(nextHomePrice);
-    if (monthlyRent !== nextMonthlyRent) setMonthlyRent(nextMonthlyRent);
-    if (Math.abs(downPaymentPercent - nextDownPaymentPercent) > 0.00001) setDownPaymentPercent(nextDownPaymentPercent);
-    if (Math.abs(interestRate - nextInterestRate) > 0.00001) setInterestRate(nextInterestRate);
-    if (loanTermYears !== nextLoanTermYears) setLoanTermYears(nextLoanTermYears);
-    if (Math.abs(propertyTaxRate - nextPropertyTaxRate) > 0.00001) setPropertyTaxRate(nextPropertyTaxRate);
-    if (Math.abs(maintenanceRate - nextMaintenanceRate) > 0.00001) setMaintenanceRate(nextMaintenanceRate);
-    if (Math.abs(rentInflationRate - nextRentInflationRate) > 0.00001) setRentInflationRate(nextRentInflationRate);
-    if (Math.abs(investmentReturnRate - nextInvestmentReturnRate) > 0.00001) setInvestmentReturnRate(nextInvestmentReturnRate);
-    if (Math.abs(marginalTaxRate - nextMarginalTaxRate) > 0.00001) setMarginalTaxRate(nextMarginalTaxRate);
-    if (yearsToPlot !== nextYearsToPlot) setYearsToPlot(nextYearsToPlot);
-    if (Math.abs(homeAppreciationRate - nextHomeAppreciationRate) > 0.00001) setHomeAppreciationRate(nextHomeAppreciationRate);
-    if (Math.abs(capitalGainsTaxRate - nextCapitalGainsTaxRate) > 0.00001) setCapitalGainsTaxRate(nextCapitalGainsTaxRate);
-  }, [
-    searchParams,
-    defaultHomePrice,
-    defaultMonthlyRent,
-    defaultInputs,
-    homePrice,
-    monthlyRent,
-    downPaymentPercent,
-    interestRate,
-    loanTermYears,
-    propertyTaxRate,
-    maintenanceRate,
-    rentInflationRate,
-    investmentReturnRate,
-    marginalTaxRate,
-    yearsToPlot,
-    homeAppreciationRate,
-    capitalGainsTaxRate,
-  ]);
+    // External navigation (browser back/forward) — sync state from URL
+    setHomePrice(parseValidatedParam(searchParams, 'price', defaultHomePrice, 10000, 100000000));
+    setMonthlyRent(parseValidatedParam(searchParams, 'rent', defaultMonthlyRent, 100, 100000));
+    setDownPaymentPercent(parseValidatedParam(searchParams, 'down', defaultInputs.purchase.downPaymentPercent, 0, 1));
+    setInterestRate(parseValidatedParam(searchParams, 'rate', defaultInputs.purchase.interestRate, 0, 0.25));
+    setLoanTermYears(parseValidatedParam(searchParams, 'term', defaultInputs.purchase.loanTermYears, 1, 50));
+    setPropertyTaxRate(parseValidatedParam(searchParams, 'tax', defaultInputs.purchase.propertyTaxRate, 0, 0.1));
+    setMaintenanceRate(parseValidatedParam(searchParams, 'maint', defaultInputs.purchase.maintenanceRate, 0, 0.1));
+    setRentInflationRate(parseValidatedParam(searchParams, 'rinfl', defaultInputs.rental.rentInflationRate, -0.1, 0.3));
+    setInvestmentReturnRate(parseValidatedParam(searchParams, 'invest', defaultInputs.financial.investmentReturnRate, -0.5, 0.5));
+    setMarginalTaxRate(parseValidatedParam(searchParams, 'mtax', defaultInputs.financial.marginalTaxRate, 0, 0.7));
+    setYearsToPlot(parseValidatedParam(searchParams, 'years', 30, 1, 50));
+    setHomeAppreciationRate(parseValidatedParam(searchParams, 'apprc', 0.03, 0, 0.08));
+    setCapitalGainsTaxRate(parseValidatedParam(searchParams, 'cgtax', 0.15, 0, 0.5));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   // Snapshot for URL syncing
   const urlStateSnapshot = useMemo(() => ({
@@ -364,20 +337,19 @@ export default function Calculator({
   const debouncedUrlState = useDebounce(urlStateSnapshot, 800);
 
   // ------------------------------------------------------------
-  // ✅ FIXED: URL Synchronization Logic (Prevents Loops)
+  // State → URL sync (debounced, marks internal updates)
   // ------------------------------------------------------------
   useEffect(() => {
     if (!isMountedRef.current) return;
 
-    // 1. Clone EXISTING params to preserve 'lang'
+    // Clone existing params to preserve 'lang' and other non-calculator params
     const params = new URLSearchParams(searchParams.toString());
 
-    // 2. Update specific calculator keys
     const updateParam = (key: string, value: number, defaultVal: number, precision: number = 0, threshold: number = 0.001) => {
       if (Math.abs(value - defaultVal) > threshold) {
         params.set(key, precision === 0 ? Math.round(value).toString() : value.toFixed(precision));
       } else {
-        params.delete(key); // Remove default values to keep URL clean
+        params.delete(key);
       }
     };
 
@@ -406,21 +378,14 @@ export default function Calculator({
       params.delete('years');
     }
 
-    // 3. STOP THE LOOP: Only replace if the URL *actually* changes
-    if (params.toString() === searchParams.toString()) {
-      return;
-    }
+    // Only push if URL actually changed
+    if (params.toString() === searchParams.toString()) return;
 
     const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
-    
-    try {
-      lastInternalUrlRef.current = params.toString();
-      router.replace(newUrl, { scroll: false });
-    } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.warn('https://www.sync.com/ Browser blocked URL update:', error);
-      }
-    }
+
+    // Flag so the URL-to-state effect knows to skip re-hydration
+    isInternalUpdateRef.current = true;
+    router.replace(newUrl, { scroll: false });
   }, [debouncedUrlState, pathname, router, defaultHomePrice, defaultMonthlyRent, defaultInputs, searchParams]);
 
   // Memoized financial calculations
