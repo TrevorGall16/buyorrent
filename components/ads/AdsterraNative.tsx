@@ -83,7 +83,7 @@ export default function AdsterraNative({ id }: AdsterraNativeProps) {
   // Show loading state while checking consent
   if (isChecking) {
     return (
-      <div className="w-full flex flex-col items-center justify-center my-8 min-h-[160px] overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800 animate-pulse" />
+      <div className="w-full flex flex-col items-center justify-center my-8 min-h-[280px] overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800 animate-pulse" />
     );
   }
 

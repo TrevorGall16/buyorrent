@@ -27,10 +27,10 @@ export default function PrivacyPage() {
             <section className="mb-8">
               <h2 className="text-2xl font-bold mb-4">1. Introduction</h2>
               <p className="mb-4">
-                Welcome to RentOrBuyWorld ("we," "our," or "us"). We are committed to protecting your privacy and providing transparency regarding our data practices while delivering real-time housing market analysis.
+                Welcome to RentOrBuyWorld ("we," "our," or "us"). We are committed to protecting your privacy and providing transparency regarding our data practices while delivering housing market analysis.
               </p>
               <p className="mb-4">
-                This Privacy Policy explains how we handle your information when you use our rent vs. buy calculator across 500+ cities worldwide. We follow a <strong>"Privacy by Design"</strong> approach, minimizing data collection to only what's essential for functionality.
+                This Privacy Policy explains how we handle your information when you use our rent vs. buy calculator across 50+ cities worldwide. We follow a <strong>"Privacy by Design"</strong> approach, minimizing data collection to only what's essential for functionality.
               </p>
             </section>
 

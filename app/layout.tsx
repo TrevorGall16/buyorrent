@@ -24,7 +24,7 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "RentOrBuy-Pro - Buy vs Rent Calculator",
-  description: "Compare buying vs renting with real market data for 500+ cities. Make informed financial decisions.",
+  description: "Compare buying vs renting with 2025 market data for 50+ global cities. Make informed financial decisions.",
   metadataBase: new URL('https://rentorbuyworld.com'),
   alternates: {
     canonical: '/',
@@ -46,14 +46,14 @@ export const metadata: Metadata = {
     locale: 'en',
     url: 'https://rentorbuyworld.com',
     title: 'RentOrBuy-Pro - Buy vs Rent Calculator',
-    description: 'Compare buying vs renting with real market data for 500+ cities worldwide. Make informed financial decisions.',
+    description: 'Compare buying vs renting with 2025 market data for 50+ global cities. Make informed financial decisions.',
     siteName: 'RentOrBuyWorld',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'RentOrBuyWorld Calculator - Compare Buying vs Renting in 500+ Cities',
+        alt: 'RentOrBuyWorld Calculator - Compare Buying vs Renting in 50+ Global Cities',
       },
     ],
   },
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'RentOrBuy-Pro - Buy vs Rent Calculator',
-    description: 'Compare buying vs renting with real market data for 500+ cities. Make informed financial decisions.',
+    description: 'Compare buying vs renting with 2025 market data for 50+ global cities. Make informed financial decisions.',
     images: ['/og-image.png'],
   },
 

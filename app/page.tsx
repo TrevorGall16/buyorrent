@@ -9,16 +9,19 @@ import AdsterraBanner from '@/components/ads/AdsterraBanner';
 
 
 type Language = 'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 'pt';
+const validLanguages = ['en', 'fr', 'de', 'es', 'it', 'nl', 'sv', 'pt'] as const;
 
 export async function generateMetadata({ searchParams }: { searchParams: Promise<{ lang?: string }> }): Promise<Metadata> {
   const { lang: langParam } = await searchParams;
-  const lang = (langParam || 'en') as Language;
+  const isValidLang = !langParam || validLanguages.includes(langParam as typeof validLanguages[number]);
+  const lang = (isValidLang && langParam ? langParam : 'en') as Language;
 
   const t = translations[lang] || translations.en;
 
   return {
-    title: `${t.title} - Compare 500+ Cities | RentOrBuyWorld`,
+    title: `${t.title} - Compare 50+ Global Cities | RentOrBuyWorld`,
     description: t.description,
+    ...(!isValidLang && { robots: { index: false, follow: true } }),
     alternates: {
       canonical: 'https://rentorbuyworld.com',
       languages: {
@@ -34,7 +37,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
       },
     },
     openGraph: {
-      title: `${t.title} - Compare 500+ Cities | RentOrBuyWorld`,
+      title: `${t.title} - Compare 50+ Global Cities | RentOrBuyWorld`,
       description: t.description,
       url: lang === 'en' ? 'https://rentorbuyworld.com' : `https://rentorbuyworld.com?lang=${lang}`,
       siteName: 'RentOrBuyWorld',
@@ -57,7 +60,7 @@ const translations: Record<Language, any> = {
   en: {
     title: 'Rent vs Buy Calculator',
     subtitle: 'Make smarter financial decisions with real market data',
-    description: 'Compare the true cost of buying versus renting in 500+ cities worldwide',
+    description: 'Compare the true cost of buying versus renting across 50+ global cities',
     howToUseTitle: 'How to Use & Methodology',
     selectCityTitle: 'Select Your City',
     faqTitle: 'Frequently Asked Questions',
@@ -135,7 +138,7 @@ export default async function HomePage({
         <Link
           key={countryCode}
           // ✅ FIX: This keeps the language active when clicking a country flag
-          href={`#${countryCode.toLowerCase()}${lang !== 'en' ? `?lang=${lang}` : ''}`}
+          href={`${lang !== 'en' ? `?lang=${lang}` : ''}#${countryCode.toLowerCase()}`}
           className="group px-4 py-2 rounded-full bg-white dark:bg-zinc-900 border transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 flex items-center gap-2 no-underline"
           style={{ borderColor: color }}
         >
@@ -154,7 +157,7 @@ export default async function HomePage({
           <h3 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">How to Use the Calculator</h3>
           <p className="mb-4">
             Our comprehensive rent vs buy calculator helps you make one of life&apos;s biggest financial decisions with confidence. 
-            Simply select your city from our database of 500+ locations worldwide to access real-time market data including 
+            Simply select your city from our database of 50+ global cities to access 2025 market data including
             median home prices, average rent, property tax rates, and local closing costs.
           </p>
           <h3 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-3">Understanding the Math</h3>
@@ -218,7 +221,7 @@ export default async function HomePage({
                 How accurate is the data? <span>▼</span>
               </summary>
               <p className="mt-2 text-gray-600 dark:text-gray-400">
-                We update our database monthly using government statistics and real estate market reports.
+                Our database uses government statistics and real estate market reports, regularly updated with new estimates.
               </p>
             </details>
             <details className="bg-white dark:bg-slate-800 rounded-lg p-4 shadow-sm cursor-pointer">
