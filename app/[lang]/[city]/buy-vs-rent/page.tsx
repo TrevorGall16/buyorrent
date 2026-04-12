@@ -1,5 +1,6 @@
 export const dynamic = 'error';
 
+import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Calculator from '@/components/calculator/Calculator';
@@ -358,15 +359,17 @@ export default async function CityBuyVsRentPage({ params }: PageProps) {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Main Content */}
             <div className="lg:col-span-9">
-              <Calculator
-                cityName={name}
-                countryCode={country_code}
-                defaultHomePrice={defaults.avg_home_price}
-                defaultMonthlyRent={defaults.avg_rent}
-                dataUpdated={data_updated}
-                themeColor={theme_color}
-                language={language}
-              />
+              <Suspense fallback={null}>
+                <Calculator
+                  cityName={name}
+                  countryCode={country_code}
+                  defaultHomePrice={defaults.avg_home_price}
+                  defaultMonthlyRent={defaults.avg_rent}
+                  dataUpdated={data_updated}
+                  themeColor={theme_color}
+                  language={language}
+                />
+              </Suspense>
             </div>
 
             {/* Sidebar */}
