@@ -6,7 +6,17 @@
       "Bash(npm run lint)",
       "Bash(npm run build:*)",
       "Bash(tree:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(node -e \"const d = require\\('./data/cities.json'\\); console.log\\('Total cities:', d.length\\)\")",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(rm:*)",
+      "Bash(cp \"D:/Projects/Website/BuyOrRent/buyorrent/app/how-it-works/page.tsx\" \"D:/Projects/Website/BuyOrRent/buyorrent/app/[lang]/how-it-works/page.tsx\")",
+      "Bash(cp \"D:/Projects/Website/BuyOrRent/buyorrent/app/data-and-sources/page.tsx\" \"D:/Projects/Website/BuyOrRent/buyorrent/app/[lang]/data-and-sources/page.tsx\")",
+      "Bash(npx next:*)",
+      "Bash(node -e ':*)",
+      "Bash(ls .next/server/app/sitemap.xml*)",
+      "Bash(node -e:*)"
     ]
   }
 }
