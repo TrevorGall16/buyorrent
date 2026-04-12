@@ -25,7 +25,7 @@ export default function StructuredData({
 }: StructuredDataProps) {
   // ✅ FIX 1: Updated to correct domain
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://rentorbuyworld.com';
-  const pageUrl = `${baseUrl}/${citySlug}/buy-vs-rent`;
+  const pageUrl = `${baseUrl}/${language}/${citySlug}/buy-vs-rent`;
 
   // SoftwareApplication Schema for the Calculator
   const softwareApplicationSchema = {

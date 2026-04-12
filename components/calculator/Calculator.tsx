@@ -10,7 +10,7 @@
  */
 
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { useSearchParams, usePathname } from 'next/navigation';
 import { calculateRentVsBuy, calculateMonthlyMortgagePayment } from '@/lib/finance';
 import { getDefaultInputsForCountry, getCountryConfig, getLabelsByLanguage } from '@/lib/country-config';
 import { CountryCode, CalculationResult } from '@/lib/types';
@@ -73,7 +73,6 @@ export default function Calculator({
   );
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const router = useRouter();
 
   const isMountedRef = useRef(false);
   // When true, the next searchParams change was triggered by us — skip re-hydration
@@ -390,8 +389,8 @@ export default function Calculator({
 
     // Flag so the URL-to-state effect knows to skip re-hydration
     isInternalUpdateRef.current = true;
-    router.replace(newUrl, { scroll: false });
-  }, [debouncedUrlState, pathname, router, defaultHomePrice, defaultMonthlyRent, defaultInputs, searchParams]);
+    window.history.replaceState(null, '', newUrl);
+  }, [debouncedUrlState, pathname, defaultHomePrice, defaultMonthlyRent, defaultInputs, searchParams]);
 
   // Memoized financial calculations
   const financialMetrics = useMemo(() => {
