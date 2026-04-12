@@ -2,12 +2,11 @@
 
 /**
  * Language Selector Component
- * Allows users to manually switch between languages via URL params
+ * Switches between languages via path-based routing (e.g., /en/ -> /fr/)
  */
 
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
-
-export type Language = 'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 'pt';
+import { usePathname, useRouter } from 'next/navigation';
+import { SUPPORTED_LANGUAGES, type Language } from '@/lib/i18n';
 
 interface LanguageOption {
   code: Language;
@@ -27,24 +26,18 @@ const LANGUAGES: LanguageOption[] = [
 ];
 
 export default function LanguageSelector() {
-  const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
 
-  const currentLang = (searchParams.get('lang') || 'en') as Language;
+  // Extract current lang from path: /en/... -> 'en'
+  const segments = pathname.split('/').filter(Boolean);
+  const currentLang = (SUPPORTED_LANGUAGES.includes(segments[0] as Language) ? segments[0] : 'en') as Language;
 
-  const handleLanguageChange = (lang: Language) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (lang === 'en') {
-      // Remove lang param for English (default)
-      params.delete('lang');
-    } else {
-      params.set('lang', lang);
-    }
-
-    const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
-    router.push(newUrl);
+  const handleLanguageChange = (newLang: Language) => {
+    // Replace the lang segment in the current path
+    const restOfPath = segments.slice(1).join('/');
+    const newPath = `/${newLang}/${restOfPath}`;
+    router.push(newPath);
   };
 
   return (

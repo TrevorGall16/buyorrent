@@ -52,7 +52,7 @@ export default function CityCard({ city, countryColor, language }: CityCardProps
 
   return (
     <Link
-      href={`/${city.slug}/buy-vs-rent${language !== 'en' ? `?lang=${language}` : ''}`}
+      href={`/${language}/${city.slug}/buy-vs-rent`}
       className="group relative overflow-hidden bg-white dark:bg-[#121212] border border-gray-100 dark:border-white/5 rounded-xl h-64 transition-all hover:border-gray-300 dark:hover:border-white/20 hover:shadow-xl hover:-translate-y-1 block"
     >
       {/* Image Layer */}

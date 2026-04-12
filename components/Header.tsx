@@ -14,18 +14,18 @@ import MobileMenu from './MobileMenu';
 import ThemeToggle from './ThemeToggle';
 import { NavigationItem } from '@/lib/types';
 
-export default function Header() {
+export default function Header({ lang = 'en' }: { lang?: string }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems: NavigationItem[] = [
-    { label: 'Home', href: '/' },
-    { label: 'Calculator', href: '/calculator' },
+    { label: 'Home', href: `/${lang}/` },
+    { label: 'Calculator', href: `/${lang}/calculator` },
     {
       label: 'Resources',
       href: '#',
       children: [
-        { label: 'How It Works', href: '/how-it-works' },
-        { label: 'Data & Sources', href: '/data-and-sources' },
+        { label: 'How It Works', href: `/${lang}/how-it-works` },
+        { label: 'Data & Sources', href: `/${lang}/data-and-sources` },
       ],
     },
   ];
@@ -37,7 +37,7 @@ export default function Header() {
           {/* Left: Logo/Brand with Home Link */}
           <div className="flex items-center gap-4">
             <Link
-              href="/"
+              href={`/${lang}/`}
               className="flex items-center gap-2 text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
             >
               <svg
@@ -60,13 +60,13 @@ export default function Header() {
           {/* Center: Navigation (Desktop) */}
           <nav className="hidden md:flex items-center gap-2">
             <Link
-              href="/"
+              href={`/${lang}/`}
               className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             >
               Home
             </Link>
             <Link
-              href="/calculator"
+              href={`/${lang}/calculator`}
               className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             >
               Calculator
@@ -74,8 +74,8 @@ export default function Header() {
             <NavigationDropdown
               label="Resources"
               items={[
-                { label: 'How It Works', href: '/how-it-works' },
-                { label: 'Data & Sources', href: '/data-and-sources' },
+                { label: 'How It Works', href: `/${lang}/how-it-works` },
+                { label: 'Data & Sources', href: `/${lang}/data-and-sources` },
               ]}
             />
           </nav>

@@ -25,9 +25,10 @@ interface FooterProps {
     footerHowItWorks: string;
     footerDataSources: string;
   };
+  lang?: string;
 }
 
-export default function Footer({ labels }: FooterProps) {
+export default function Footer({ labels, lang = 'en' }: FooterProps) {
   const [year, setYear] = useState('2025');
 
   useEffect(() => {
@@ -55,7 +56,7 @@ export default function Footer({ labels }: FooterProps) {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/calculator"
+                  href={`/${lang}/calculator`}
                   className="text-sm text-gray-600 hover:text-blue-600 transition-colors"
                 >
                   {labels.footerGlobalCalculator}
@@ -63,7 +64,7 @@ export default function Footer({ labels }: FooterProps) {
               </li>
               <li>
                 <Link
-                  href="/rankings"
+                  href={`/${lang}/rankings`}
                   className="text-sm text-gray-600 hover:text-blue-600 transition-colors"
                 >
                   Global Rankings
@@ -71,7 +72,7 @@ export default function Footer({ labels }: FooterProps) {
               </li>
               <li>
                 <Link
-                  href="/#cities"
+                  href={`/${lang}/#cities`}
                   className="text-sm text-gray-600 hover:text-blue-600 transition-colors"
                 >
                   {labels.footerTopCities}
@@ -88,7 +89,7 @@ export default function Footer({ labels }: FooterProps) {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/how-it-works"
+                  href={`/${lang}/how-it-works`}
                   className="text-sm text-gray-600 hover:text-blue-600 transition-colors"
                 >
                   {labels.footerHowItWorks}
@@ -96,7 +97,7 @@ export default function Footer({ labels }: FooterProps) {
               </li>
               <li>
                 <Link
-                  href="/data-and-sources"
+                  href={`/${lang}/data-and-sources`}
                   className="text-sm text-gray-600 hover:text-blue-600 transition-colors"
                 >
                   {labels.footerDataSources}
@@ -104,7 +105,7 @@ export default function Footer({ labels }: FooterProps) {
               </li>
               <li>
                 <Link
-                  href="/privacy"
+                  href={`/${lang}/privacy`}
                   className="text-sm text-gray-600 hover:text-blue-600 transition-colors"
                 >
                   {labels.footerPrivacy}

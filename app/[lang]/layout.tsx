@@ -103,7 +103,6 @@ export default async function LangLayout({
           />
         </div>
 
-        {/* @ts-expect-error - lang prop will be added to Header in Task 8 */}
         <Header lang={lang} />
 
         {/* Main content wrapper with flex-grow to ensure footer stays at bottom */}
@@ -111,7 +110,6 @@ export default async function LangLayout({
           {children}
         </main>
 
-        {/* @ts-expect-error - lang prop will be added to Footer in Task 8 */}
         <Footer labels={labels} lang={lang} />
         <CookieBanner />
       </body>
