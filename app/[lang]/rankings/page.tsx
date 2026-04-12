@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import citiesData from '@/data/cities.json';
 import { CountryCode } from '@/lib/types';
+import { resolveLanguage } from '@/lib/i18n';
 
 // ---------------------------------------------------------
 // METADATA (SEO)
@@ -71,10 +72,12 @@ const buyersMarket = sortedByRatioAsc.slice(0, 10);
 // ---------------------------------------------------------
 function RankingTable({
   cities,
-  variant
+  variant,
+  lang,
 }: {
   cities: RankedCity[];
   variant: 'renters' | 'buyers';
+  lang: string;
 }) {
   const accentColor = variant === 'renters' ? 'text-amber-600' : 'text-emerald-600';
   const badgeColor = variant === 'renters'
@@ -116,7 +119,7 @@ function RankingTable({
               </td>
               <td className="py-4 px-2">
                 <Link
-                  href={`/${city.slug}/buy-vs-rent`}
+                  href={`/${lang}/${city.slug}/buy-vs-rent`}
                   className="group flex items-center gap-2"
                 >
                   <span className="text-xl" aria-hidden="true">
@@ -156,7 +159,13 @@ function RankingTable({
 // ---------------------------------------------------------
 // PAGE COMPONENT
 // ---------------------------------------------------------
-export default function RankingsPage() {
+export default async function RankingsPage({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang: rawLang } = await params;
+  const lang = resolveLanguage(rawLang);
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-900">
       {/* Hero Section */}
@@ -203,7 +212,7 @@ export default function RankingsPage() {
           </div>
 
           <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
-            <RankingTable cities={rentersParadise} variant="renters" />
+            <RankingTable cities={rentersParadise} variant="renters" lang={lang} />
           </div>
         </section>
 
@@ -223,7 +232,7 @@ export default function RankingsPage() {
           </div>
 
           <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
-            <RankingTable cities={buyersMarket} variant="buyers" />
+            <RankingTable cities={buyersMarket} variant="buyers" lang={lang} />
           </div>
         </section>
 
@@ -236,7 +245,7 @@ export default function RankingsPage() {
             Our calculator factors in closing costs, property taxes, opportunity cost, and 30-year projections.
           </p>
           <Link
-            href="/"
+            href={`/${lang}/`}
             className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-sm hover:shadow-md transition-all duration-200 active:scale-95"
           >
             Browse All {citiesData.length} Cities

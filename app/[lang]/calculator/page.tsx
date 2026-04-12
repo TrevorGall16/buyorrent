@@ -7,7 +7,7 @@
  */
 
 import { Suspense, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Calculator from '@/components/calculator/Calculator';
 import RegionSelector from '@/components/RegionSelector';
 import GlobalDisclaimer from '@/components/GlobalDisclaimer';
@@ -15,14 +15,13 @@ import AdSidebar from '@/components/ads/AdSidebar';
 import AdUnit from '@/components/ads/AdUnit';
 import { getCountryConfig } from '@/lib/country-config';
 import { CountryCode } from '@/lib/types';
-
-type Language = 'en' | 'fr' | 'de' | 'es' | 'it' | 'nl' | 'sv' | 'pt';
+import { resolveLanguage } from '@/lib/i18n';
 
 function CalculatorPageContent() {
-  const searchParams = useSearchParams();
+  const pathname = usePathname();
   const [selectedRegion, setSelectedRegion] = useState<CountryCode>('US');
 
-  const language = (searchParams.get('lang') || 'en') as Language;
+  const language = resolveLanguage(pathname.split('/').filter(Boolean)[0]);
   const countryConfig = getCountryConfig(selectedRegion);
 
   // Use median home price and rent for the selected country (generic defaults)
