@@ -25,6 +25,15 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://rentorbuyworld.com'),
+  verification: {
+    google: "ngEI4shSwK612Qfhfo-EHwAua2nf376xPxU6ib9ta74",
+  },
+  icons: {
+    icon: '/icon.svg',
+    shortcut: '/favicon.ico',
+    apple: '/apple-icon.png',
+  },
+  manifest: '/manifest.webmanifest',
 };
 
 export function generateStaticParams() {
