@@ -9,13 +9,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = SUPPORTED_LANGUAGES.flatMap((lang) => [
     {
       url: `${baseUrl}/${lang}/`,
-      lastModified: new Date(),
+      lastModified: new Date('2026-04-12'),
       changeFrequency: 'weekly' as const,
       priority: 1.0,
     },
     {
       url: `${baseUrl}/${lang}/rankings`,
-      lastModified: new Date(),
+      lastModified: new Date('2026-04-12'),
       changeFrequency: 'daily' as const,
       priority: 1.0,
     },

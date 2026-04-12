@@ -38,9 +38,18 @@ interface PageProps {
   }>;
 }
 
+// Deterministic hash for even template distribution across cities
+function slugHash(str: string, buckets: number): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash + str.charCodeAt(i)) | 0;
+  }
+  return ((hash % buckets) + buckets) % buckets;
+}
+
 // ---------------------------------------------------------
 // 1. DYNAMIC NARRATIVE ENGINE (SEO CONTENT GENERATOR)
-// 3 templates rotated by slug.length % 3 to avoid duplicate content.
+// 3 templates rotated deterministically via slugHash to avoid duplicate content.
 //   Template 0: Price-to-Rent ratio & investment opportunity
 //   Template 1: Hidden costs, maintenance/tax, nomad flexibility
 //   Template 2: 30-year wealth projection & break-even focus
@@ -51,7 +60,7 @@ const getNarrative = (city: CityData, lang: string) => {
   const ratioFormatted = ratio.toFixed(1);
   const currency = city.currency_symbol;
   const isBuyFavorable = ratio < 18;
-  const variant = city.slug.length % 3;
+  const variant = slugHash(city.slug, 3);
 
   // Break-Even Heuristic
   const breakEvenYears = ratio < 15 ? '~4' : ratio > 25 ? '20+' : '7–15';
@@ -148,7 +157,7 @@ const getTitleVariation = (
   year: number,
   lang: string
 ): { title: string; description: string } => {
-  const variant = slug.length % 3;
+  const variant = slugHash(slug, 3);
 
   const titleTemplates: Record<string, string[]> = {
     en: [
